@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+COMMIT_MESSAGE_FILE=$1
+COMMIT_MESSAGE=$(cat "$COMMIT_MESSAGE_FILE")
+
+CLEANED_COMMIT_MESSAGE=$(echo "$COMMIT_MESSAGE" | sed -E 's/^[a-zA-Z]+-+[0-9]+-//')
+
+if ! echo "$CLEANED_COMMIT_MESSAGE" | grep -qE "^[a-z]+: "; then
+echo "🥵 커밋 메시지는 영어 소문자로 시작하고 콜론과 공백이 뒤따라야 합니다.🥵"
+echo "❗️❗️ <type>(<scope: 선택>): <short summary> ❗️❗️"
+echo "❗️❗️ $CLEANED_COMMIT_MESSAGE ❗️❗️"
+exit 1
+fi
+
+FIRST_LINE=$(echo "$COMMIT_MESSAGE" | head -n 1)
+FIRST_LINE_LENGTH=$(echo -n "$FIRST_LINE" | wc -m)
+
+if [ "$FIRST_LINE_LENGTH" -gt 50 ]; then
+echo "🥵 커밋 메시지의 제목은 50자를 넘을 수 없습니다.🥵"
+echo "❗️❗️ 제목의 길이를 50자 이하로 유지해주세요. ❗️❗️"
+exit 1
+fi
+
+echo "🔆 Thanks for keeping the convention 🔆"
