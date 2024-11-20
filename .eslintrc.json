@@ -1,3 +1,92 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript",
+    "plugin:import/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "settings": {
+    "import/resolver": {
+      "node": {},
+      "typescript": {
+        "directory": "./src"
+      }
+    },
+    "import/parsers": { "@typescript-eslint/parser": [".ts", ".tsx"] }
+  },
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off", // any 타입 경고 제거
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "react*",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "next*",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@recoil/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "@pages/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "@components/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "@hooks/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "@lib/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "@types/*",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "@constants/*",
+            "group": "internal",
+            "position": "after"
+          }
+        ],
+
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
+
+        "newlines-between": "never"
+      }
+    ],
+    "import/no-unresolved": "off",
+    "import/export": "off",
+    "no-console": "error"
+  }
 }
