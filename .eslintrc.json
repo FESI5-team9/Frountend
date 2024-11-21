@@ -6,10 +6,10 @@
     "next/core-web-vitals", // Next.js 성능 관련 규칙
     "plugin:@typescript-eslint/recommended" // TypeScript 권장 규칙
   ],
-
+ 
   // TypeScript 구문 분석을 위한 파서
   "parser": "@typescript-eslint/parser",
-
+ 
   // 파서 동작 방식 설정
   "parserOptions": {
     "ecmaVersion": 2020, // ECMAScript 2020 문법 사용
@@ -19,7 +19,14 @@
       "jsx": true // JSX 구문 활성화
     }
   },
-
+ 
+  // ESLint 플러그인 설정
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "react-hooks"
+  ],
+ 
   // ESLint 플러그인 설정
   "settings": {
     // 모듈 해석 설정
@@ -32,7 +39,7 @@
       "version": "detect" // React 버전 자동 감지
     }
   },
-
+ 
   // 세부 규칙 설정
   "rules": {
     // TypeScript 관련 규칙
@@ -54,7 +61,7 @@
       }
     ],
     "quotes": "off", // ESLint 기본 quotes 규칙 비활성화
-
+ 
     // React 관련 규칙
     "react/react-in-jsx-scope": "off", // React 17+ 에서는 불필요
     "react/require-default-props": "off", // TypeScript의 옵셔널 프로퍼티와 충돌
@@ -64,7 +71,7 @@
       1,
       { "extensions": [".tsx"] }
     ],
-
+ 
     // Import/Export 관련 규칙
     "import/order": [
       // import 순서 규칙
@@ -96,7 +103,7 @@
         "tsx": "never"
       }
     ],
-
+ 
     // 일반 규칙
     "no-console": [
       "error",
@@ -116,4 +123,4 @@
       }
     ]
   }
-}
+ }
