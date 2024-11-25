@@ -1,5 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
 
 echo "🔍 commit 이전에 prettier, lint 규칙을 적용합니다..."
 
