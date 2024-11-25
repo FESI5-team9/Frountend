@@ -1,92 +1,126 @@
 {
+  // 기본 규칙 설정들을 확장
   "extends": [
-    "next/core-web-vitals",
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:import/typescript",
-    "plugin:import/recommended"
+    "airbnb-typescript", // Airbnb의 TypeScript 규칙
+    "plugin:react-hooks/recommended",
+    "next/core-web-vitals", // Next.js 성능 관련 규칙
+    "plugin:@typescript-eslint/recommended" // TypeScript 권장 규칙
   ],
+ 
+  // TypeScript 구문 분석을 위한 파서
   "parser": "@typescript-eslint/parser",
+ 
+  // 파서 동작 방식 설정
+  "parserOptions": {
+    "ecmaVersion": 2020, // ECMAScript 2020 문법 사용
+    "sourceType": "module", // 모듈 시스템 사용 (import/export)
+    "project": "./tsconfig.json", // TypeScript 설정 파일 위치
+    "ecmaFeatures": {
+      "jsx": true // JSX 구문 활성화
+    }
+  },
+ 
+  // ESLint 플러그인 설정
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "react-hooks"
+  ],
+ 
+  // ESLint 플러그인 설정
   "settings": {
+    // 모듈 해석 설정
     "import/resolver": {
-      "node": {},
       "typescript": {
-        "directory": "./src"
+        "directory": "./src" // TypeScript 소스 디렉토리
       }
     },
-    "import/parsers": { "@typescript-eslint/parser": [".ts", ".tsx"] }
+    "react": {
+      "version": "detect" // React 버전 자동 감지
+    }
   },
+ 
+  // 세부 규칙 설정
   "rules": {
-    "@typescript-eslint/no-explicit-any": "off", // any 타입 경고 제거
+    // TypeScript 관련 규칙
+    "@typescript-eslint/no-explicit-any": "error", // any 타입 사용 시 경고
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        // 사용하지 않는 변수 에러
+        "argsIgnorePattern": "^_", // _ 로 시작하는 매개변수는 무시
+        "varsIgnorePattern": "^_" // _ 로 시작하는 변수는 무시
+      }
+    ],
+    "@typescript-eslint/quotes": [
+      "error",
+      "double",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true // 템플릿 리터럴(백틱) 허용
+      }
+    ],
+    "quotes": "off", // ESLint 기본 quotes 규칙 비활성화
+ 
+    // React 관련 규칙
+    "react/react-in-jsx-scope": "off", // React 17+ 에서는 불필요
+    "react/require-default-props": "off", // TypeScript의 옵셔널 프로퍼티와 충돌
+    "react/jsx-props-no-spreading": "off", // props spreading 허용
+    "react/jsx-filename-extension": [
+      // TypeScript 확장자 허용
+      1,
+      { "extensions": [".tsx"] }
+    ],
+ 
+    // Import/Export 관련 규칙
     "import/order": [
+      // import 순서 규칙
       "error",
       {
         "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index"
+          "builtin", // Node.js 내장 모듈
+          "external", // npm 패키지
+          "internal", // 프로젝트 내부 모듈
+          "parent", // 부모 디렉토리 모듈
+          "sibling", // 같은 디렉토리 모듈
+          "index" // 현재 디렉토리 인덱스
         ],
-        "pathGroups": [
-          {
-            "pattern": "react*",
-            "group": "external",
-            "position": "before"
-          },
-          {
-            "pattern": "next*",
-            "group": "external",
-            "position": "after"
-          },
-          {
-            "pattern": "@recoil/*",
-            "group": "internal",
-            "position": "after"
-          },
-          {
-            "pattern": "@pages/*",
-            "group": "internal",
-            "position": "after"
-          },
-          {
-            "pattern": "@components/*",
-            "group": "internal",
-            "position": "after"
-          },
-          {
-            "pattern": "@hooks/*",
-            "group": "internal",
-            "position": "after"
-          },
-          {
-            "pattern": "@lib/*",
-            "group": "internal",
-            "position": "after"
-          },
-          {
-            "pattern": "@types/*",
-            "group": "internal",
-            "position": "after"
-          },
-          {
-            "pattern": "@constants/*",
-            "group": "internal",
-            "position": "after"
-          }
-        ],
-
         "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
+          // 알파벳 순 정렬
+          "order": "asc", // 오름차순
+          "caseInsensitive": true // 대소문자 구분 안 함
         },
-
-        "newlines-between": "never"
+        "newlines-between": "never" // import 그룹 간 빈 줄 없음
       }
     ],
-    "import/no-unresolved": "off",
-    "import/export": "off",
-    "no-console": "error"
+    "import/prefer-default-export": "off", // named export 허용
+    "import/extensions": [
+      // 파일 확장자 처리
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+ 
+    // 일반 규칙
+    "no-console": [
+      "error",
+      {
+        // console 사용 제한
+        "allow": ["warn", "error"] // warn과 error는 허용
+      }
+    ],
+    "max-len": [
+      "warn",
+      {
+        // 최대 줄 길이 제한
+        "code": 100,
+        "ignoreStrings": true, // 문자열 무시
+        "ignoreTemplateLiterals": true, // 템플릿 리터럴 무시
+        "ignoreComments": true // 주석 무시
+      }
+    ]
   }
-}
+ }
