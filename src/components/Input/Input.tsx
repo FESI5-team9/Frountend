@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
 import { FieldError, UseFormRegisterReturn } from "react-hook-form";
-import getInputColorStatus from "@/components/Input/getInputColorStatus";
 
 interface InputProps extends React.PropsWithChildren {
   register: UseFormRegisterReturn;
@@ -34,7 +33,9 @@ export default function Input({ register, type, name, label, placeholder, error 
           type={showPassword ? "text" : "password"}
           placeholder={placeholder}
           {...register}
-          className={`h-10 w-full rounded-xl bg-gray-50 py-[10px] pl-4 text-sm font-medium leading-5 outline-none ${type === "password" ? "pr-10" : "pr-4"} ${getInputColorStatus(effectiveError)}`}
+          className={`h-10 w-full rounded-xl bg-gray-50 py-[10px] pl-4 text-sm font-medium leading-5 outline-none ${
+            type === "password" ? "pr-10" : "pr-4"
+          } ${effectiveError ? "border-[2px] border-red-500" : ""}`}
         />
         {type === "password" && (
           <button className="absolute right-4 h-6 w-6" type="button" onClick={handleTogglePassword}>
