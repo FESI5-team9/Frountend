@@ -1,11 +1,8 @@
 import { FieldError } from "react-hook-form";
 
-const getInputColorStatus = (error: FieldError | undefined, touched: boolean | undefined) => {
+const getInputColorStatus = (error: FieldError | undefined) => {
   if (error) {
-    return "border border-red-500";
-  }
-  if (touched) {
-    return "border border-blue-500";
+    return "border-[2px] border-red-500";
   }
   return "";
 };
