@@ -1,21 +1,26 @@
+#!/bin/sh
 
-echo 'wait add jira issue number we found from branch name'
-
-BRANCH_NAME=$(git symbolic-ref -q HEAD)
-BRANCH_NAME=${BRANCH_NAME##*/} # Remove everything before the last /
-ISSUE_TICKET=$(echo "$BRANCH_NAME" | sed -n 's/^\([A-Z]*-[0-9]*\)-\(.*\)$/\1/p')
-
-# Check if ISSUE_TICKET is not empty
-if [ -n "$ISSUE_TICKET" ]; then
-# Output extracted Jira 이슈 티켓 번호
-echo "Extracted Jira 이슈 티켓 번호: $ISSUE_TICKET"
-
-# Read the commit message from the temporary file
+# Get the commit message file path
 COMMIT_MSG_FILE=$1
-COMMIT_MSG=$(cat $COMMIT_MSG_FILE)
+COMMIT_SOURCE=$2
+SHA1=$3
 
-# Prepend Jira 이슈 티켓 번호 to the commit message with a hyphen and remove the space
-echo "$ISSUE_TICKET-$COMMIT_MSG" > $COMMIT_MSG_FILE
+# Get current branch name
+BRANCH_NAME=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+# Extract JIRA ticket number from branch name (format: ABC-123-branch-description)
+ISSUE_TICKET=$(echo "$BRANCH_NAME" | grep -o -E '^[A-Z]+-[0-9]+' || true)
+
+# Only proceed if we found a JIRA ticket and this is not a merge commit
+if [ -n "$ISSUE_TICKET" ] && [ -z "$COMMIT_SOURCE" ]; then
+    # Read existing commit message
+    COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+    
+    # Check if commit message already starts with the JIRA ticket
+    if ! echo "$COMMIT_MSG" | grep -q "^$ISSUE_TICKET"; then
+        # Prepend the JIRA ticket if it's not already there
+        echo "$ISSUE_TICKET: $COMMIT_MSG" > "$COMMIT_MSG_FILE"
+    fi
 fi
 
-# 지라 티켓넘버 자동으로 붙여주는 허스키입니다
+exit 0
