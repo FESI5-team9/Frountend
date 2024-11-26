@@ -9,7 +9,6 @@ interface InputProps extends React.PropsWithChildren {
   label: string;
   placeholder: string;
   error: FieldError | undefined;
-  touched: boolean | undefined;
   disabled?: boolean;
 }
 

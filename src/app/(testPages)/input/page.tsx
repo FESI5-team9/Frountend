@@ -19,7 +19,7 @@ const loginSchema = baseSchema
 function SignIn() {
   const {
     register,
-    formState: { errors, touchedFields },
+    formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     mode: "all",
@@ -34,7 +34,6 @@ function SignIn() {
         label="이름"
         placeholder="이름을 입력해주세요"
         error={errors.name}
-        touched={touchedFields.name}
       />
       <Input
         register={register("email")}
@@ -43,7 +42,6 @@ function SignIn() {
         label="이메일"
         placeholder="이메일을 입력해주세요"
         error={errors.email}
-        touched={touchedFields.email}
       />
       <Input
         register={register("nickname")}
@@ -52,7 +50,6 @@ function SignIn() {
         label="닉네임"
         placeholder="닉네임을 입력해주세요"
         error={errors.nickname}
-        touched={touchedFields.nickname}
       />
       <Input
         register={register("password")}
@@ -61,7 +58,6 @@ function SignIn() {
         label="비밀번호"
         placeholder="비밀번호를 입력해주세요"
         error={errors.password}
-        touched={touchedFields.password}
       />
       <Input
         register={register("confirmPassword")}
@@ -70,7 +66,6 @@ function SignIn() {
         label="비밀번호 확인"
         placeholder="비밀번호를 한번 더 입력해주세요"
         error={errors.confirmPassword}
-        touched={touchedFields.confirmPassword}
       />
       <TextArea name="textArea" placeholder="텍스트를 입력해주세요" />
     </form>
