@@ -24,21 +24,6 @@ const baseSchema = z.object({
     ),
 
   confirmPassword: z.string().min(1, "비밀번호를 입력해주세요").min(8, "8자 이상 입력해주세요"),
-
-  price: z.preprocess(
-    value => {
-      const parsedValue = Number(value);
-      if (Number.isNaN(parsedValue)) {
-        return value;
-      }
-      return parsedValue;
-    },
-    z.number().min(0, "0이상의 숫자만 입력해주세요"),
-  ),
-
-  textarea: z.string().max(500, "500자 이하로 작성해주세요").optional(),
-
-  profileImageUrl: z.string().nullable().optional(),
 });
 
 export type FormSchema = z.infer<typeof baseSchema>;
