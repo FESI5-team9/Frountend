@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Input from "@/components/Input/Input";
+import TextArea from "@/components/Input/TextArea";
 import baseSchema from "@/utils/schema";
 
 type LoginFormData = z.infer<typeof baseSchema>;
@@ -71,6 +72,7 @@ function SignIn() {
         error={errors.confirmPassword}
         touched={touchedFields.confirmPassword}
       />
+      <TextArea name="textArea" placeholder="텍스트를 입력해주세요" />
     </form>
   );
 }
