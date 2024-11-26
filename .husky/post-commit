@@ -1,0 +1,21 @@
+echo "📥 원격 저장소로부터 최신 변경사항을 가져옵니다..."
+
+git fetch origin
+if [ $? -ne 0 ]; then
+  echo "❌ git fetch 실행 중 오류가 발생했습니다."
+  # fetch 실패해도 커밋은 이미 완료된 상태
+  exit 1
+fi
+
+echo "🔄 dev 브랜치의 변경사항을 적용합니다..."
+git rebase -i origin/dev
+if [ $? -ne 0 ]; then
+  echo "❌ rebase 실행 중 오류가 발생했습니다."
+  echo "🔴 충돌을 해결한 후 다음 명령어를 실행해주세요:"
+  echo "    1. git rebase --continue"
+  echo "    2. 충돌이 모두 해결될 때까지 반복"
+  # rebase 실패해도 커밋은 이미 완료된 상태
+  exit 1
+fi
+
+echo "✅ rebase 작업이 성공적으로 완료되었습니다."
