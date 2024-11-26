@@ -21,6 +21,8 @@ export default function Input({ register, type, name, label, placeholder, error 
     setShowPassword(!showPassword);
   };
 
+  const effectiveType = type === "password" ? (showPassword ? "text" : "password") : type;
+
   return (
     <div className="relative flex flex-col gap-2">
       <label htmlFor={name} className="text-sm font-semibold leading-5">
@@ -29,7 +31,7 @@ export default function Input({ register, type, name, label, placeholder, error 
       <div className="flex items-center">
         <input
           id={name}
-          type={showPassword ? "text" : "password"}
+          type={effectiveType}
           placeholder={placeholder}
           {...register}
           className={`h-10 w-full rounded-xl bg-gray-50 py-[10px] pl-4 text-sm font-medium leading-5 outline-none ${
