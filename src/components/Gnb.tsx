@@ -13,10 +13,14 @@ export default function Gnb() {
             MNM
           </Link>
           <div className="flex items-center gap-[12px] text-sm font-semibold tablet:gap-[24px] tablet:text-[16px]">
-            <Link href={""} className="hover:text-white" aria-label="모임 찾기">
+            <Link href={"/"} className="hover:text-white" aria-label="모임 찾기">
               모임 찾기
             </Link>
-            <Link href={""} className="hover:text-white" aria-label="찜한 모임">
+            <Link
+              href={"/myfavorite/gathering"}
+              className="hover:text-white"
+              aria-label="찜한 모임"
+            >
               찜한 모임
             </Link>
             <Link href={""} className="hover:text-white" aria-label="모든 리뷰">
