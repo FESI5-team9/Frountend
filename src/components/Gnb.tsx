@@ -7,7 +7,7 @@ export default function Gnb() {
 
   return (
     <>
-      <div className="fixed top-0 flex h-[56px] w-full items-center justify-between bg-orange-500 px-[16px] text-[14px] text-black tablet:px-[24px] desktop:px-[360px]">
+      <div className="fixed top-0 flex h-[56px] w-full items-center justify-between bg-orange-500 px-[16px] text-[14px] text-black tablet:h-[60px] tablet:px-[24px] desktop:px-[360px]">
         <div className="flex gap-[12px] tablet:gap-[20px] tablet:text-[16px]">
           <Link href={"/"} className="font-[800]">
             MNM
