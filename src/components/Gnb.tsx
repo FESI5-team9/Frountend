@@ -8,13 +8,13 @@ export default function Gnb() {
 
   return (
     <>
-      <div className="fixed top-0 flex h-[56px] w-full items-center justify-center bg-orange-500 text-sm text-black tablet:h-[60px]">
-        <div className="mx-auto flex w-[375px] justify-between px-[16px] tablet:w-[744px] tablet:px-[24px] desktop:w-[1200px]">
-          <div className="flex gap-[12px] tablet:gap-[20px] tablet:text-base">
+      <div className="tablet:h-15 fixed top-0 flex h-[56px] w-full items-center justify-center bg-orange-500 text-sm text-black">
+        <div className="mx-auto flex w-[375px] justify-between px-4 tablet:w-[744px] tablet:px-1.5 desktop:w-[1200px]">
+          <div className="flex gap-3 tablet:gap-5 tablet:text-base">
             <Link href={"/"} className="block font-[800]">
               MNM
             </Link>
-            <div className="flex items-center gap-[12px] text-sm font-semibold tablet:gap-[24px] tablet:text-base">
+            <div className="flex items-center gap-3 text-sm font-semibold tablet:gap-6 tablet:text-base">
               <Link href={"/"} className="hover:text-white" aria-label="모임 찾기">
                 모임 찾기
               </Link>
