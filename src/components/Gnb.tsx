@@ -1,5 +1,6 @@
 "use client";
 
+// import Image from "next/image"; // 유저 정보 받아오기 가능할 때 활성화
 import Link from "next/link";
 
 export default function Gnb() {
@@ -17,7 +18,7 @@ export default function Gnb() {
               모임 찾기
             </Link>
             <Link
-              href={"/myfavorite/gathering"}
+              href={"/myFavorite/gathering"}
               className="hover:text-white"
               aria-label="찜한 모임"
             >
@@ -28,10 +29,12 @@ export default function Gnb() {
             </Link>
           </div>
         </div>
-        {/*유저 정보 받아오게 되면 할성화*/}
+
         {/* {isLoggedIn ? (
           // 로그인 상태면 유저 프로필
-          <button aria-label="유저 프로필">유저 프로필</button> // 드롭 다운 추가 필요
+          <button className="" aria-label="유저 프로필">
+            <Image src="/images/profile.svg" width={40} height={40} alt="프로필" />
+          </button>
         ) : (
           // 비로그인 상태면 로그인 링크
           <Link
@@ -42,6 +45,7 @@ export default function Gnb() {
             로그인
           </Link>
         )} */}
+
         <Link
           href={"/signin"}
           className="text-[14px] font-semibold hover:text-white tablet:text-[16px]"
