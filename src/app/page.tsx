@@ -1,3 +1,7 @@
 export default function Home() {
-  return <p>메인페이지 </p>;
+  return (
+    <>
+      <div>모임조회</div>
+    </>
+  );
 }
