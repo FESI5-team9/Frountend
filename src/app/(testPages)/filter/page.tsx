@@ -25,8 +25,8 @@ export default function Page() {
   };
 
   return (
-    <div className="h-screen bg-slate-300">
-      <div className="flex">
+    <div className="h-screen bg-slate-300 p-10">
+      <div className="flex gap-5">
         <FilterDropDown
           filterType="sortFilter"
           options={SORT_OPTIONS}
@@ -44,7 +44,7 @@ export default function Page() {
           handleFilter={handleOtherOptionFilter}
         />
       </div>
-      <div>
+      <div className="mt-48">
         <h1>선택된 값들</h1>
         <p>sort: {sortOption}</p>
         <p>location: {locationOption}</p>

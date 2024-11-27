@@ -13,10 +13,12 @@ export function FilterDropDown({ filterType, options, handleFilter }: DropDownPr
   };
 
   return (
-    <div className="select-none" onClick={() => setIsOpen(!isOpen)}>
+    <div className="select-none text-[14px]" onClick={() => setIsOpen(!isOpen)}>
       {filterType === "sortFilter" ? (
-        <div className="relative flex h-[36px] w-[36px] items-center justify-center rounded-[12px] border-[2px] border-[#F3F4F6] bg-white px-[12px] tablet:h-[40px] tablet:w-[120px] tablet:justify-start tablet:px-[12px] tablet:py-[8px]">
-          <Image src="/images/swap_vert.png" alt={filterType} width={24} height={24} />
+        <div className="relative flex h-[36px] w-[36px] items-center justify-center rounded-[12px] border-[2px] border-[#F3F4F6] bg-white px-[12px] tablet:h-[40px] tablet:w-[128px] tablet:px-[12px] tablet:py-[8px]">
+          <div className="flex h-6 w-6 items-center">
+            <Image src="/images/swap_vert.png" alt={filterType} width={18} height={10} />
+          </div>
           <span className="hidden tablet:block">{selectedOption}</span>
         </div>
       ) : (

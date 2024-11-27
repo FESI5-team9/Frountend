@@ -9,4 +9,4 @@ export const LOCATION_OPTIONS: string[] = [
   "제주도",
 ];
 
-export const SORT_OPTIONS: string[] = ["최신순", "마감 임박순", "참여 인원순"];
+export const SORT_OPTIONS: string[] = ["최신순", "마감 임박", "참여 인원 순"];
