@@ -8,12 +8,12 @@ export default function Gnb() {
 
   return (
     <>
-      <div className="fixed top-0 flex h-[56px] w-full items-center justify-between bg-orange-500 px-[16px] text-[14px] text-black tablet:h-[60px] tablet:px-[24px] desktop:px-[360px]">
-        <div className="flex gap-[12px] tablet:gap-[20px] tablet:text-[16px]">
+      <div className="fixed top-0 flex h-[56px] w-full max-w-[1200px] items-center justify-between bg-orange-500 px-[16px] text-sm text-black tablet:h-[60px] tablet:px-[24px]">
+        <div className="flex gap-[12px] tablet:gap-[20px] tablet:text-base">
           <Link href={"/"} className="font-[800]">
             MNM
           </Link>
-          <div className="flex items-center gap-[12px] text-sm font-semibold tablet:gap-[24px] tablet:text-[16px]">
+          <div className="flex items-center gap-[12px] text-sm font-semibold tablet:gap-[24px] tablet:text-base">
             <Link href={"/"} className="hover:text-white" aria-label="모임 찾기">
               모임 찾기
             </Link>
@@ -24,7 +24,7 @@ export default function Gnb() {
             >
               찜한 모임
             </Link>
-            <Link href={""} className="hover:text-white" aria-label="모든 리뷰">
+            <Link href={"/reviews"} className="hover:text-white" aria-label="모든 리뷰">
               모든 리뷰
             </Link>
           </div>
@@ -39,7 +39,7 @@ export default function Gnb() {
           // 비로그인 상태면 로그인 링크
           <Link
             href={"/signin"}
-            className="text-[14px] font-semibold hover:text-white tablet:text-[16px]"
+            className="text-sm font-semibold hover:text-white tablet:text-base"
             aria-label="로그인"
           >
             로그인
@@ -48,7 +48,7 @@ export default function Gnb() {
 
         <Link
           href={"/signin"}
-          className="text-[14px] font-semibold hover:text-white tablet:text-[16px]"
+          className="text-sm font-semibold hover:text-white tablet:text-base"
           aria-label="로그인"
         >
           로그인
