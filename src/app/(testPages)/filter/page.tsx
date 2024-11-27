@@ -4,8 +4,8 @@ import { useState } from "react";
 import { FilterDropDown } from "@/components/FilterDropDown";
 
 export default function Page() {
-  const [sortOption, setSortOption] = useState("");
-  const [locationOption, setLocationOption] = useState("");
+  const [sortOption, setSortOption] = useState("최신순");
+  const [locationOption, setLocationOption] = useState("지역 선택");
 
   const handleSortFilter = (selectedOption: string) => {
     setSortOption(selectedOption);
