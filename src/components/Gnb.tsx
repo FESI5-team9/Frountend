@@ -9,7 +9,7 @@ export default function Gnb() {
   return (
     <>
       <div className="tablet:h-15 fixed top-0 flex h-[56px] w-full items-center justify-center bg-orange-500 text-sm text-black">
-        <div className="mx-auto flex w-[375px] justify-between px-4 tablet:w-[744px] tablet:px-1.5 desktop:w-[1200px]">
+        <div className="mx-auto flex w-full justify-between px-4 tablet:w-[744px] tablet:px-1.5 desktop:w-[1200px]">
           <div className="flex gap-3 tablet:gap-5 tablet:text-base">
             <Link href={"/"} className="block font-[800]">
               MNM
