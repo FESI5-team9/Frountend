@@ -10,8 +10,3 @@ export const LOCATION_OPTIONS: string[] = [
 ];
 
 export const SORT_OPTIONS: string[] = ["최신순", "마감 임박순", "참여 인원순"];
-
-export const OPTIONS_MAP: Record<string, string[]> = {
-  location: LOCATION_OPTIONS,
-  sort: SORT_OPTIONS,
-};

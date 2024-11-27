@@ -1,10 +1,13 @@
+type FilterType = "sortFilter" | "selectionFilter";
+
 type FilterProps = {
-  filterType: "location" | "sort";
+  filterType: FilterType;
   selectedOption: string;
   style: string;
 };
 
 type DropDownProps = {
-  filterType: "location" | "sort";
+  filterType: FilterType;
+  options: string[];
   handleFilter: (currentOption: string) => void;
 };

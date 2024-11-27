@@ -2,10 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { OPTIONS_MAP } from "@/constants/filter";
 
-export function FilterDropDown({ filterType, handleFilter }: DropDownProps) {
-  const options = OPTIONS_MAP[filterType];
+export function FilterDropDown({ filterType, options, handleFilter }: DropDownProps) {
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -16,7 +14,7 @@ export function FilterDropDown({ filterType, handleFilter }: DropDownProps) {
 
   return (
     <div className="select-none" onClick={() => setIsOpen(!isOpen)}>
-      {filterType === "sort" ? (
+      {filterType === "sortFilter" ? (
         <div className="relative flex h-[36px] w-[36px] items-center justify-center rounded-[12px] border-[2px] border-[#F3F4F6] bg-white px-[12px] tablet:h-[40px] tablet:w-[120px] tablet:justify-start tablet:px-[12px] tablet:py-[8px]">
           <Image src="/images/swap_vert.png" alt={filterType} width={24} height={24} />
           <span className="hidden tablet:block">{selectedOption}</span>
