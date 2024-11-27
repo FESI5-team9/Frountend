@@ -16,17 +16,20 @@ export default function page() {
 
       {/* 칩 더미 */}
       <div className="flex items-center justify-between gap-2">
-        <Chip type="state" bgColor="yellow" textColor="black">
+        <Chip type="state" bgColor="bg-yellow-primary" textColor="black">
           {koreanMinute}
         </Chip>
-        <Chip type="default" bgColor="black" textColor="white">
+        <Chip type="default" bgColor="bg-black" textColor="text-white">
           글자 수 테스트 1231.
         </Chip>
-        <Chip type="time" bgColor="white" textColor="yellow">
+        <Chip type="time" bgColor="bg-white" textColor="text-yellow-primary">
           {koreanTime}
         </Chip>
-        <Chip type="default" bgColor="black" textColor="white" shadow={true}>
+        <Chip type="default" bgColor="bg-black" textColor="text-green-400" shadow={true}>
           shadow
+        </Chip>
+        <Chip type="time" fontSize="text-lg" fontWeight="font-bold">
+          칠칠드런드런
         </Chip>
       </div>
     </div>
