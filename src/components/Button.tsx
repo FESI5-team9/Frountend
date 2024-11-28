@@ -12,6 +12,7 @@ const variantOptions = {
 } as const;
 
 type ButtonProps = {
+  type?: "button" | "submit" | "reset";
   text?: string;
   variant?: keyof typeof variantOptions;
   size?: "small" | "large"; // 버튼 크기 2가지(sm: 40px, lg: 44px, height 기준)
@@ -21,9 +22,10 @@ type ButtonProps = {
 };
 
 const Button: React.FC<ButtonProps> = ({
+  type = "button", // 기본 타입 : button
   text = "button",
-  variant,
-  size = "small",
+  variant = "primary",
+  size = "large",
   onClick,
   disabled,
   className,
@@ -47,8 +49,6 @@ const Button: React.FC<ButtonProps> = ({
         return `bg-white text-orange-800 outline outline-orange-800`;
       case "disabled":
         return "bg-white text-gray-400 outline outline-gray-400";
-      default:
-        return "bg-orange-600 text-white hover:opacity-50";
     }
   };
 
@@ -59,13 +59,12 @@ const Button: React.FC<ButtonProps> = ({
         return "w-full h-[40px] text-sm";
       case "large":
         return "w-full h-[44px] text-base";
-      default:
-        return "w-full h-[44px] text-base";
     }
   };
 
   return (
     <button
+      type={type}
       onClick={onClick}
       disabled={disabled}
       className={`rounded-lg font-semibold ${getVariantClasses()} ${getSizeClasses()} ${className}`}
