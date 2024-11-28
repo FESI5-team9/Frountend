@@ -34,11 +34,15 @@ function DateCell({
             ? handlePrevMonth
             : handleNextMonth
       }
-      className={`${
-        type === "prev" || type === "next" ? "text-gray-500" : ""
-      } ${isToday && isSelected ? "" : isToday ? "bg-yellow-300" : ""} ${isSelected ? "bg-yellow-500" : ""} cursor-pointer`}
+      className="inline-block h-10 w-10 cursor-pointer text-center"
     >
-      {date}
+      <span
+        className={`flex h-8 w-8 items-center justify-center rounded-[8px] ${
+          type === "prev" || type === "next" ? "text-gray-500" : ""
+        } ${isToday ? "bg-yellow-300" : ""} ${isSelected ? "bg-yellow-500" : ""}`}
+      >
+        {date}
+      </span>
     </td>
   );
 }
@@ -90,46 +94,46 @@ export default function Calendar({ getSelectedDate }: CalendarProp) {
   };
 
   return (
-    <div>
-      <div className="ml-5">
-        <div className="my-5 flex gap-5">
-          <button onClick={handlePrevMonth}>prev</button>
-          <div className="flex gap-1">
-            <span>{MONTH_OF_YEAR[month]}</span>
-            <span>{year}</span>
-          </div>
-          <button onClick={handleNextMonth}>next</button>
+    <div className="ml-5 flex w-[400px] flex-col items-center">
+      <div className="my-5 flex gap-5">
+        <button onClick={handlePrevMonth}>prev</button>
+        <div className="flex gap-1">
+          <span>{MONTH_OF_YEAR[month]}</span>
+          <span>{year}</span>
         </div>
+        <button onClick={handleNextMonth}>next</button>
+      </div>
 
-        <table>
-          <thead>
-            <tr>
-              {DAYS_OF_WEEK.map(day => (
-                <th key={day}>{day}</th>
+      <table>
+        <thead>
+          <tr>
+            {DAYS_OF_WEEK.map(day => (
+              <th className="inline-block h-10 w-10" key={day}>
+                {day}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {Array.from({ length: Math.ceil(allDates.length / 7) }).map((_, rowIndex) => (
+            <tr key={rowIndex}>
+              {allDates.slice(rowIndex * 7, rowIndex * 7 + 7).map(({ date, type }, colIndex) => (
+                <DateCell
+                  key={colIndex}
+                  date={date}
+                  type={type}
+                  currentDate={currentDate}
+                  selectedDate={selectedDate}
+                  today={today}
+                  handleSelectedDate={() => handleSelectedDate(date)}
+                  handlePrevMonth={handlePrevMonth}
+                  handleNextMonth={handleNextMonth}
+                />
               ))}
             </tr>
-          </thead>
-          <tbody>
-            {Array.from({ length: Math.ceil(allDates.length / 7) }).map((_, rowIndex) => (
-              <tr key={rowIndex}>
-                {allDates.slice(rowIndex * 7, rowIndex * 7 + 7).map(({ date, type }, colIndex) => (
-                  <DateCell
-                    key={colIndex}
-                    date={date}
-                    type={type}
-                    currentDate={currentDate}
-                    selectedDate={selectedDate}
-                    today={today}
-                    handleSelectedDate={() => handleSelectedDate(date)}
-                    handlePrevMonth={handlePrevMonth}
-                    handleNextMonth={handleNextMonth}
-                  />
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
