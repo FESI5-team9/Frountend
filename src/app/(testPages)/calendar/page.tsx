@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Calendar from "@/components/Calendar";
+import Calendar from "@/components/calendar/Calendar";
 
 export default function Page() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -13,7 +13,7 @@ export default function Page() {
   return (
     <div className="h-screen bg-slate-400">
       <Calendar getSelectedDate={getSelectedDate} />
-      <p className="mt-10">선택된 날짜: {selectedDate.toLocaleDateString()}</p>
+      <p className="mt-48">선택된 날짜: {selectedDate.toLocaleDateString()}</p>
     </div>
   );
 }

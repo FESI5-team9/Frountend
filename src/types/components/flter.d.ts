@@ -5,3 +5,17 @@ type DropDownProps = {
   options: string[];
   handleFilter: (currentOption: string) => void;
 };
+
+type FilterButtonProps = {
+  selectedOption?: string;
+  filterType: string;
+  onClick: () => void;
+};
+
+type DropdownProps = {
+  options: string[];
+  isOpen: boolean;
+  selectedOption: string;
+  handleOptionSelect: (textContent: string) => void;
+  filterType: string;
+};

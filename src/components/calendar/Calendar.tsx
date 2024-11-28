@@ -2,21 +2,36 @@
 
 import { useState } from "react";
 import { DAYS_OF_WEEK, MONTH_OF_YEAR } from "@/constants/calendar";
+import useDateStore from "@/store/dateStore";
 
 function DateCell({
   date,
   type,
   currentDate,
   selectedDate,
+  today,
   handleSelectedDate,
   handlePrevMonth,
   handleNextMonth,
 }: DateCellProps) {
+  const isToday =
+    type === "current" &&
+    today.getFullYear() === currentDate.getFullYear() &&
+    today.getMonth() === currentDate.getMonth() &&
+    today.getDate() === date;
+
   const isSelected =
     type === "current" &&
+    selectedDate &&
     selectedDate.getFullYear() === currentDate.getFullYear() &&
     selectedDate.getMonth() === currentDate.getMonth() &&
     selectedDate.getDate() === date;
+
+  const isTodaySelected =
+    selectedDate &&
+    today.getFullYear() === selectedDate.getFullYear() &&
+    today.getMonth() === selectedDate.getMonth() &&
+    selectedDate.getDate() === today.getDate();
 
   return (
     <td
@@ -32,7 +47,7 @@ function DateCell({
       <span
         className={`flex h-full w-full select-none items-center justify-center rounded-[8px] ${
           type === "prev" || type === "next" ? "text-gray-500" : ""
-        } ${isSelected ? "bg-yellow-primary" : ""}`}
+        }${isToday && !isTodaySelected ? "text-yellow-primary" : ""} ${isSelected ? "bg-yellow-primary" : ""}`}
       >
         {date}
       </span>
@@ -41,11 +56,12 @@ function DateCell({
 }
 
 export default function Calendar({ getSelectedDate }: CalendarProp) {
+  const { selectedDate, setSelectedDate } = useDateStore();
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
+  const today = new Date();
 
   const firstDayOfMonth = new Date(year, month, 1);
   const lastDayOfMonth = new Date(year, month + 1, 0);
@@ -86,7 +102,7 @@ export default function Calendar({ getSelectedDate }: CalendarProp) {
   };
 
   return (
-    <div className="ml-5 flex h-[250px] w-[336px] flex-col items-center justify-center rounded-[12px] bg-white">
+    <div className="flex h-[250px] w-[280px] flex-col items-center justify-center rounded-[12px] bg-white">
       <div className="flex h-8 w-[250px] items-center justify-between">
         <button onClick={handlePrevMonth}>
           <img className="rotate-180" src="/images/ic_arrow.png" alt="" />
@@ -118,6 +134,7 @@ export default function Calendar({ getSelectedDate }: CalendarProp) {
                   key={colIndex}
                   date={date}
                   type={type}
+                  today={today}
                   currentDate={currentDate}
                   selectedDate={selectedDate}
                   handleSelectedDate={() => handleSelectedDate(date)}
