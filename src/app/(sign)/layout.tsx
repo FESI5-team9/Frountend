@@ -10,7 +10,7 @@ function SignRootLayout({
   return (
     <div className="relative min-h-screen w-full bg-gray-100">
       <Gnb />
-      <div className="mx-auto flex h-full min-h-screen w-full flex-col items-center justify-center gap-12 px-4 py-10 pt-[88px] desktop:flex-row">
+      <div className="mx-auto flex h-full min-h-screen w-full flex-col items-center justify-center gap-12 px-4 py-10 pt-[88px] tablet:px-[75px] desktop:flex-row desktop:px-4">
         <div className="flex flex-col gap-7 text-center text-2xl font-bold">
           <p>
             나만 알고싶은 맛집
