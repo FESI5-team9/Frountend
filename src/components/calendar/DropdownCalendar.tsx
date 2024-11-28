@@ -1,7 +1,7 @@
 "use client";
 
 import { format } from "date-fns";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import useDateStore from "@/store/dateStore";
 import FilterButton from "../filter/FilterButton";
 import Calendar from "./Calendar";
@@ -11,17 +11,20 @@ export default function DropdownCalendar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleFilterButtonClick = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(prevState => !prevState);
   };
 
-  const handleDateSelect = (date: Date) => {
-    setSelectedOption(format(date, "yy/MM/dd"));
-  };
+  const handleDateSelect = useCallback(
+    (date: Date) => {
+      setSelectedOption(format(date, "yy/MM/dd"));
+    },
+    [setSelectedOption],
+  );
 
-  const resetDate = () => {
+  const resetDate = useCallback(() => {
     setSelectedDate(null);
     setSelectedOption("날짜 선택");
-  };
+  }, [setSelectedDate, setSelectedOption]);
 
   return (
     <div className="w-[330px]">
@@ -34,7 +37,7 @@ export default function DropdownCalendar() {
       <div
         className={`absolute z-50 mt-3 flex w-[330px] flex-col items-center justify-center rounded-[12px] bg-white ${isOpen ? "block" : "hidden"}`}
       >
-        <Calendar getSelectedDate={handleDateSelect} />
+        <Calendar handleDateSelect={handleDateSelect} />
         <div className="mb-3 flex w-[250px] justify-between">
           <button onClick={resetDate} className="h-10 w-[118px]">
             초기화

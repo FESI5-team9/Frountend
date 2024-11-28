@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import Image from "next/image";
+import { useMemo, useState } from "react";
 import { DAYS_OF_WEEK, MONTH_OF_YEAR } from "@/constants/calendar";
 import useDateStore from "@/store/dateStore";
 
@@ -27,27 +28,18 @@ function DateCell({
     selectedDate.getMonth() === currentDate.getMonth() &&
     selectedDate.getDate() === date;
 
-  const isTodaySelected =
-    selectedDate &&
-    today.getFullYear() === selectedDate.getFullYear() &&
-    today.getMonth() === selectedDate.getMonth() &&
-    selectedDate.getDate() === today.getDate();
+  const handleClick = {
+    current: handleSelectedDate,
+    prev: handlePrevMonth,
+    next: handleNextMonth,
+  }[type];
 
   return (
-    <td
-      onClick={
-        type === "current"
-          ? handleSelectedDate
-          : type === "prev"
-            ? handlePrevMonth
-            : handleNextMonth
-      }
-      className="flex h-8 w-9 cursor-pointer text-center"
-    >
+    <td onClick={handleClick} className="flex h-8 w-9 cursor-pointer text-center">
       <span
         className={`flex h-full w-full select-none items-center justify-center rounded-[8px] ${
           type === "prev" || type === "next" ? "text-gray-500" : ""
-        }${isToday && !isTodaySelected ? "text-yellow-primary" : ""} ${isSelected ? "bg-yellow-primary" : ""}`}
+        }${isToday && !isSelected ? "text-yellow-primary" : ""} ${isSelected ? "bg-yellow-primary" : ""}`}
       >
         {date}
       </span>
@@ -55,7 +47,7 @@ function DateCell({
   );
 }
 
-export default function Calendar({ getSelectedDate }: CalendarProp) {
+export default function Calendar({ handleDateSelect }: CalendarProp) {
   const { selectedDate, setSelectedDate } = useDateStore();
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -63,27 +55,40 @@ export default function Calendar({ getSelectedDate }: CalendarProp) {
   const month = currentDate.getMonth();
   const today = new Date();
 
-  const firstDayOfMonth = new Date(year, month, 1);
-  const lastDayOfMonth = new Date(year, month + 1, 0);
-
-  const lastDayOfPrevMonth = new Date(year, month, 0).getDate();
+  const firstDayOfMonth = useMemo(() => new Date(year, month, 1), [year, month]);
+  const lastDayOfMonth = useMemo(() => new Date(year, month + 1, 0), [year, month]);
+  const lastDayOfPrevMonth = useMemo(() => new Date(year, month, 0).getDate(), [year, month]);
 
   const leadingEmptyDays = firstDayOfMonth.getDay();
   const trailingEmptyDays = 6 - lastDayOfMonth.getDay();
 
-  const prevMonthDates = Array.from(
-    { length: leadingEmptyDays },
-    (_, i) => lastDayOfPrevMonth - leadingEmptyDays + i + 1,
+  const prevMonthDates = useMemo(
+    () =>
+      Array.from(
+        { length: leadingEmptyDays },
+        (_, i) => lastDayOfPrevMonth - leadingEmptyDays + i + 1,
+      ),
+    [lastDayOfPrevMonth, leadingEmptyDays],
   );
-  const nextMonthDates = Array.from({ length: trailingEmptyDays }, (_, i) => i + 1);
 
-  const dates = Array.from({ length: lastDayOfMonth.getDate() }, (_, i) => i + 1);
+  const nextMonthDates = useMemo(
+    () => Array.from({ length: trailingEmptyDays }, (_, i) => i + 1),
+    [trailingEmptyDays],
+  );
 
-  const allDates = [
-    ...prevMonthDates.map(date => ({ date, type: "prev" })),
-    ...dates.map(date => ({ date, type: "current" })),
-    ...nextMonthDates.map(date => ({ date, type: "next" })),
-  ];
+  const dates = useMemo(
+    () => Array.from({ length: lastDayOfMonth.getDate() }, (_, i) => i + 1),
+    [lastDayOfMonth],
+  );
+
+  const allDates = useMemo(
+    () => [
+      ...prevMonthDates.map(date => ({ date, type: "prev" })),
+      ...dates.map(date => ({ date, type: "current" })),
+      ...nextMonthDates.map(date => ({ date, type: "next" })),
+    ],
+    [prevMonthDates, dates, nextMonthDates],
+  );
 
   const handlePrevMonth = () => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
@@ -98,21 +103,27 @@ export default function Calendar({ getSelectedDate }: CalendarProp) {
     newDate.setDate(date);
 
     setSelectedDate(newDate);
-    getSelectedDate(newDate);
+    handleDateSelect(newDate);
   };
 
   return (
     <div className="flex w-[280px] flex-col items-center justify-center rounded-[12px] bg-white py-3">
       <div className="flex h-8 w-[250px] items-center justify-between">
         <button onClick={handlePrevMonth}>
-          <img className="rotate-180" src="/images/ic_arrow.png" alt="" />
+          <Image
+            className="rotate-180"
+            src="/images/ic_arrow.png"
+            alt="prev month"
+            width={24}
+            height={24}
+          />
         </button>
         <div className="flex gap-1">
           <span>{MONTH_OF_YEAR[month]}</span>
           <span>{year}</span>
         </div>
         <button onClick={handleNextMonth}>
-          <img src="/images/ic_arrow.png" alt="" />
+          <Image src="/images/ic_arrow.png" alt="next month" width={24} height={24} />
         </button>
       </div>
 

@@ -11,7 +11,7 @@ export default function Page() {
   };
 
   return (
-    <div className="h-screen bg-slate-400">
+    <div className="h-screen bg-slate-400 pt-20">
       <Calendar getSelectedDate={getSelectedDate} />
       <p className="mt-48">선택된 날짜: {selectedDate.toLocaleDateString()}</p>
     </div>
