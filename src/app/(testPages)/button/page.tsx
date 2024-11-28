@@ -1,18 +1,18 @@
-import Button from "@/components/Button";
+import Button from "@/components/Button/Button";
 
 export default function ButtonTest() {
   return (
     <>
-      <Button variant="primary" text="click" />
-      <Button variant="secondary" text="me" />
-      <Button variant="tertiary" text="please" />
-      <Button variant="disabled" text="I'm done.." />
+      <Button variant="primary" />
+      <Button variant="secondary" />
+      <Button variant="tertiary" />
+      <Button variant="disabled" />
 
       <div className="w-24">
-        <Button variant="primary" size="small" text="I'm children!" />
-        <Button variant="secondary" size="small" text="yeah, me too!" />
-        <Button variant="tertiary" size="small" text="It's so good~" />
-        <Button variant="disabled" size="small" text="I'm sad..." />
+        <Button variant="primary" size="small" />
+        <Button variant="secondary" size="small" />
+        <Button variant="tertiary" size="small" />
+        <Button variant="disabled" size="small" />
       </div>
     </>
   );

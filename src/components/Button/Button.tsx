@@ -1,35 +1,15 @@
+import { ButtonProps } from "@/types/components/button";
 import React from "react";
 
-// 타입을 객체로 관리
-const variantOptions = {
-  primary: "primary",
-  secondary: "secondary",
-  tertiary: "tertiary",
-  whitePrimary: "whitePrimary",
-  whiteSecondary: "whiteSecondary",
-  whiteTertiary: "whiteTertiary",
-  disabled: "disabled",
-} as const;
-
-type ButtonProps = {
-  type?: "button" | "submit" | "reset";
-  text?: string;
-  variant?: keyof typeof variantOptions;
-  size?: "small" | "large"; // 버튼 크기 2가지(sm: 40px, lg: 44px, height 기준)
-  onClick?: () => void;
-  disabled?: boolean;
-  className?: string;
-};
-
-const Button: React.FC<ButtonProps> = ({
-  type = "button", // 기본 타입 : button
-  text = "button",
+const Button = ({
+  type = "button",
   variant = "primary",
   size = "large",
   onClick,
   disabled,
-  className,
-}) => {
+  children = "click!!",
+  className = "",
+}: ButtonProps) => {
   // 버튼 색상(기본 값 : 하얀 버튼) case 색상 순서 = 피그마 생성하기 버튼 컴포넌트 순서
   const getVariantClasses = () => {
     if (disabled) return "bg-gray-400 text-white cursor-not-allowed";
@@ -69,7 +49,7 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       className={`rounded-xl font-semibold ${getVariantClasses()} ${getSizeClasses()} ${className}`}
     >
-      {text}
+      {children}
     </button>
   );
 };
