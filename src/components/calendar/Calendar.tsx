@@ -102,7 +102,7 @@ export default function Calendar({ getSelectedDate }: CalendarProp) {
   };
 
   return (
-    <div className="flex h-[250px] w-[280px] flex-col items-center justify-center rounded-[12px] bg-white">
+    <div className="flex w-[280px] flex-col items-center justify-center rounded-[12px] bg-white py-3">
       <div className="flex h-8 w-[250px] items-center justify-between">
         <button onClick={handlePrevMonth}>
           <img className="rotate-180" src="/images/ic_arrow.png" alt="" />
