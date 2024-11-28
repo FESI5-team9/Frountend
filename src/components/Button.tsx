@@ -67,7 +67,7 @@ const Button: React.FC<ButtonProps> = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`rounded-lg font-semibold ${getVariantClasses()} ${getSizeClasses()} ${className}`}
+      className={`rounded-xl font-semibold ${getVariantClasses()} ${getSizeClasses()} ${className}`}
     >
       {text}
     </button>
