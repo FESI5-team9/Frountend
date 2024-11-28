@@ -1,3 +1,4 @@
+// 버튼 색상 (기본 값: 하얀 버튼)
 export const getVariantClasses = (variant: string, disabled: boolean) => {
   if (disabled) return "bg-gray-400 text-white cursor-not-allowed";
 
