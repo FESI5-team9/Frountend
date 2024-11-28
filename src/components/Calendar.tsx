@@ -27,10 +27,10 @@ function DateCell({
             ? handlePrevMonth
             : handleNextMonth
       }
-      className="inline-block h-10 w-10 cursor-pointer text-center"
+      className="flex h-8 w-9 cursor-pointer text-center"
     >
       <span
-        className={`flex h-8 w-8 items-center justify-center rounded-[8px] ${
+        className={`flex h-full w-full select-none items-center justify-center rounded-[8px] ${
           type === "prev" || type === "next" ? "text-gray-500" : ""
         } ${isSelected ? "bg-yellow-primary" : ""}`}
       >
@@ -86,29 +86,33 @@ export default function Calendar({ getSelectedDate }: CalendarProp) {
   };
 
   return (
-    <div className="ml-5 flex w-[400px] flex-col items-center">
-      <div className="my-5 flex gap-5">
-        <button onClick={handlePrevMonth}>prev</button>
+    <div className="ml-5 flex h-[250px] w-[336px] flex-col items-center justify-center rounded-[12px] bg-white">
+      <div className="flex h-8 w-[250px] items-center justify-between">
+        <button onClick={handlePrevMonth}>
+          <img className="rotate-180" src="/images/ic_arrow.png" alt="" />
+        </button>
         <div className="flex gap-1">
           <span>{MONTH_OF_YEAR[month]}</span>
           <span>{year}</span>
         </div>
-        <button onClick={handleNextMonth}>next</button>
+        <button onClick={handleNextMonth}>
+          <img src="/images/ic_arrow.png" alt="" />
+        </button>
       </div>
 
-      <table>
+      <table className="w-[250px] table-fixed">
         <thead>
-          <tr>
+          <tr className="flex w-[250px] justify-between">
             {DAYS_OF_WEEK.map(day => (
-              <th className="inline-block h-10 w-10" key={day}>
+              <th className="h-8 w-9 select-none text-center" key={day}>
                 {day}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="flex w-[250px] flex-col justify-between">
           {Array.from({ length: Math.ceil(allDates.length / 7) }).map((_, rowIndex) => (
-            <tr key={rowIndex}>
+            <tr className="flex w-[250px] justify-between" key={rowIndex}>
               {allDates.slice(rowIndex * 7, rowIndex * 7 + 7).map(({ date, type }, colIndex) => (
                 <DateCell
                   key={colIndex}

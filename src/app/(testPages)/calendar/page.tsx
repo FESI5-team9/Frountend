@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Calendar from "@/components/Calendar";
 
 export default function Page() {
@@ -11,7 +11,7 @@ export default function Page() {
   };
 
   return (
-    <div>
+    <div className="h-screen bg-slate-400">
       <Calendar getSelectedDate={getSelectedDate} />
       <p className="mt-10">선택된 날짜: {selectedDate.toLocaleDateString()}</p>
     </div>
