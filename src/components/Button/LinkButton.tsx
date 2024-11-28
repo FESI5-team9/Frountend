@@ -1,6 +1,5 @@
-import { ButtonProps } from "@/types/components/button";
 import Link from "next/link";
-import React from "react";
+import { ButtonProps } from "@/types/components/button";
 
 const LinkButton = ({
   variant = "primary",

@@ -1,5 +1,5 @@
-import { ButtonProps } from "@/types/components/button";
 import React from "react";
+import { ButtonProps } from "@/types/components/button";
 
 const Button = ({
   type = "button",
