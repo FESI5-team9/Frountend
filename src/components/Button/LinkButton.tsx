@@ -12,14 +12,12 @@ const LinkButton = ({
 }: ButtonProps & { href: string }) => {
   return (
     <Link href={href}>
-      <a>
-        <button
-          disabled={disabled}
-          className={`rounded-xl font-semibold ${getVariantClasses(variant, disabled)} ${getSizeClasses(size)} ${className}`}
-        >
-          {children}
-        </button>
-      </a>
+      <button
+        disabled={disabled}
+        className={`rounded-xl font-semibold ${getVariantClasses(variant, disabled)} ${getSizeClasses(size)} ${className}`}
+      >
+        {children}
+      </button>
     </Link>
   );
 };
