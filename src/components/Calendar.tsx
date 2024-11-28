@@ -8,17 +8,10 @@ function DateCell({
   type,
   currentDate,
   selectedDate,
-  today,
   handleSelectedDate,
   handlePrevMonth,
   handleNextMonth,
 }: DateCellProps) {
-  const isToday =
-    type === "current" &&
-    today.getFullYear() === currentDate.getFullYear() &&
-    today.getMonth() === currentDate.getMonth() &&
-    today.getDate() === date;
-
   const isSelected =
     type === "current" &&
     selectedDate.getFullYear() === currentDate.getFullYear() &&
@@ -39,7 +32,7 @@ function DateCell({
       <span
         className={`flex h-8 w-8 items-center justify-center rounded-[8px] ${
           type === "prev" || type === "next" ? "text-gray-500" : ""
-        } ${isToday ? "bg-yellow-300" : ""} ${isSelected ? "bg-yellow-500" : ""}`}
+        } ${isSelected ? "bg-yellow-primary" : ""}`}
       >
         {date}
       </span>
@@ -53,7 +46,6 @@ export default function Calendar({ getSelectedDate }: CalendarProp) {
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
-  const today = new Date();
 
   const firstDayOfMonth = new Date(year, month, 1);
   const lastDayOfMonth = new Date(year, month + 1, 0);
@@ -124,7 +116,6 @@ export default function Calendar({ getSelectedDate }: CalendarProp) {
                   type={type}
                   currentDate={currentDate}
                   selectedDate={selectedDate}
-                  today={today}
                   handleSelectedDate={() => handleSelectedDate(date)}
                   handlePrevMonth={handlePrevMonth}
                   handleNextMonth={handleNextMonth}

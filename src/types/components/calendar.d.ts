@@ -3,7 +3,6 @@ type DateCellProps = {
   type: string;
   currentDate: Date;
   selectedDate: Date;
-  today: Date;
   handleSelectedDate: () => void;
   handlePrevMonth: () => void;
   handleNextMonth: () => void;
