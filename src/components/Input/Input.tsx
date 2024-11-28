@@ -34,7 +34,7 @@ export default function Input({ register, type, name, label, placeholder, error 
           type={effectiveType}
           placeholder={placeholder}
           {...register}
-          className={`h-10 w-full rounded-xl bg-gray-50 py-[10px] pl-4 text-sm font-medium leading-5 outline-none ${
+          className={`h-10 w-full rounded-xl bg-gray-50 py-[10px] pl-4 text-sm font-medium leading-5 outline-none tablet:h-11 ${
             type === "password" ? "pr-10" : "pr-4"
           } ${effectiveError ? "border-[2px] border-red-500" : ""}`}
         />
