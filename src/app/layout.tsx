@@ -17,6 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+MNM-18-feat-GNB
       <body className={`${inter.className} pt-[60px]`}>
         <Gnb />
         {children}
