@@ -12,6 +12,9 @@ const config: Config = {
       tablet: "768px",
     },
     extend: {
+      colors: {
+        "yellow-primary": "#FFE55D",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
