@@ -7,8 +7,8 @@ export default function Gnb() {
   // const { isLoggedIn } = useUserStore(); // zustand 설정 시 활성화
 
   return (
-    <>
-      <div className="tablet:h-15 fixed top-0 flex h-[56px] w-full items-center justify-center bg-orange-500 text-sm text-black">
+    <header>
+      <div className="tablet:h-15 fixed top-0 z-30 flex h-[60px] w-full items-center justify-center bg-yellow-primary text-black">
         <div className="mx-auto flex w-full justify-between px-4 tablet:w-[744px] tablet:px-1.5 desktop:w-[1200px]">
           <div className="flex gap-3 tablet:gap-5 tablet:text-base">
             <Link href={"/"} className="block font-[800]">
@@ -56,6 +56,6 @@ export default function Gnb() {
           </Link>
         </div>
       </div>
-    </>
+    </header>
   );
 }
