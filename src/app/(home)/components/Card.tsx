@@ -41,7 +41,7 @@ export default function Card() {
         </div>
 
         <div className="flex justify-between">
-          <div className="flex w-3/5 flex-col gap-2 tablet:w-3/5 desktop:w-4/5">
+          <div className="flex w-3/5 flex-col gap-2 tablet:w-3/5 desktop:w-3/5">
             <div className="flex flex-row gap-2 text-sm">
               <div className="flex gap-1">
                 <Image src="/images/mainPage/card/people.svg" width={16} height={16} alt="people" />
