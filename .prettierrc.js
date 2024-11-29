@@ -6,14 +6,17 @@ module.exports = {
   printWidth: 100,
   arrowParens: "avoid", // 화살표 함수의 매개변수에 괄호를 사용하지 않음
   endOfLine: "auto", // 파일 끝 줄바꿈 문자를 이미 존재하는 문자로 유지
+  plugins: ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
   importOrder: [
-    "<THIRD_PARTY_MODULES>",
+    "^react$", // React를 최상위로
+    "^react-dom$",
+    "^next", // Next.js 관련
+    "<THIRD_PARTY_MODULES>", // 외부 라이브러리
     "^@/apis/(.*)$",
     "^@/hooks/(.*)$",
     "^@/components/(.*)$",
-    "^(?:@/utils/|@/lib/|@/store/|@/contexts/)(.*)$",
-    "^[./]",
+    "^@/(.*)$", // 나머지 @/ 경로
+    "^[./]", //
   ],
   importOrderSortSpecifiers: true,
-  plugins: ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
 };

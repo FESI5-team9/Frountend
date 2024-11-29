@@ -6,10 +6,10 @@
     "next/core-web-vitals", // Next.js 성능 관련 규칙
     "plugin:@typescript-eslint/recommended" // TypeScript 권장 규칙
   ],
- 
+
   // TypeScript 구문 분석을 위한 파서
   "parser": "@typescript-eslint/parser",
- 
+
   // 파서 동작 방식 설정
   "parserOptions": {
     "ecmaVersion": 2020, // ECMAScript 2020 문법 사용
@@ -19,14 +19,10 @@
       "jsx": true // JSX 구문 활성화
     }
   },
- 
+
   // ESLint 플러그인 설정
-  "plugins": [
-    "@typescript-eslint",
-    "react",
-    "react-hooks"
-  ],
- 
+  "plugins": ["@typescript-eslint", "react", "react-hooks"],
+
   // ESLint 플러그인 설정
   "settings": {
     // 모듈 해석 설정
@@ -39,7 +35,7 @@
       "version": "detect" // React 버전 자동 감지
     }
   },
- 
+
   // 세부 규칙 설정
   "rules": {
     // TypeScript 관련 규칙
@@ -61,7 +57,7 @@
       }
     ],
     "quotes": "off", // ESLint 기본 quotes 규칙 비활성화
- 
+
     // React 관련 규칙
     "react/react-in-jsx-scope": "off", // React 17+ 에서는 불필요
     "react/require-default-props": "off", // TypeScript의 옵셔널 프로퍼티와 충돌
@@ -71,28 +67,9 @@
       1,
       { "extensions": [".tsx"] }
     ],
- 
+
     // Import/Export 관련 규칙
-    "import/order": [
-      // import 순서 규칙
-      "error",
-      {
-        "groups": [
-          "builtin", // Node.js 내장 모듈
-          "external", // npm 패키지
-          "internal", // 프로젝트 내부 모듈
-          "parent", // 부모 디렉토리 모듈
-          "sibling", // 같은 디렉토리 모듈
-          "index" // 현재 디렉토리 인덱스
-        ],
-        "alphabetize": {
-          // 알파벳 순 정렬
-          "order": "asc", // 오름차순
-          "caseInsensitive": true // 대소문자 구분 안 함
-        },
-        "newlines-between": "never" // import 그룹 간 빈 줄 없음
-      }
-    ],
+    "import/order": "off",
     "import/prefer-default-export": "off", // named export 허용
     "import/extensions": [
       // 파일 확장자 처리
@@ -103,7 +80,7 @@
         "tsx": "never"
       }
     ],
- 
+
     // 일반 규칙
     "no-console": [
       "error",
@@ -123,4 +100,4 @@
       }
     ]
   }
- }
+}
