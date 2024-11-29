@@ -1,6 +1,6 @@
+import { ButtonProps } from "@/types/components/button";
 import React from "react";
 import { getSizeClasses, getVariantClasses } from "@/components/Button/buttonStyles";
-import { ButtonProps } from "@/types/components/button";
 
 const Button = ({
   type = "button",
