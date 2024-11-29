@@ -69,26 +69,7 @@
     ],
 
     // Import/Export 관련 규칙
-    "import/order": [
-      // import 순서 규칙
-      "error",
-      {
-        "groups": [
-          "builtin", // Node.js 내장 모듈
-          "external", // npm 패키지
-          "internal", // 프로젝트 내부 모듈
-          "parent", // 부모 디렉토리 모듈
-          "sibling", // 같은 디렉토리 모듈
-          "index" // 현재 디렉토리 인덱스
-        ],
-        "alphabetize": {
-          // 알파벳 순 정렬
-          "order": "asc", // 오름차순
-          "caseInsensitive": true // 대소문자 구분 안 함
-        },
-        "newlines-between": "never" // import 그룹 간 빈 줄 없음
-      }
-    ],
+    "import/order": "off",
     "import/prefer-default-export": "off", // named export 허용
     "import/extensions": [
       // 파일 확장자 처리
