@@ -103,7 +103,7 @@ export default function Calendar({ handleDateSelect }: CalendarProp) {
     newDate.setDate(date);
 
     setSelectedDate(newDate);
-    handleDateSelect(newDate);
+    if (handleDateSelect) handleDateSelect(newDate);
   };
 
   return (

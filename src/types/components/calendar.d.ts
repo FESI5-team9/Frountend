@@ -9,7 +9,7 @@ type DateCellProps = {
   handleNextMonth: () => void;
 };
 
-type CalendarProp = { handleDateSelect: (date: Date) => void };
+type CalendarProp = { handleDateSelect?: (date: Date) => void };
 
 type DateStore = {
   selectedDate: Date | null;
