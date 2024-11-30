@@ -1,34 +1,6 @@
 // types.ts
 export type HTTPMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
-export class APIError extends Error {
-  readonly name = "APIError";
-
-  constructor(
-    public readonly status: number,
-    public readonly data: unknown = null,
-    message?: string,
-  ) {
-    super(message ?? `API Error: ${status}`);
-
-    // ES5 이하 버전 호환성을 위한 prototype 체인 수정
-    Object.setPrototypeOf(this, APIError.prototype);
-  }
-
-  toString(): string {
-    return `${this.name} (${this.status}): ${this.message}`;
-  }
-
-  toJSON(): Record<string, unknown> {
-    return {
-      name: this.name,
-      status: this.status,
-      message: this.message,
-      data: this.data,
-    };
-  }
-}
-
 export interface NextFetchConfig {
   revalidate?: number | false;
   tags?: string[];
@@ -70,6 +42,7 @@ export type Config<T = RequestData> = {
   credentials?: RequestCredentials;
   next?: NextFetchConfig;
   cache?: RequestCache | boolean;
+  retry?: boolean;
 } & BaseConfig;
 
 export interface APIResponse<T = unknown> {

@@ -1,4 +1,5 @@
-import { APIError, APIResponse, Client, Config, Interceptor } from "@/types/api/httpClient";
+import { APIResponse, Client, Config, Interceptor } from "@/types/api/httpClient";
+import { APIError } from "./error";
 import { retry } from "./retry";
 
 // client.ts
@@ -65,13 +66,14 @@ export const createClient = (baseConfig: Config = {}): Client => {
     return init;
   };
 
-  const handleResponse = async <T>(response: Response): Promise<T> => {
+  const handleResponse = async <T>(response: Response, config: Config): Promise<T> => {
     if (!response.ok) {
       const errorData = await response.json().catch(() => null);
       throw new APIError(
         response.status,
         errorData,
         errorData?.message ?? `Error ${response.status}`,
+        config,
       );
     }
 
@@ -107,8 +109,7 @@ export const createClient = (baseConfig: Config = {}): Client => {
         ...finalConfig,
         signal: controller.signal,
       });
-
-      const execute = () => fetch(url, init).then(res => handleResponse<T>(res));
+      const execute = () => fetch(url, init).then(res => handleResponse<T>(res, finalConfig));
 
       if (finalConfig.retryConfig) {
         const { maxRetries, retryDelay, retryCondition } = finalConfig.retryConfig;
