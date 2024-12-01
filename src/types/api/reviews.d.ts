@@ -77,7 +77,7 @@ type Gathering = {
   participantCount: number;
   capacity: number;
   createdBy: string;
-  user: IUser;
+  user: User;
   canceledAt: string;
   canceledGathering: boolean;
   joinableGathering: boolean;
