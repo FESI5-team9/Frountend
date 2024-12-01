@@ -26,7 +26,7 @@ export async function getGatherings(params: Gatherings) {
 }
 
 // 모임 생성
-export async function createGathering(body: CreateGathering) {
+export async function createGathering(params: CreateGathering, body: FormData) {
   const data = await fetchInstance.post<GatheringRes>("/gatherings", body);
   return data;
 }
@@ -38,7 +38,7 @@ export async function joinGathering(id: string) {
 }
 
 // 모임 상세 조회
-export async function getGatheringDetail(id: string) {
+export async function getGatheringDetail(id: number) {
   const data = await fetchInstance.get<GatheringRes>(`/gatherings/${id}`);
   return data;
 }

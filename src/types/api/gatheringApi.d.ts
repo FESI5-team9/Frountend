@@ -12,6 +12,38 @@ export type PaginationParams = {
 };
 
 export type GatheringBase = {
+  id: number;
+  type: string;
+  name: string;
+  dateTime: string;
+  registrationEnd: string;
+  location: string;
+  address1: string;
+  participantCount: number;
+  capacity: number;
+  image: string;
+  createdBy: string;
+  canceledAt: string;
+};
+
+export type GatheringRes = GatheringBase & {
+  user: User;
+  address2: string;
+  description: string;
+  keyword: string[];
+  host: boolean;
+};
+
+export type User = {
+  id: number;
+  nickname: string;
+  image: string;
+};
+
+export type GatheringsRes = GatheringBase[];
+
+export type GetMyJoinedGatheringsRes = {
+  id: number;
   type: string;
   name: string;
   dateTime: string;
@@ -19,23 +51,9 @@ export type GatheringBase = {
   location: string;
   address1: string;
   address2: string;
-  keyword: string[];
-  capacity: number;
-};
-
-export type GatheringRes = GatheringBase & {
-  id: number;
-  description: string;
+  keywords: string[];
   participantCount: number;
-  image: string;
-  createdBy: string;
-  canceledAt: string;
-};
-
-export type GatheringsRes = GatheringRes[];
-
-export type GetMyJoinedGatheringsRes = GatheringBase & {
-  id: number;
+  capacity: number;
   createdBy: string;
   canceledAt: string;
   joinedAt: string;
@@ -43,10 +61,19 @@ export type GetMyJoinedGatheringsRes = GatheringBase & {
   isReviewed: boolean;
 };
 
-export type CreateGathering = Omit<GatheringBase, "keyword"> & {
+export type CreateGathering = {
+  type: string;
+  location: string;
+  name: string;
+  dateTime: string;
+  capacity: number;
+  registrationEnd: string;
+  address1: string;
+  address2: string;
   description: string;
   keyword: string[];
 };
+
 export type Gatherings = PaginationParams & {
   id?: number[];
   type?: string;
@@ -60,43 +87,14 @@ export type GetMyJoinedGatherings = PaginationParams & {
   reviews?: boolean;
 };
 
-export type Token = {
-  id: number;
-  token: string;
-  tokenType: "BEARER";
-  expired: boolean;
-  revoked: boolean;
-  user: string;
-};
-
-export type Authority = {
-  authority: string;
-};
-
-export type User = {
-  id: number;
+export type Participant = {
+  gatheringId: number;
+  joinedAt: string;
+  userId: number;
   email: string;
-  password: string;
   name: string;
   nickname: string;
   image: string;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string;
-  tokens: Token[];
-  username: string;
-  authorities: Authority[];
-  enabled: boolean;
-  accountNonExpired: boolean;
-  accountNonLocked: boolean;
-  credentialsNonExpired: boolean;
-};
-
-export type Participant = {
-  userId: number;
-  gatheringId: number;
-  joinedAt: string;
-  user: User;
 };
 
 export type GetGatheringParticipants = PaginationParams;
