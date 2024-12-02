@@ -1,6 +1,26 @@
+"use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
 
 export default function mypage() {
+  // 탭 관리
+  const [activeTab, setActiveTab] = useState("reviews");
+
+  // 렌더링할 콘텐츠
+  const renderContent = () => {
+    switch (activeTab) {
+      case "reviews":
+        return "나의 리뷰";
+      case "gathering":
+        return "나의 모임";
+      case "createdGathering":
+        return "내가 만든 모임";
+      default:
+        return "신청한 모임이 아직 없어요";
+    }
+  };
+
   return (
     <>
       <div className="flex w-full justify-center">
@@ -42,19 +62,28 @@ export default function mypage() {
           </div>
           <div className="border-t-2 border-black bg-white">
             <div className="h-[494px] w-full">
-              <div className="mx-auto mt-6 flex gap-3 pl-4">
-                <button className="text-lg font-semibold text-[#9CA3AF] hover:border-b-2 hover:border-black hover:text-gray-900">
+              <div className="mx-auto mt-6 flex h-[34px] gap-3 pl-4">
+                <button
+                  onClick={() => setActiveTab("reviews")}
+                  className="text-lg font-semibold text-[#9CA3AF] hover:border-b-2 hover:border-black hover:text-gray-900"
+                >
                   나의 리뷰
                 </button>
-                <button className="text-lg font-semibold text-[#9CA3AF] hover:border-b-2 hover:border-black hover:text-gray-900">
+                <button
+                  onClick={() => setActiveTab("gathering")}
+                  className="text-lg font-semibold text-[#9CA3AF] hover:border-b-2 hover:border-black hover:text-gray-900"
+                >
                   나의 모임
                 </button>
-                <button className="text-lg font-semibold text-[#9CA3AF] hover:border-b-2 hover:border-black hover:text-gray-900">
+                <button
+                  onClick={() => setActiveTab("createGathering")}
+                  className="text-lg font-semibold text-[#9CA3AF] hover:border-b-2 hover:border-black hover:text-gray-900"
+                >
                   내가 만든 모임
                 </button>
               </div>
               <div className="mt-[208px] text-center text-sm font-medium text-gray-500">
-                신청한 모임이 아직 없어요
+                {renderContent()}
               </div>
             </div>
           </div>
