@@ -4,14 +4,14 @@ import Chip from "@/components/chip";
 
 export default function Card() {
   return (
-    <div className="border-gray flex h-auto w-[350px] flex-col rounded-2xl border-y-2 bg-gray-background tablet:w-auto tablet:flex-row">
+    <div className="border-gray flex w-full flex-col rounded-2xl border-y-2 bg-gray-background tablet:w-auto tablet:flex-row">
       <div className="relative flex">
         <Image
           src="/images/mainPage/ex-images/donw3.svg"
           alt="food"
-          width={344}
-          height={156}
-          className="rounded-l-2xl object-cover"
+          width={272}
+          height={153}
+          className="h-auto w-full rounded-l-2xl object-cover"
         />
         <div className="absolute right-0 top-0 flex flex-row items-center gap-1 rounded-bl-xl border border-none bg-yellow-primary px-2 py-1">
           <Image src="/images/mainPage/alarm.svg" width={20} height={16} alt="alarm" />

@@ -1,13 +1,13 @@
-import { getSizeClasses, getVariantClasses } from "@/components/Button/buttonStyles";
-import { ButtonProps } from "@/types/components/button";
+import { getFilledStyle, getOutlinedStyle, getSizeClasses } from "./buttonStyles";
 
 const Button = ({
   type = "button",
-  variant = "primary",
+  color,
   size = "large",
+  isFilled = true,
   onClick,
   disabled = false,
-  children = "click!!",
+  children,
   className = "",
 }: ButtonProps) => {
   return (
@@ -15,7 +15,7 @@ const Button = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`rounded-xl font-semibold ${getVariantClasses(variant, disabled)} ${getSizeClasses(size)} ${className}`}
+      className={`rounded-xl font-semibold ${color && (isFilled ? getFilledStyle(color, disabled) : getOutlinedStyle(color, disabled))} ${getSizeClasses(size)} ${className} `}
     >
       {children}
     </button>

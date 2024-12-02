@@ -25,7 +25,7 @@ function Gathering() {
   };
 
   return (
-    <main className="flex max-w-[1200px] flex-col justify-center bg-gray-backgroundBright py-2 py-[59px] tablet:justify-start tablet:px-[59px]">
+    <main className="mx-auto flex w-full max-w-[1200px] flex-col justify-between bg-gray-backgroundBright px-2 py-[59px] tablet:w-[744px] tablet:justify-start tablet:px-1.5 desktop:w-[1200px] desktop:px-0">
       <div className="mb-10 flex flex-row items-center gap-4 px-2 tablet:px-0">
         <Image src="/images/mainPage/head.svg" width={72} height={72} alt="head" />
         <div>
@@ -90,8 +90,8 @@ function Gathering() {
           모임 만들기
         </button>
       </div>
-      <div className="mt-4 flex flex-row justify-between">
-        <div className="flex flex-row gap-4">
+      <div className="mt-2 flex flex-row justify-between tablet:mt-4">
+        <div className="flex flex-row tablet:gap-4">
           <FilterDropDown
             filterType="sortFilter"
             options={LOCATION_OPTIONS}
