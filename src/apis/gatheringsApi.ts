@@ -19,11 +19,7 @@ export async function CancelGathering(id: string) {
 // 모임 목록 조회
 export async function getGatherings(params: Gatherings) {
   const data = await fetchInstance.get<GatheringsRes>(
-    `/gatherings?${params.id ? `id=${params.id}&` : ""}${params.type ? `type=${params.type}&` : ""}
-    ${params.dateTime ? `dateTime=${params.dateTime}&` : ""}${params.location ? `location=${params.location}&` : ""}
-    ${params.createdBy ? `createdBy=${params.createdBy}&` : ""}${params.size ? `size=${params.size}&` : ""}
-    ${params.page ? `page=${params.page}&` : ""}${params.sort ? `sort=${params.sort}&` : ""}
-    ${params.direction ? `direction=${params.direction}` : ""}`,
+    `/gatherings?${params.id ? `id=${params.id}&` : ""}${params.type ? `type=${params.type}&` : ""}${params.dateTime ? `dateTime=${params.dateTime}&` : ""}${params.location ? `location=${params.location}&` : ""} ${params.createdBy ? `createdBy=${params.createdBy}&` : ""}${params.size ? `size=${params.size}&` : ""}${params.page ? `page=${params.page}&` : ""}${params.sort ? `sort=${params.sort}&` : ""}${params.direction ? `direction=${params.direction}` : ""}`,
   );
   return data;
 }
@@ -49,8 +45,8 @@ export async function joinGathering(id: string) {
 }
 
 // 모임 상세 조회
-export async function getGatheringDetail(id: number) {
-  const data = await fetchInstance.get<GatheringRes>(`/gatherings/${id}`);
+export async function getGatheringDetail(id: number, userId: number) {
+  const data = await fetchInstance.get<GatheringRes>(`/gatherings/${id}?uerId=${userId}`);
   return data;
 }
 
