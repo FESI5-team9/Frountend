@@ -19,3 +19,7 @@ export type ButtonProps = {
   children?: string;
   className?: string;
 };
+
+export type FavoriteButtonProps = {
+  gatheringId: number;
+};
