@@ -17,7 +17,7 @@ const config: Config = {
         "yellow-primary": "#FFE55D",
         "orange-primary": "#FF9E48",
         "red-primary": "#FF573B",
-        "gray-background-bright": "#F3F4F6",
+        "gray-backgroundBright": "##F3F4F6",
         "gray-background": "#F9FAFB",
       },
       backgroundImage: {
