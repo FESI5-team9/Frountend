@@ -1,3 +1,4 @@
+import { setAuthCookies } from "@/app/actions/auth";
 import { Login, LoginRes, PostUsers, PutUsers, User } from "@/types/api/authApi";
 import fetchInstance from "./fetchInstance";
 
@@ -10,6 +11,7 @@ export async function signup(body: PostUsers) {
 // 로그인
 export async function signin(body: Login) {
   const data = await fetchInstance.post<LoginRes>("/auth/signin", body);
+  await setAuthCookies(data.accessToken, data.refreshToken);
   return data;
 }
 

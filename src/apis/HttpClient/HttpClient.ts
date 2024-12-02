@@ -69,14 +69,25 @@ export const createClient = (baseConfig: Config = {}): Client => {
   const handleResponse = async <T>(response: Response, config: Config): Promise<T> => {
     if (!response.ok) {
       const errorData = await response.json().catch(() => null);
-      throw new APIError(
+      const error = new APIError(
         response.status,
         errorData,
         errorData?.message ?? `Error ${response.status}`,
         config,
       );
-    }
 
+      return responseInterceptors.reduce<Promise<T>>(async (promise, interceptor): Promise<T> => {
+        try {
+          const value = await promise;
+          return value;
+        } catch (err) {
+          if (interceptor.onRejected) {
+            return interceptor.onRejected(err) as Promise<T>;
+          }
+          throw err;
+        }
+      }, Promise.reject(error));
+    }
     const data = await response.json();
     const apiResponse: APIResponse = {
       data,

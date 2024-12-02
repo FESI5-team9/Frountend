@@ -31,7 +31,9 @@ fetchInstance.interceptors.request.push({
   onRejected: error => Promise.reject(error),
 });
 fetchInstance.interceptors.response.push({
-  onFulfilled: response => response,
+  onFulfilled: response => {
+    return response;
+  },
   onRejected: async (error: unknown) => {
     if (!(error instanceof APIError)) {
       return Promise.reject(error);

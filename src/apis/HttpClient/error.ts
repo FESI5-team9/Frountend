@@ -3,26 +3,32 @@ import { Config } from "@/types/api/httpClient";
 export class APIError extends Error {
   readonly name = "APIError";
 
+  public readonly originalMessage: unknown;
+
   constructor(
     public readonly status: number,
     public readonly data: unknown = null,
-    message?: string,
+    message?: unknown,
     public readonly config?: Config,
   ) {
-    super(message ?? `API Error: ${status}`);
+    // Error의 message를 전체 정보를 포함한 문자열로 만듦
+    const errorInfo = {
+      name: "APIError",
+      status: status,
+      message: message,
+      data: data,
+    };
+    super(JSON.stringify(errorInfo));
 
+    this.originalMessage = message;
     Object.setPrototypeOf(this, APIError.prototype);
-  }
-
-  toString(): string {
-    return `${this.name} (${this.status}): ${this.message}`;
   }
 
   toJSON(): Record<string, unknown> {
     return {
       name: this.name,
       status: this.status,
-      message: this.message,
+      message: this.originalMessage,
       data: this.data,
     };
   }
