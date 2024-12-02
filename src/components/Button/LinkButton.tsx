@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { ButtonProps } from "@/types/components/button";
-import { getSizeClasses, getVariantClasses } from "./buttonStyles";
+import { getFilledStyle, getOutlinedStyle, getSizeClasses } from "./buttonStyles";
 
 const LinkButton = ({
-  variant = "primary",
+  color,
   size = "large",
+  isFilled = true,
   disabled = false,
-  children = "click!!",
+  children,
   className = "",
   href,
 }: ButtonProps & { href: string }) => {
@@ -14,7 +14,7 @@ const LinkButton = ({
     <Link href={href}>
       <button
         disabled={disabled}
-        className={`rounded-xl font-semibold ${getVariantClasses(variant, disabled)} ${getSizeClasses(size)} ${className}`}
+        className={`rounded-xl font-semibold ${color && (isFilled ? getFilledStyle(color, disabled) : getOutlinedStyle(color, disabled))} ${getSizeClasses(size)} ${className} `}
       >
         {children}
       </button>

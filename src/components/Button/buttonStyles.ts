@@ -1,35 +1,36 @@
-// 버튼 색상 (기본 값: 하얀 버튼)
-export const getVariantClasses = (variant: string, disabled: boolean) => {
+export const getFilledStyle = (color: string, disabled?: boolean) => {
   if (disabled) return "bg-gray-400 text-white cursor-not-allowed";
-
-  switch (variant) {
-    case "primary":
-      return "bg-orange-600 text-white hover:opacity-50";
-    case "secondary":
-      return "bg-orange-700 text-white hover:opacity-50";
-    case "tertiary":
-      return "bg-orange-800 text-white hover:opacity-50";
-    case "whitePrimary":
-      return `bg-white text-orange-600 outline outline-orange-600`;
-    case "whiteSecondary":
-      return `bg-white text-orange-700 outline outline-orange-700`;
-    case "whiteTertiary":
-      return `bg-white text-orange-800 outline outline-orange-800`;
+  switch (color) {
+    case "yellow":
+      return "bg-yellow-primary text-gray-800";
+    case "orange":
+      return "bg-orange-primary text-white";
+    case "red":
+      return "bg-red-primary text-white";
     case "disabled":
-      return "bg-white text-gray-400 outline outline-gray-400";
-    default:
-      return "";
+      return "bg-gray-400 text-white";
   }
 };
 
-// 버튼 크기 (기본 값: small)
+export const getOutlinedStyle = (color: string, disabled?: boolean) => {
+  if (disabled) return "bg-white text-gray-400 border border-gray-400 cursor-not-allowed";
+  switch (color) {
+    case "yellow":
+      return "bg-white text-yellow-primary border border-yellow-primary";
+    case "orange":
+      return "bg-white text-orange-primary border border-orange-primary";
+    case "red":
+      return "bg-white text-red-primary border border-red-primary";
+    case "disabled":
+      return "bg-white text-gray-400 border border-gray-400 cursor-not-allowed";
+  }
+};
+
 export const getSizeClasses = (size: string) => {
   switch (size) {
     case "small":
-      return "w-full h-[40px] text-sm";
+      return "h-10 px-4 text-sm w-full";
     case "large":
-      return "w-full h-[44px] text-base";
-    default:
-      return "";
+      return "h-12 px-6 text-base w-full";
   }
 };
