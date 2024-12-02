@@ -45,8 +45,8 @@ export async function joinGathering(id: string) {
 }
 
 // 모임 상세 조회
-export async function getGatheringDetail(id: number) {
-  const data = await fetchInstance.get<GatheringRes>(`/gatherings/${id}`);
+export async function getGatheringDetail(id: number, userId: number) {
+  const data = await fetchInstance.get<GatheringRes>(`/gatherings/${id}?uerId=${userId}`);
   return data;
 }
 
