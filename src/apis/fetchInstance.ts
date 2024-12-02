@@ -4,10 +4,12 @@ import { createClient } from "./HttpClient/HttpClient";
 import { APIError } from "./HttpClient/error";
 
 const fetchInstance = createClient({
-  baseURL: "", // 또는 "/api"를 사용
+  baseURL: "",
   headers: {
     "Content-Type": "application/json",
+    Authorization: "Bearer ",
   },
+  credentials: "include",
 });
 
 // 요청 인터셉터 추가
