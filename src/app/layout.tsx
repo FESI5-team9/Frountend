@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${inter.className} pt-[60px]`}>
+      <body className={`${inter.className} bg-gray-100 pt-[60px]`}>
         <Gnb />
         {children}
       </body>
