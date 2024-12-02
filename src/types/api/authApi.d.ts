@@ -2,13 +2,13 @@ export type User = {
   id: number;
   email: string;
   name: string;
-  nickName?: string;
+  nickname?: string;
   image?: string;
   createdAt: string;
   updatedAt: string;
 };
 
-export type PostUsers = Pick<User, "email" | "nickName" | "name"> & {
+export type PostUsers = Pick<User, "email" | "nickname" | "name"> & {
   password: string;
 };
 
@@ -21,4 +21,4 @@ export type LoginRes = {
   refreshToken: string;
 };
 
-export type PutUsers = Partial<Pick<User, "nickName" | "image">>;
+export type PutUsers = Partial<Pick<User, "nickname" | "image">>;
