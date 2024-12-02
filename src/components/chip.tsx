@@ -10,7 +10,7 @@ export default function Chip({
   children,
 }: ChipProps) {
   // 기본 스타일
-  const baseClass = "flex items-center justify-center px-2 py-1 border";
+  const baseClass = "flex items-center justify-center px-2 py-1 border border-none";
 
   // 타입별 rounded 조정
   const roundedClass =
