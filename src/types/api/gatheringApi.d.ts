@@ -67,6 +67,7 @@ export type CreateGathering = {
   name: string;
   dateTime: string;
   capacity: number;
+  image?: string;
   registrationEnd: string;
   address1: string;
   address2: string;
