@@ -7,8 +7,7 @@ const fetchInstance = createClient({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   headers: {
     "Content-Type": "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwiaWF0IjoxNzMzMTIyOTk0LCJleHAiOjE3MzMxMjQ3OTR9.39tMF8Oxz8m9Yfl_hDv2tIyrpAZuaTQ0jluuH8x-g4Y",
+    Authorization: "Bearer",
   },
   credentials: "include",
 });
