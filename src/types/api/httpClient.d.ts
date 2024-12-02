@@ -24,7 +24,7 @@ export type RequestData =
   | ArrayBuffer
   | FormData
   | URLSearchParams
-  | Record<string, Primitive>;
+  | Record<string, Primitive | Primitive[]>;
 
 export interface RetryConfig {
   maxRetries: number;
