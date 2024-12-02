@@ -7,7 +7,8 @@ import { Login, PostUsers, PutUsers } from "@/types/api/authApi";
 export default function AuthTestPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [response, setResponse] = useState(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [response, setResponse] = useState<any>(null);
 
   // 회원가입 테스트
   const testSignup = async () => {
@@ -64,7 +65,7 @@ export default function AuthTestPage() {
     setLoading(true);
     try {
       const updateData: PutUsers = {
-        nickName: "testtest",
+        nickname: "testtest",
       };
       const data = await updateUserProfile(updateData);
       setResponse(data);
