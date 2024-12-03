@@ -45,5 +45,14 @@ export async function updateUserProfile(body: PutUsers) {
     formData.append("image", body.image);
   }
   const data = await fetchInstance.put<User>("/auth/user", formData);
+
+  const userStore = useUserStore.getState();
+  userStore.setUser({
+    id: data.id,
+    email: data.email,
+    nickname: data.nickname,
+    name: data.name,
+    image: data.image,
+  });
   return data;
 }
