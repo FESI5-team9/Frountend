@@ -7,6 +7,7 @@ export default function Chip({
   shadow = false,
   fontSize = "text-sm", // 기본 폰트 사이즈
   fontWeight = "font-medium", // 기본 폰트 굵기
+  className,
   children,
 }: ChipProps) {
   // 기본 스타일
@@ -25,7 +26,7 @@ export default function Chip({
 
   return (
     <div
-      className={`${baseClass} ${roundedClass} ${bgColor} ${textColor} ${shadowClass} ${fontSize} ${fontWeight}`}
+      className={`${baseClass} ${roundedClass} ${bgColor} ${textColor} ${shadowClass} ${fontSize} ${fontWeight} ${className}`}
     >
       {children}
     </div>
