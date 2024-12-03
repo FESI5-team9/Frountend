@@ -1,37 +1,36 @@
-export const getFilledStyle = (color: string, disabled?: boolean) => {
+export const getFilledStyle = (bgColor: string, disabled?: boolean) => {
   if (disabled) return "bg-gray-400 text-white cursor-not-allowed";
-
-  switch (color) {
+  switch (bgColor) {
     case "yellow":
-      return "bg-yellow-primary text-gray-800 hover:bg-[#FFDB38]";
+      return "bg-yellow-primary text-gray-800";
     case "orange":
-      return "bg-orange-primary text-white hover:bg-[#F28B35]";
+      return "bg-orange-primary text-white";
     case "red":
-      return "bg-red-primary text-white hover:bg-[#FF4122]";
+      return "bg-red-primary text-white";
     case "disabled":
-      return "bg-gray-400 text-white cursor-not-allowed";
+      return "bg-gray-400 text-white";
   }
 };
-export const getOutlinedStyle = (color: string, disabled?: boolean) => {
-  if (disabled) return "bg-white text-gray-400 border border-gray-400 cursor-not-allowed";
 
-  switch (color) {
+export const getOutlinedStyle = (bgColor: string, disabled?: boolean) => {
+  if (disabled) return "bg-white text-gray-400 border border-gray-400 cursor-not-allowed";
+  switch (bgColor) {
     case "yellow":
-      return "bg-white text-yellow-primary border border-yellow-primary hover:bg-yellow-100";
+      return "bg-white text-yellow-primary border border-yellow-primary";
     case "orange":
-      return "bg-white text-orange-primary border border-orange-primary hover:bg-orange-100";
+      return "bg-white text-orange-primary border border-orange-primary";
     case "red":
-      return "bg-white text-red-primary border border-red-primary hover:bg-red-100";
+      return "bg-white text-red-primary border border-red-primary";
     case "disabled":
-      return "bg-white text-gray-400 border border-gray-400 cursor-not-allowed hover:bg-gray-100";
+      return "bg-white text-gray-400 border border-gray-400 cursor-not-allowed";
   }
 };
 
 export const getSizeClasses = (size: string) => {
   switch (size) {
     case "small":
-      return "h-10 px-4 text-sm w-[120px]";
+      return "h-10 px-4 text-sm w-full";
     case "large":
-      return "h-11 px-6 text-base w-[332px]";
+      return "h-12 px-6 text-base w-full";
   }
 };
