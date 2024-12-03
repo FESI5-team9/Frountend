@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getFilledStyle, getOutlinedStyle, getSizeClasses } from "./buttonStyles";
 
 const LinkButton = ({
-  color,
+  bgColor,
   size = "large",
   isFilled = true,
   disabled = false,
@@ -14,7 +14,7 @@ const LinkButton = ({
     <Link href={href}>
       <button
         disabled={disabled}
-        className={`rounded-xl font-semibold ${color && (isFilled ? getFilledStyle(color, disabled) : getOutlinedStyle(color, disabled))} ${getSizeClasses(size)} ${className} `}
+        className={`rounded-xl font-semibold ${bgColor && (isFilled ? getFilledStyle(bgColor, disabled) : getOutlinedStyle(bgColor, disabled))} ${getSizeClasses(size)} ${className} `}
       >
         {children}
       </button>

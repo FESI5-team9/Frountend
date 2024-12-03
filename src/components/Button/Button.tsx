@@ -2,7 +2,7 @@ import { getFilledStyle, getOutlinedStyle, getSizeClasses } from "./buttonStyles
 
 const Button = ({
   type = "button",
-  color,
+  bgColor,
   size = "large",
   isFilled = true,
   onClick,
@@ -15,7 +15,7 @@ const Button = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`rounded-xl font-semibold ${color && (isFilled ? getFilledStyle(color, disabled) : getOutlinedStyle(color, disabled))} ${getSizeClasses(size)} ${className} `}
+      className={`rounded-xl font-semibold ${bgColor && (isFilled ? getFilledStyle(bgColor, disabled) : getOutlinedStyle(bgColor, disabled))} ${getSizeClasses(size)} ${className} `}
     >
       {children}
     </button>
