@@ -56,7 +56,7 @@ function Login() {
           placeholder="비밀번호를 입력해주세요"
           error={errors.password}
         />
-        <Button type={isValid && "submit"} bgColor={isValid ? "yellow" : "disabled"}>
+        <Button type={isValid ? "submit" : "button"} bgColor={isValid ? "yellow" : "disabled"}>
           로그인하기
         </Button>
 
