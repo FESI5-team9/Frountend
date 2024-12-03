@@ -30,8 +30,8 @@ export const getOutlinedStyle = (color: string, disabled?: boolean) => {
 export const getSizeClasses = (size: string) => {
   switch (size) {
     case "small":
-      return "h-10 px-4 text-sm w-full";
+      return "h-10 px-4 text-sm w-[120px]";
     case "large":
-      return "h-12 px-6 text-base w-full";
+      return "h-11 px-6 text-base w-[332px]";
   }
 };
