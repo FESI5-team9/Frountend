@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { APIError } from "@/apis/HttpClient/error";
 import { signup } from "@/apis/authApi";
 import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
@@ -28,7 +29,7 @@ const loginSchema = baseSchema
   });
 
 function Signup() {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -39,12 +40,42 @@ function Signup() {
   });
   const router = useRouter();
 
+  const PopupContent = ({ message }: { message: string }) => (
+    <div className="flex h-[156px] w-[252px] flex-col items-center justify-between tablet:h-[162px] tablet:w-[402px]">
+      <Image
+        src="/icons/X.svg"
+        width={24}
+        height={24}
+        className="self-end"
+        onClick={() => setIsPopupOpen(null)}
+        alt="닫기"
+      />
+      <p className="bold mt-2 text-center text-gray-700">{message}</p>
+      <div className="w-[120px] tablet:self-end">
+        <Button onClick={() => setIsPopupOpen(null)} size="small" bgColor="yellow">
+          확인
+        </Button>
+      </div>
+    </div>
+  );
+
   const onSubmit = async (data: LoginFormData) => {
     try {
       await signup(data);
       router.push("/");
     } catch (error) {
-      setIsPopupOpen(true);
+      if (error instanceof APIError) {
+        const errorInfo = JSON.parse(error.message);
+        const errorMessage = errorInfo.message.message;
+
+        if (errorMessage === "중복된 이메일입니다") {
+          setIsPopupOpen("email-exists");
+        } else if (errorMessage === "중복된 닉네임입니다") {
+          setIsPopupOpen("nickname-exists");
+        } else {
+          setIsPopupOpen("signup-failed");
+        }
+      }
     }
   };
   return (
@@ -130,23 +161,28 @@ function Signup() {
           />
         </Link>
       </div>
-      <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
-        <div className="flex h-[140px] flex-col justify-between">
-          <Image
-            src="/icons/X.svg"
-            width={24}
-            height={24}
-            className="self-end"
-            onClick={() => setIsPopupOpen(false)}
-            alt="닫기"
-          />
-          <p className="bold mt-2 text-center text-gray-700">회원가입에 실패했습니다.</p>
-          <div className="w-[120px] self-end">
-            <Button onClick={() => setIsPopupOpen(false)} size="small" bgColor="yellow">
-              확인
-            </Button>
-          </div>
-        </div>
+      <Popup
+        id="email-exists"
+        isOpen={isPopupOpen === "email-exists"}
+        onClose={() => setIsPopupOpen(null)}
+      >
+        <PopupContent message="이메일이 존재합니다." />
+      </Popup>
+
+      <Popup
+        id="nickname-exists"
+        isOpen={isPopupOpen === "nickname-exists"}
+        onClose={() => setIsPopupOpen(null)}
+      >
+        <PopupContent message="닉네임이 이미 존재합니다." />
+      </Popup>
+
+      <Popup
+        id="signup-failed"
+        isOpen={isPopupOpen === "signup-failed"}
+        onClose={() => setIsPopupOpen(null)}
+      >
+        <PopupContent message="회원가입에 실패했습니다." />
       </Popup>
     </div>
   );
