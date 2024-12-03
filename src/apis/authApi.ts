@@ -23,6 +23,13 @@ export async function getUserProfile() {
 
 // 유저 정보 수정
 export async function updateUserProfile(body: PutUsers) {
-  const data = await fetchInstance.put<User>("/auth/user", body);
+  const formData = new FormData();
+  if (body.nickname) {
+    formData.append("nickname", body.nickname);
+  }
+  if (body.image) {
+    formData.append("image", body.image);
+  }
+  const data = await fetchInstance.put<User>("/auth/user", formData);
   return data;
 }
