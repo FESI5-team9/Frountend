@@ -97,7 +97,7 @@ function Login() {
         </Link>
       </div>
       <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
-        <div className="flex h-[140px] flex-col justify-between">
+        <div className="flex h-[156px] w-[252px] flex-col items-center justify-between tablet:h-[162px] tablet:w-[402px]">
           <Image
             src="/icons/X.svg"
             width={24}
@@ -107,7 +107,7 @@ function Login() {
             alt="닫기"
           />
           <p className="bold mt-2 text-center text-gray-700">아이디 혹은 비밀번호를 확인해주세요</p>
-          <div className="w-[120px] self-end">
+          <div className="w-[120px] tablet:self-end">
             <Button onClick={() => setIsPopupOpen(false)} size="small" bgColor="yellow">
               확인
             </Button>
