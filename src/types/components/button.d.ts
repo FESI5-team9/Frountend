@@ -1,25 +1,14 @@
-export const variantOptions = {
-  primary: "primary",
-  secondary: "secondary",
-  tertiary: "tertiary",
-  whitePrimary: "whitePrimary",
-  whiteSecondary: "whiteSecondary",
-  whiteTertiary: "whiteTertiary",
-  disabled: "disabled",
-} as const;
-
-export type Variant = keyof typeof variantOptions;
-
-export type ButtonProps = {
+interface ButtonProps {
   type?: "button" | "submit" | "reset";
-  variant?: Variant;
+  color?: "yellow" | "orange" | "red" | "disabled";
   size?: "small" | "large";
+  isFilled?: boolean;
   onClick?: () => void;
   disabled?: boolean;
-  children?: string;
+  children?: React.ReactNode;
   className?: string;
-};
+}
 
-export type FavoriteButtonProps = {
+type FavoriteButtonProps = {
   gatheringId: number;
 };

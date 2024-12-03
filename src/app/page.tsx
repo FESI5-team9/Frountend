@@ -1,7 +1,9 @@
+import Gathering from "./(home)/page";
+
 export default function Home() {
   return (
-    <>
-      <div>모임조회</div>
-    </>
+    <main className="flex flex-col items-center justify-center bg-gray-background">
+      <Gathering />
+    </main>
   );
 }
