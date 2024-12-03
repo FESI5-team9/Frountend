@@ -12,6 +12,7 @@ export function FilterDropDown({ filterType, options, handleFilter }: DropDownPr
     (textContent: string) => {
       setSelectedOption(textContent);
       handleFilter(textContent);
+      setIsOpen(false);
     },
     [handleFilter],
   );
