@@ -8,10 +8,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { signin } from "@/apis/authApi";
+import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
 import Popup from "@/components/Popup";
 import baseSchema from "@/utils/schema";
-import Button from "../../../components/Button/Button";
 
 type LoginFormData = z.infer<typeof baseSchema>;
 const loginSchema = baseSchema.pick({ email: true, password: true });
@@ -56,13 +56,9 @@ function Login() {
           placeholder="비밀번호를 입력해주세요"
           error={errors.password}
         />
-        {isValid ? (
-          <Button bgColor="yellow">로그인하기</Button>
-        ) : (
-          <Button bgColor="disabled" size="small">
-            로그인하기
-          </Button>
-        )}
+        <Button type={isValid && "submit"} bgColor={isValid ? "yellow" : "disabled"}>
+          로그인하기
+        </Button>
 
         <div className="-mt-1 text-center">
           회원이 아니신가요?{" "}
