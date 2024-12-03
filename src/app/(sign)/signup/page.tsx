@@ -1,11 +1,16 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { signup } from "@/apis/authApi";
+import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
+import Popup from "@/components/Popup";
 import baseSchema from "@/utils/schema";
 
 type LoginFormData = z.infer<typeof baseSchema>;
@@ -22,7 +27,8 @@ const loginSchema = baseSchema
     path: ["confirmPassword"],
   });
 
-function Login() {
+function Signup() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -31,10 +37,15 @@ function Login() {
     resolver: zodResolver(loginSchema),
     mode: "all",
   });
+  const router = useRouter();
 
   const onSubmit = async (data: LoginFormData) => {
-    // 나중에 회원가입 함수 넣으면 됨
-    alert(data);
+    try {
+      await signup(data);
+      router.push("/");
+    } catch (error) {
+      setIsPopupOpen(true);
+    }
   };
   return (
     <div className="flex w-full flex-col items-center justify-center gap-8 rounded-3xl bg-white px-4 py-8 tablet:px-[54px] desktop:w-[510px] desktop:px-[54px]">
@@ -80,13 +91,9 @@ function Login() {
           placeholder="비밀번호를 다시 한 번 입력해주세요"
           error={errors.confirmPassword}
         />
-        <button
-          className={`mt-4 h-10 w-full rounded-md ${
-            isValid ? "bg-blue-600" : "bg-gray-600"
-          } tablet:h-11`}
-        >
+        <Button type={isValid ? "submit" : "button"} bgColor={isValid ? "yellow" : "disabled"}>
           회원가입하기
-        </button>
+        </Button>
         <div className="-mt-1 text-center">
           이미 회원이신가요?{" "}
           <Link href="/signin" scroll>
@@ -123,8 +130,26 @@ function Login() {
           />
         </Link>
       </div>
+      <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
+        <div className="flex h-[140px] flex-col justify-between">
+          <Image
+            src="/icons/X.svg"
+            width={24}
+            height={24}
+            className="self-end"
+            onClick={() => setIsPopupOpen(false)}
+            alt="닫기"
+          />
+          <p className="bold mt-2 text-center text-gray-700">회원가입에 실패했습니다.</p>
+          <div className="w-[120px] self-end">
+            <Button onClick={() => setIsPopupOpen(false)} size="small" bgColor="yellow">
+              확인
+            </Button>
+          </div>
+        </div>
+      </Popup>
     </div>
   );
 }
 
-export default Login;
+export default Signup;
