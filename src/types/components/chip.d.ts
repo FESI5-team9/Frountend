@@ -7,5 +7,6 @@ export interface ChipProps {
   shadow?: boolean; // 그림자 여부
   fontSize?: string;
   fontWeight?: string; // 기본 폰트 굵기
+  className?: string;
   children: React.ReactNode; // 칩 내용
 }

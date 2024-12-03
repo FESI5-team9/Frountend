@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  safelist: ["bg-yellow-primary", "bg-orange-primary", "bg-red-primary"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -14,8 +15,11 @@ const config: Config = {
     extend: {
       colors: {
         "yellow-primary": "#FFE55D",
-        "gray-background-bright": "##F3F4F6",
+        "orange-primary": "#FF9E48",
+        "red-primary": "#FF573B",
+        "gray-backgroundBright": "##F3F4F6",
         "gray-background": "#F9FAFB",
+        "gray-disable": "#9CA3AF",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

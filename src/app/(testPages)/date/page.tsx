@@ -1,4 +1,5 @@
-import Chip from "@/components/chip";
+import Button from "@/components/Button/Button";
+import Chip from "@/components/Chips";
 import { formatToKoreanTime } from "@/utils/date";
 
 export default function page() {
@@ -31,6 +32,9 @@ export default function page() {
         <Chip type="time" fontSize="text-lg" fontWeight="font-bold">
           칠칠드런드런
         </Chip>
+        <Button color="yellow" className="cursor-pointer">
+          버튼
+        </Button>
       </div>
     </div>
   );
