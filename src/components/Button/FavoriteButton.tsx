@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { FavoriteButtonProps } from "@/types/components/button";
 
 export default function FavoriteButton({ gatheringId }: FavoriteButtonProps) {
   const [favorites, setFavorites] = useState<number[]>([]);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const favoritesinLocalStorage = localStorage.getItem("favorites");
     const parsedfavorites = favoritesinLocalStorage ? JSON.parse(favoritesinLocalStorage) : [];
     setFavorites(parsedfavorites);
     setIsFavorite(parsedfavorites.includes(gatheringId));
-    setIsLoading(false);
   }, [gatheringId]);
 
   const setFavoriteButton = () => {
@@ -24,10 +21,6 @@ export default function FavoriteButton({ gatheringId }: FavoriteButtonProps) {
     setFavorites(updatedFavorites);
     setIsFavorite(prev => !prev);
   };
-
-  if (isLoading) {
-    return null;
-  }
 
   return (
     <button onClick={setFavoriteButton}>

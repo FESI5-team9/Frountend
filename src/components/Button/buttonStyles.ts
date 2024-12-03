@@ -1,6 +1,6 @@
-export const getFilledStyle = (color: string, disabled?: boolean) => {
+export const getFilledStyle = (bgColor: string, disabled?: boolean) => {
   if (disabled) return "bg-gray-400 text-white cursor-not-allowed";
-  switch (color) {
+  switch (bgColor) {
     case "yellow":
       return "bg-yellow-primary text-gray-800";
     case "orange":
@@ -12,9 +12,9 @@ export const getFilledStyle = (color: string, disabled?: boolean) => {
   }
 };
 
-export const getOutlinedStyle = (color: string, disabled?: boolean) => {
+export const getOutlinedStyle = (bgColor: string, disabled?: boolean) => {
   if (disabled) return "bg-white text-gray-400 border border-gray-400 cursor-not-allowed";
-  switch (color) {
+  switch (bgColor) {
     case "yellow":
       return "bg-white text-yellow-primary border border-yellow-primary";
     case "orange":

@@ -1,20 +1,39 @@
 "use client";
 
+// import { useEffect } from "react";
 // import { useParams } from "next/navigation";
 import Button from "@/components/Button/Button";
-import FavoriteButton from "@/components/Button/FavoriteButton";
+import DetailCard from "../_components/DetailCard";
 
 const MOCK_DETAIL = {
   id: 123,
   type: "restaurant",
   name: "하이디라오 건대점",
-  dateTime: "2024-12-02T04:16:28.268Z",
+  dateTime: "2024-12-03T04:16:28.268",
+  registrationEnd: "2024-12-02T11:59:59",
+  createdBy: "2024-12-03T04:16:28.268",
+  canceledAt: "2024-12-03T04:16:28.268",
   location: "서울",
   address1: "서울 광진구",
-  address2: "서울 광진구 능동로 110",
+  address2: "서울 광진구 능동로 110서울 광진구 능동로 110",
   description: "모임 설명이에요",
   image: "/images/image.png",
   favorite: false,
+  keyword: ["처유마라훠궈(오리지널)", "처유마라훠궈(오리지널)", "처유마라훠궈(오리지널)"],
+  participantCount: 16,
+  capacity: 20,
+  user: {
+    id: 0,
+    nickname: "닉네임이요",
+    image: "/images/image.png",
+  },
+  participants: [
+    { userId: 1234324, nickname: "haha", image: "/images/image.png" },
+    { userId: 1234324, nickname: "hasha", image: "/images/image.png" },
+    { userId: 1234324, nickname: "hahasda", image: "/images/image.png" },
+    { userId: 1234324, nickname: "hahgfa", image: "/images/image.png" },
+    { userId: 1234324, nickname: "hahsa", image: "/images/image.png" },
+  ],
 };
 
 const MOCK_REVIEWS = [
@@ -63,8 +82,12 @@ const MOCK_REVIEWS = [
 function GroupDetailPage() {
   // const { id } = useParams();
 
+  // useEffect(() => {
+  //   console.log(id);
+  // }, [id]);
+
   const submitJoin = () => {
-    // console.log("button clicked", id);
+    // console.log("button clicked", id)
   };
 
   return (
@@ -75,17 +98,11 @@ function GroupDetailPage() {
         >
           <div
             style={{ backgroundImage: `url(${MOCK_DETAIL.image})` }}
-            className="h-[180px] rounded-3xl bg-yellow-primary bg-cover bg-center bg-no-repeat tablet:h-[240px] desktop:h-[270px]"
+            className="min-h-[180px] rounded-3xl bg-yellow-primary bg-cover bg-center bg-no-repeat tablet:min-h-[270px]"
           ></div>
-          <div className="h-[240px] rounded-3xl border-2 border-[#e5e7eb] bg-white p-6 desktop:h-[270px]">
-            <div className="flex w-full justify-between">
-              <div>
-                <p className="mb-[2px] text-base font-semibold">{MOCK_DETAIL.name}</p>
-                <p className="text-sm text-[#3C3C3C]">{MOCK_DETAIL.address2}</p>
-              </div>
-              <FavoriteButton gatheringId={MOCK_DETAIL.id} />
-            </div>
-          </div>
+
+          <DetailCard gathering={MOCK_DETAIL} />
+
           <div className="border-t-2 border-[#e5e7eb] bg-white p-6 tablet:col-span-2">
             <div className="h-[500px]">
               <h3 className="mb-5 text-lg font-semibold">이용자 리뷰</h3>
@@ -118,7 +135,7 @@ function GroupDetailPage() {
               <p className="text-xs">메이트들이 선택한 맛집에서 즐거운 한끼 어떠세요?</p>
             </div>
             <div className="w-[115px]">
-              <Button className="bg-yellow-primary !text-[#262626]" onClick={submitJoin}>
+              <Button className="bg-yellow-primary text-[#262626]" onClick={submitJoin}>
                 참여하기
               </Button>
             </div>

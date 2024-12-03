@@ -1,6 +1,6 @@
 import Image from "next/image";
+import Chip from "@/components/Chips";
 import Progressbar from "@/components/Progressbar";
-import Chip from "@/components/chip";
 
 export default function Card() {
   return (
