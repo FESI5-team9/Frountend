@@ -1,3 +1,7 @@
 export default function myGathering() {
-  return <div>나의 모임</div>;
+  return (
+    <div className="flex h-[352px] w-full flex-col">
+      <div className="h-[156px] rounded-3xl">내용</div>
+    </div>
+  );
 }
