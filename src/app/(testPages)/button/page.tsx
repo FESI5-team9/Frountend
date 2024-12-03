@@ -3,26 +3,26 @@ import Button from "@/components/Button/Button";
 export default function ButtonTest() {
   return (
     <div className="flex w-full flex-col gap-2 pt-2">
-      <Button color="yellow">노란 버튼</Button>
-      <Button color="orange">주황 버튼</Button>
+      <Button bgColor="yellow">노란 버튼</Button>
+      <Button bgColor="orange">주황 버튼</Button>
       <div className="flex w-24 flex-col gap-2">
-        <Button color="red" size="small">
+        <Button bgColor="red" size="small">
           빨간 버튼
         </Button>
-        <Button color="disabled" size="small">
+        <Button bgColor="disabled" size="small">
           disabled button
         </Button>
-        <Button color="yellow" size="small" isFilled={false}>
+        <Button bgColor="yellow" size="small" isFilled={false}>
           노란 버튼
         </Button>
-        <Button color="orange" size="small" isFilled={false}>
+        <Button bgColor="orange" size="small" isFilled={false}>
           주황 버튼
         </Button>
       </div>
-      <Button color="red" isFilled={false}>
+      <Button bgColor="red" isFilled={false}>
         빨간 버튼
       </Button>
-      <Button color="disabled" isFilled={false}>
+      <Button bgColor="disabled" isFilled={false}>
         disabled button
       </Button>
 
