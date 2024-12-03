@@ -1,4 +1,5 @@
 import { setAuthCookies } from "@/app/actions/auth";
+import useUserStore from "@/store/userStore";
 import { Login, LoginRes, PostUsers, PutUsers, User } from "@/types/api/authApi";
 import fetchInstance from "./fetchInstance";
 
@@ -8,16 +9,29 @@ export async function signup(body: PostUsers) {
   return data;
 }
 
-// 로그인
-export async function signin(body: Login) {
-  const data = await fetchInstance.post<LoginRes>("/auth/signin", body);
-  await setAuthCookies(data.accessToken, data.refreshToken);
-  return data;
-}
-
 // 유저 정보 조회
 export async function getUserProfile() {
   const data = await fetchInstance.get<User>("/auth/user");
+  return data;
+}
+
+// 로그인
+export async function signin(body: Login) {
+  const data = await fetchInstance.post<LoginRes>("/auth/signin", body);
+
+  await setAuthCookies(data.accessToken, data.refreshToken);
+
+  const { id, email, nickname, name, image } = await getUserProfile();
+
+  const userStore = useUserStore.getState();
+  userStore.setUser({
+    id,
+    email,
+    nickname,
+    name,
+    image,
+  });
+
   return data;
 }
 
@@ -31,5 +45,14 @@ export async function updateUserProfile(body: PutUsers) {
     formData.append("image", body.image);
   }
   const data = await fetchInstance.put<User>("/auth/user", formData);
+
+  const userStore = useUserStore.getState();
+  userStore.setUser({
+    id: data.id,
+    email: data.email,
+    nickname: data.nickname,
+    name: data.name,
+    image: data.image,
+  });
   return data;
 }
