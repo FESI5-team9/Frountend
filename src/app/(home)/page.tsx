@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { FilterDropDown } from "@/components/filter/FilterDropDown";
+import { FilterDropDown } from "@/components/Filter/FilterDropDown";
 import { LOCATION_OPTIONS, SORT_OPTIONS } from "@/constants/filter";
 import Card from "./components/Card";
 
