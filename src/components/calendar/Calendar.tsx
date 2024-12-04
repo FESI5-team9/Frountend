@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import { DAYS_OF_WEEK, MONTH_OF_YEAR } from "@/constants/calendar";
 import useDateStore from "@/store/dateStore";
@@ -12,9 +12,9 @@ function DateCell({
   currentDate,
   firstDate,
   secondDate,
-  handleSelectedDate,
-  handlePrevMonth,
-  handleNextMonth,
+  onSelectDate,
+  onNavigateToPrevMonth,
+  onNavigateToNextMonth,
 }: DateCellProps) {
   const isToday =
     type === "current" &&
@@ -37,9 +37,9 @@ function DateCell({
     secondDate.getDate() === date;
 
   const handleClick = {
-    current: handleSelectedDate,
-    prev: handlePrevMonth,
-    next: handleNextMonth,
+    current: onSelectDate,
+    prev: onNavigateToPrevMonth,
+    next: onNavigateToNextMonth,
   }[type];
 
   return (
@@ -57,7 +57,11 @@ function DateCell({
   );
 }
 
-export default function Calendar({ handleDateSelect, selectMode, multipleDates }: CalendarProps) {
+export default function Calendar({
+  onSelectDropdownDate,
+  selectMode,
+  multipleDates,
+}: CalendarProps) {
   const { firstDate, secondDate, setFirstDate, setSecondDate } = useDateStore();
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -108,33 +112,45 @@ export default function Calendar({ handleDateSelect, selectMode, multipleDates }
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
   };
 
-  const handleSelectedDate = (date: number) => {
-    const newDate = new Date(currentDate);
-    newDate.setDate(date);
+  const handleSelectedDate = useCallback(
+    (date: number) => {
+      const newDate = new Date(currentDate);
+      newDate.setDate(date);
 
-    if (multipleDates && !selectMode) {
-      if (firstDate) {
-        if (newDate > firstDate) {
-          setSecondDate(newDate);
-        } else if (newDate <= firstDate) {
-          setSecondDate(firstDate);
+      if (multipleDates && !selectMode) {
+        if (firstDate) {
+          if (newDate > firstDate) {
+            setSecondDate(newDate);
+          } else if (newDate <= firstDate) {
+            setSecondDate(firstDate);
+            setFirstDate(newDate);
+          }
+        } else {
           setFirstDate(newDate);
         }
-      } else {
+      }
+
+      if (selectMode && selectMode === "first") {
+        setFirstDate(newDate);
+      } else if (selectMode && selectMode === "second") {
+        setSecondDate(newDate);
+      }
+
+      if (onSelectDropdownDate) {
+        onSelectDropdownDate(newDate);
         setFirstDate(newDate);
       }
-    }
-
-    if (selectMode && selectMode === "first") {
-      setFirstDate(newDate);
-    } else if (selectMode && selectMode === "second") {
-      setSecondDate(newDate);
-    }
-
-    if (handleDateSelect) {
-      handleDateSelect(newDate);
-    }
-  };
+    },
+    [
+      currentDate,
+      firstDate,
+      multipleDates,
+      selectMode,
+      setFirstDate,
+      setSecondDate,
+      onSelectDropdownDate,
+    ],
+  );
 
   return (
     <div className="flex w-[280px] flex-col items-center justify-center rounded-[12px] bg-white py-3">
@@ -179,9 +195,9 @@ export default function Calendar({ handleDateSelect, selectMode, multipleDates }
                   currentDate={currentDate}
                   firstDate={firstDate}
                   secondDate={secondDate}
-                  handleSelectedDate={() => handleSelectedDate(date)}
-                  handlePrevMonth={handlePrevMonth}
-                  handleNextMonth={handleNextMonth}
+                  onSelectDate={() => handleSelectedDate(date)}
+                  onNavigateToPrevMonth={handlePrevMonth}
+                  onNavigateToNextMonth={handleNextMonth}
                 />
               ))}
             </tr>

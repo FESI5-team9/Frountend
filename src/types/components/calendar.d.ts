@@ -5,14 +5,14 @@ type DateCellProps = {
   firstDate: Date | null;
   secondDate: Date | null;
   today: Date;
-  handleSelectedDate: () => void;
-  handlePrevMonth: () => void;
-  handleNextMonth: () => void;
+  onSelectDate: () => void;
+  onNavigateToPrevMonth: () => void;
+  onNavigateToNextMonth: () => void;
 };
 
 type CalendarProps = {
   selectMode?: string;
-  handleDateSelect?: (date: Date) => void;
+  onSelectDropdownDate?: (date: Date) => void;
   multipleDates: boolean;
 };
 

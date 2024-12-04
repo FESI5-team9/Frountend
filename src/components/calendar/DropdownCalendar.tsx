@@ -38,7 +38,7 @@ export default function DropdownCalendar() {
       <div
         className={`absolute z-50 mt-3 flex w-[330px] flex-col items-center justify-center rounded-[12px] bg-white ${isOpen ? "block" : "hidden"}`}
       >
-        <Calendar multipleDates={false} handleDateSelect={handleDateSelect} />
+        <Calendar multipleDates={false} onSelectDropdownDate={handleDateSelect} />
         <div className="mb-3 flex w-[250px] justify-between">
           <button onClick={resetDate} className="h-10 w-[118px]">
             초기화
