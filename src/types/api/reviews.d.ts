@@ -1,8 +1,15 @@
 export type GetReviews = {
   gatheringId?: number;
   userId?: number;
-  type?: string;
-  location?: string;
+  type?: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
+  location?:
+  | "SEOUL"
+  | "GYEONGGI_DO"
+  | "GANGWON_DO"
+  | "CHUNGCHEONG_DO"
+  | "GYEONGSANG_DO"
+  | "JEOLLA_DO"
+  | "JEJU_ISLAND";
   date?: string;
   registrationEnd?: string;
   size?: number;
@@ -13,14 +20,21 @@ export type GetReviews = {
 
 export type ReviewsRes = ReviewRes[];
 
-export type ReviewRes = {
+export type ReviewResBase = {
   id: number;
   score: number;
   comment: string;
   createdAt: string;
+};
+
+export type ReviewRes = ReviewResBase & {
   gathering: Gathering;
   user: User;
 };
+
+export type Gathering = Partial<
+Pick<GetReviews, "id" | "type" | "name" | "dateTime" | "location" | "image">
+>;
 
 type User = {
   id: number;
@@ -36,25 +50,21 @@ export type AddReviews = {
 
 export type AddReviewsRes = AddReviewRes[];
 
-export type AddReviewRes = {
-  id: number;
+export type AddReviewRes = ReviewResBase & {
   userId: number;
   gatheringId: number;
-  score: number;
-  comment: string;
-  createdAt: string;
 };
 
 export type GetReviewsRating = {
   gatheringId?: number;
-  type?: string;
+  type?: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
 };
 
 export type GetReviewsRatingRes = ReviewRating[];
 
 export type ReviewRating = {
   gatheringId: number;
-  type: string;
+  type?: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
   averageScore: number;
   oneStar: number;
   twoStars: number;
