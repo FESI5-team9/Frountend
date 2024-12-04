@@ -48,7 +48,7 @@ export default function GatheringTestPage() {
     try {
       const gatheringData: CreateGathering = {
         type: "RESTAURANT",
-        location: "서울 강남구",
+        location: "제주특별자치도",
         name: "맛집 팀방",
         dateTime: "2024-12-02T07:06:02.489",
         capacity: 10,
