@@ -3,8 +3,11 @@
 import React, { useEffect, useRef } from "react";
 import { PopupProps } from "@/types/components/modalPopup";
 
-export default function Popup({ isOpen, onClose, children }: PopupProps) {
+const popupControls: { [key: string]: (isOpen: boolean) => void } = {};
+
+export default function Popup({ id, isOpen, onClose, children, className }: PopupProps) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const controlRef = useRef(() => onClose());
 
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
@@ -17,10 +20,14 @@ export default function Popup({ isOpen, onClose, children }: PopupProps) {
       document.addEventListener("keydown", handleEsc);
     }
 
+    if (id) {
+      popupControls[id] = controlRef.current;
+    }
+
     return () => {
       document.removeEventListener("keydown", handleEsc);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, id]);
 
   const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -35,7 +42,7 @@ export default function Popup({ isOpen, onClose, children }: PopupProps) {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
       onClick={handleClickOutside}
     >
-      <div className="relative w-96 rounded-lg bg-white p-6 shadow-lg" ref={modalRef}>
+      <div className={`relative rounded-lg bg-white p-6 shadow-lg ${className} `} ref={modalRef}>
         {children}
       </div>
     </div>
