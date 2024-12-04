@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import Dropdown from "./Dropdown";
-import FilterButton from "./FilterButton";
+import Dropdown from "@/components/Filter/Dropdown";
+import FilterButton from "@/components/Filter/FilterButton";
 
 export function FilterDropDown({ filterType, options, handleFilter }: DropDownProps) {
   const [selectedOption, setSelectedOption] = useState(options[0]);
