@@ -3,7 +3,7 @@ export type User = {
   email: string;
   name: string;
   nickname?: string;
-  image?: string;
+  image?: string | File;
   createdAt: string;
   updatedAt: string;
 };
