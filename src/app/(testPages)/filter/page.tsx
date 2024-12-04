@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FilterDropDown } from "@/components/filter/FilterDropDown";
+import { FilterDropDown } from "@/components/Filter/FilterDropDown";
 import { LOCATION_OPTIONS, SORT_OPTIONS } from "@/constants/filter";
 
 export default function Page() {
