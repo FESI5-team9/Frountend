@@ -3,7 +3,7 @@ export type User = {
   email: string;
   name: string;
   nickname?: string;
-  image?: string | File;
+  image?: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -21,4 +21,6 @@ export type LoginRes = {
   refreshToken: string;
 };
 
-export type PutUsers = Partial<Pick<User, "nickname" | "image">>;
+export type PutUsers = Pick<User, "nickname"> & {
+  image?: File;
+};
