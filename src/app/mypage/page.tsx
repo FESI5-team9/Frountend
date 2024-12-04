@@ -51,7 +51,6 @@ export default function Mypage() {
         location={gathering.location}
         dateTime={gathering.dateTime}
         keywords={gathering.keywords || []}
-        image={gathering.image || "/images/img_login.png"}
       />
     ));
   };
