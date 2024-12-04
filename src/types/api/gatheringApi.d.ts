@@ -83,6 +83,10 @@ export type Gatherings = PaginationParams & {
   createdBy?: string;
 };
 
+export type GetSearchGatherings = PaginationParams & {
+  search: string;
+};
+
 export type GetMyJoinedGatherings = PaginationParams & {
   completed?: boolean;
   reviews?: boolean;
