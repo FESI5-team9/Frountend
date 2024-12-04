@@ -1,9 +1,9 @@
 "use client";
 
-// import { useEffect } from "react";
-// import { useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import Button from "@/components/Button/Button";
 import DetailCard from "../_components/DetailCard";
+import Reviews from "../_components/Reviews";
 
 const MOCK_DETAIL = {
   id: 123,
@@ -41,7 +41,7 @@ const MOCK_REVIEWS = [
     id: 1,
     score: 5,
     comment: "gkgkkg",
-    createdAt: "2024-11-29T08:43:22.102Z",
+    createdAt: "2024-11-29T08:43:22.102",
     user: {
       nickname: "hahha",
       image: "",
@@ -51,7 +51,7 @@ const MOCK_REVIEWS = [
     id: 3,
     score: 2,
     comment: "bbbbbbbbbbbbbbbbb",
-    createdAt: "2024-11-29T08:43:22.102Z",
+    createdAt: "2024-11-29T08:43:22.102",
     user: {
       nickname: "hahha",
       image: "",
@@ -61,7 +61,7 @@ const MOCK_REVIEWS = [
     id: 5,
     score: 5,
     comment: "assfdgsdfgfdgfd",
-    createdAt: "2024-11-29T08:43:22.102Z",
+    createdAt: "2024-11-29T08:43:22.102",
     user: {
       nickname: "hahha",
       image: "",
@@ -71,7 +71,7 @@ const MOCK_REVIEWS = [
     id: 7,
     score: 5,
     comment: "gkgkkg",
-    createdAt: "2024-11-29T08:43:22.102Z",
+    createdAt: "2024-11-29T08:43:22.102",
     user: {
       nickname: "hahha",
       image: "",
@@ -80,19 +80,18 @@ const MOCK_REVIEWS = [
 ];
 
 function GroupDetailPage() {
-  // const { id } = useParams();
+  const { id } = useParams();
+  const userId = "1";
 
-  // useEffect(() => {
-  //   console.log(id);
-  // }, [id]);
+  const submitJoin = () => {};
 
-  const submitJoin = () => {
-    // console.log("button clicked", id)
-  };
+  const cancelGathering = () => {};
+
+  const shareGathering = () => {};
 
   return (
     <div className="mx-auto h-[calc(100vh-60px)] max-w-[1200px]">
-      <div className="h-[calc(100vh-60px)] bg-[#F9FAFB]">
+      <div className="h-[calc(100vh-60px)]">
         <div
           className={`mx-4 grid grid-cols-1 gap-3 py-4 tablet:mx-8 tablet:grid-cols-2 tablet:gap-6 tablet:p-6 desktop:mx-[62px] desktop:px-[62px]`}
         >
@@ -102,43 +101,30 @@ function GroupDetailPage() {
           ></div>
 
           <DetailCard gathering={MOCK_DETAIL} />
-
-          <div className="border-t-2 border-[#e5e7eb] bg-white p-6 tablet:col-span-2">
-            <div className="h-[500px]">
-              <h3 className="mb-5 text-lg font-semibold">이용자 리뷰</h3>
-              <div className="flex flex-col gap-[10px]">
-                {MOCK_REVIEWS.map(review => (
-                  <div key={review.id} className="border-b-2 border-dashed border-[#F3F4F6] pb-4">
-                    <div className="flex h-[86px] flex-col justify-between">
-                      <div>{review.score}</div>
-                      <p className="text-sm">{review.comment}</p>
-                      <div className="flex gap-1 text-xs">
-                        <div className="flex gap-1">
-                          <span>img</span>
-                          <span>{review.user.nickname}</span>
-                        </div>
-                        <span className="">|</span>
-                        <span className="text-[#9CA3AF]">{review.createdAt}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="max-w-[476px]">1 2 3 4 5 ...</div>
-          </div>
+          <Reviews reviews={MOCK_REVIEWS} />
         </div>
-        <div className="fixed bottom-0 left-0 h-[96px] w-full border-t-2 bg-white tablet:h-[84px] desktop:h-[87px]">
-          <div className="mx-auto flex max-w-[744px] justify-between px-6 py-5 tablet:px-12">
+        <div className="fixed bottom-0 left-0 h-[134px] w-full border-t-2 bg-white tablet:h-[84px] desktop:h-[87px]">
+          <div className="mx-auto flex max-w-[744px] flex-wrap justify-between gap-[10px] px-4 py-5 tablet:px-6 tablet:py-5 desktop:px-12">
             <div>
               <p className="text-sm font-semibold">메이트들의 PICK!</p>
               <p className="text-xs">메이트들이 선택한 맛집에서 즐거운 한끼 어떠세요?</p>
             </div>
-            <div className="w-[115px]">
-              <Button className="bg-yellow-primary text-[#262626]" onClick={submitJoin}>
-                참여하기
-              </Button>
-            </div>
+            {id && id === userId ? (
+              <div className="flex w-full gap-2 tablet:w-[238px]">
+                <Button className="h-11 bg-[#E5E7EB] text-[#262626]" onClick={cancelGathering}>
+                  취소하기
+                </Button>
+                <Button className="h-11 bg-yellow-primary text-[#262626]" onClick={shareGathering}>
+                  공유하기
+                </Button>
+              </div>
+            ) : (
+              <div className="w-[115px]">
+                <Button className="h-11 bg-yellow-primary text-[#262626]" onClick={submitJoin}>
+                  참여하기
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>
