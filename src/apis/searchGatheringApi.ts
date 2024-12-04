@@ -1,5 +1,6 @@
 import { getRegionMapping } from "@/hooks/useRegion";
 import {
+  CreateGathering,
   GatheringRes,
   Gatherings,
   GatheringsRes,
