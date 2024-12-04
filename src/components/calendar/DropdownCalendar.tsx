@@ -1,13 +1,13 @@
 "use client";
 
-import { format } from "date-fns";
 import { useCallback, useState } from "react";
+import { format } from "date-fns";
+import Calendar from "@/components/Calendar/Calendar";
+import FilterButton from "@/components/Filter/FilterButton";
 import useDateStore from "@/store/dateStore";
-import FilterButton from "../filter/FilterButton";
-import Calendar from "./Calendar";
 
 export default function DropdownCalendar() {
-  const { selectedOption, setSelectedOption, setSelectedDate } = useDateStore();
+  const { selectedOption, setSelectedOption, setFirstDate } = useDateStore();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleFilterButtonClick = () => {
@@ -17,14 +17,15 @@ export default function DropdownCalendar() {
   const handleDateSelect = useCallback(
     (date: Date) => {
       setSelectedOption(format(date, "yy/MM/dd"));
+      setFirstDate(date);
     },
-    [setSelectedOption],
+    [setSelectedOption, setFirstDate],
   );
 
   const resetDate = useCallback(() => {
-    setSelectedDate(null);
+    setFirstDate(null);
     setSelectedOption("날짜 선택");
-  }, [setSelectedDate, setSelectedOption]);
+  }, [setFirstDate, setSelectedOption]);
 
   return (
     <div className="w-[330px]">
@@ -37,7 +38,7 @@ export default function DropdownCalendar() {
       <div
         className={`absolute z-50 mt-3 flex w-[330px] flex-col items-center justify-center rounded-[12px] bg-white ${isOpen ? "block" : "hidden"}`}
       >
-        <Calendar handleDateSelect={handleDateSelect} />
+        <Calendar multipleDates={false} handleDateSelect={handleDateSelect} />
         <div className="mb-3 flex w-[250px] justify-between">
           <button onClick={resetDate} className="h-10 w-[118px]">
             초기화

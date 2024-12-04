@@ -1,16 +1,17 @@
 "use client";
 
-import Image from "next/image";
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import { DAYS_OF_WEEK, MONTH_OF_YEAR } from "@/constants/calendar";
 import useDateStore from "@/store/dateStore";
 
 function DateCell({
   date,
   type,
-  currentDate,
-  selectedDate,
   today,
+  currentDate,
+  firstDate,
+  secondDate,
   handleSelectedDate,
   handlePrevMonth,
   handleNextMonth,
@@ -21,12 +22,19 @@ function DateCell({
     today.getMonth() === currentDate.getMonth() &&
     today.getDate() === date;
 
-  const isSelected =
+  const isFirstDate =
     type === "current" &&
-    selectedDate &&
-    selectedDate.getFullYear() === currentDate.getFullYear() &&
-    selectedDate.getMonth() === currentDate.getMonth() &&
-    selectedDate.getDate() === date;
+    firstDate &&
+    firstDate.getFullYear() === currentDate.getFullYear() &&
+    firstDate.getMonth() === currentDate.getMonth() &&
+    firstDate.getDate() === date;
+
+  const isSecondDate =
+    type === "current" &&
+    secondDate &&
+    secondDate.getFullYear() === currentDate.getFullYear() &&
+    secondDate.getMonth() === currentDate.getMonth() &&
+    secondDate.getDate() === date;
 
   const handleClick = {
     current: handleSelectedDate,
@@ -39,7 +47,9 @@ function DateCell({
       <span
         className={`flex h-full w-full select-none items-center justify-center rounded-[8px] ${
           type === "prev" || type === "next" ? "text-gray-500" : ""
-        }${isToday && !isSelected ? "text-yellow-primary" : ""} ${isSelected ? "bg-yellow-primary" : ""}`}
+        } ${isFirstDate ? "bg-yellow-primary text-white" : ""} ${
+          isSecondDate ? "bg-[#FF9E48] text-white" : ""
+        }${isToday && !isFirstDate ? "text-gray-300" : ""} `}
       >
         {date}
       </span>
@@ -47,8 +57,8 @@ function DateCell({
   );
 }
 
-export default function Calendar({ handleDateSelect }: CalendarProp) {
-  const { selectedDate, setSelectedDate } = useDateStore();
+export default function Calendar({ handleDateSelect, selectMode, multipleDates }: CalendarProps) {
+  const { firstDate, secondDate, setFirstDate, setSecondDate } = useDateStore();
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const year = currentDate.getFullYear();
@@ -102,8 +112,28 @@ export default function Calendar({ handleDateSelect }: CalendarProp) {
     const newDate = new Date(currentDate);
     newDate.setDate(date);
 
-    setSelectedDate(newDate);
-    if (handleDateSelect) handleDateSelect(newDate);
+    if (multipleDates && !selectMode) {
+      if (firstDate) {
+        if (newDate > firstDate) {
+          setSecondDate(newDate);
+        } else if (newDate <= firstDate) {
+          setSecondDate(firstDate);
+          setFirstDate(newDate);
+        }
+      } else {
+        setFirstDate(newDate);
+      }
+    }
+
+    if (selectMode && selectMode === "first") {
+      setFirstDate(newDate);
+    } else if (selectMode && selectMode === "second") {
+      setSecondDate(newDate);
+    }
+
+    if (handleDateSelect) {
+      handleDateSelect(newDate);
+    }
   };
 
   return (
@@ -147,7 +177,8 @@ export default function Calendar({ handleDateSelect }: CalendarProp) {
                   type={type}
                   today={today}
                   currentDate={currentDate}
-                  selectedDate={selectedDate}
+                  firstDate={firstDate}
+                  secondDate={secondDate}
                   handleSelectedDate={() => handleSelectedDate(date)}
                   handlePrevMonth={handlePrevMonth}
                   handleNextMonth={handleNextMonth}
