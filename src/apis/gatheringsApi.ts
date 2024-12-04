@@ -1,3 +1,4 @@
+import { getRegionMapping } from "@/hooks/useRegion";
 import {
   CreateGathering,
   GatheringRes,
@@ -8,6 +9,7 @@ import {
   GetMyJoinedGatherings,
   GetMyJoinedGatheringsRes,
 } from "@/types/api/gatheringApi";
+import { DistrictName } from "@/types/hooks/region";
 import fetchInstance from "./fetchInstance";
 
 // 모임 취소
@@ -28,7 +30,9 @@ export async function getGatherings(params: Gatherings) {
 export async function createGathering(body: CreateGathering) {
   const formData = new FormData();
   Object.entries(body).forEach(([key, value]) => {
-    if (Array.isArray(value)) {
+    if (key === "location") {
+      formData.append(key, getRegionMapping(value as DistrictName));
+    } else if (Array.isArray(value)) {
       value.forEach(item => formData.append(key, item));
     } else if (value !== undefined && value !== null) {
       formData.append(key, value.toString());
