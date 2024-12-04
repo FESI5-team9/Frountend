@@ -1,0 +1,26 @@
+export type RegionName =
+  | "SEOUL"
+  | "GYEONGGI_DO"
+  | "GANGWON_DO"
+  | "CHUNGCHEONG_DO"
+  | "GYEONGSANG_DO"
+  | "JEOLLA_DO"
+  | "JEJU_ISLAND";
+export type DistrictName =
+  | "서울"
+  | "경기"
+  | "인천"
+  | "강원"
+  | "충북"
+  | "충남"
+  | "대전"
+  | "세종"
+  | "경북"
+  | "경남"
+  | "대구"
+  | "부산"
+  | "울산"
+  | "전북"
+  | "전남"
+  | "광주"
+  | "제주특별자치도";
