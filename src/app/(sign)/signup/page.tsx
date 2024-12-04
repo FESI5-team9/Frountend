@@ -1,11 +1,17 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { APIError } from "@/apis/HttpClient/error";
+import { signup } from "@/apis/authApi";
+import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
+import Popup from "@/components/Popup";
 import baseSchema from "@/utils/schema";
 
 type LoginFormData = z.infer<typeof baseSchema>;
@@ -22,7 +28,8 @@ const loginSchema = baseSchema
     path: ["confirmPassword"],
   });
 
-function Login() {
+function Signup() {
+  const [isPopupOpen, setIsPopupOpen] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -31,10 +38,45 @@ function Login() {
     resolver: zodResolver(loginSchema),
     mode: "all",
   });
+  const router = useRouter();
+
+  const PopupContent = ({ message }: { message: string }) => (
+    <div className="flex h-[156px] w-[252px] flex-col items-center justify-between tablet:h-[162px] tablet:w-[402px]">
+      <Image
+        src="/icons/X.svg"
+        width={24}
+        height={24}
+        className="self-end"
+        onClick={() => setIsPopupOpen(null)}
+        alt="닫기"
+      />
+      <p className="bold mt-2 text-center text-gray-700">{message}</p>
+      <div className="w-[120px] tablet:self-end">
+        <Button onClick={() => setIsPopupOpen(null)} size="small" bgColor="yellow">
+          확인
+        </Button>
+      </div>
+    </div>
+  );
 
   const onSubmit = async (data: LoginFormData) => {
-    // 나중에 회원가입 함수 넣으면 됨
-    alert(data);
+    try {
+      await signup(data);
+      router.push("/");
+    } catch (error) {
+      if (error instanceof APIError) {
+        const errorInfo = JSON.parse(error.message);
+        const errorMessage = errorInfo.message.message;
+
+        if (errorMessage === "중복된 이메일입니다") {
+          setIsPopupOpen("email-exists");
+        } else if (errorMessage === "중복된 닉네임입니다") {
+          setIsPopupOpen("nickname-exists");
+        } else {
+          setIsPopupOpen("signup-failed");
+        }
+      }
+    }
   };
   return (
     <div className="flex w-full flex-col items-center justify-center gap-8 rounded-3xl bg-white px-4 py-8 tablet:px-[54px] desktop:w-[510px] desktop:px-[54px]">
@@ -80,13 +122,9 @@ function Login() {
           placeholder="비밀번호를 다시 한 번 입력해주세요"
           error={errors.confirmPassword}
         />
-        <button
-          className={`mt-4 h-10 w-full rounded-md ${
-            isValid ? "bg-blue-600" : "bg-gray-600"
-          } tablet:h-11`}
-        >
+        <Button type={isValid ? "submit" : "button"} bgColor={isValid ? "yellow" : "disabled"}>
           회원가입하기
-        </button>
+        </Button>
         <div className="-mt-1 text-center">
           이미 회원이신가요?{" "}
           <Link href="/signin" scroll>
@@ -123,8 +161,31 @@ function Login() {
           />
         </Link>
       </div>
+      <Popup
+        id="email-exists"
+        isOpen={isPopupOpen === "email-exists"}
+        onClose={() => setIsPopupOpen(null)}
+      >
+        <PopupContent message="이메일이 존재합니다." />
+      </Popup>
+
+      <Popup
+        id="nickname-exists"
+        isOpen={isPopupOpen === "nickname-exists"}
+        onClose={() => setIsPopupOpen(null)}
+      >
+        <PopupContent message="닉네임이 이미 존재합니다." />
+      </Popup>
+
+      <Popup
+        id="signup-failed"
+        isOpen={isPopupOpen === "signup-failed"}
+        onClose={() => setIsPopupOpen(null)}
+      >
+        <PopupContent message="회원가입에 실패했습니다." />
+      </Popup>
     </div>
   );
 }
 
-export default Login;
+export default Signup;
