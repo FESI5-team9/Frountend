@@ -2,8 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { getUserProfile } from "@/apis/authApi";
 import { getMyJoinedGatherings } from "@/apis/gatheringsApi";
 import MypageCard from "@/components/MypageCard";
+import { User } from "@/types/api/authApi";
 import { Direction } from "@/types/api/gatheringApi";
 import { GetMyJoinedGatheringsRes } from "@/types/api/gatheringApi";
 
@@ -12,6 +14,7 @@ export default function Mypage() {
   const [gatherings, setGatherings] = useState<GetMyJoinedGatheringsRes[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [userProfile, setUserProfile] = useState<User[]>([]);
 
   const fetchGatherings = async () => {
     setLoading(true);
@@ -34,9 +37,21 @@ export default function Mypage() {
     }
   };
 
+  const fetchUserProfile = async () => {
+    try {
+      const data = await getUserProfile();
+      setUserProfile(Array.isArray(data) ? data : [data]);
+    } catch (err) {
+      console.log(err);
+    } finally {
+    }
+  };
+
   useEffect(() => {
     if (activeTab === "gathering" || activeTab === "createdGathering") {
       fetchGatherings();
+    } else if (activeTab === "reviews") {
+      fetchUserProfile();
     }
   }, [activeTab]);
 
@@ -46,11 +61,26 @@ export default function Mypage() {
 
     switch (activeTab) {
       case "reviews":
-        return <p>작성한 리뷰가 없습니다.</p>; // 리뷰 데이터 렌더링
+        if (userProfile.length === 0) {
+          return <p>아직 작성 가능한 리뷰가 없어요.</p>; // 리뷰 데이터 렌더링
+        }
       case "gathering":
-      case "createdGathering":
         if (gatherings.length === 0) {
           return <p>신청한 모임이 아직 없어요.</p>;
+        }
+        return gatherings.map((gathering: GetMyJoinedGatheringsRes) => (
+          <MypageCard
+            key={gathering.id}
+            name={gathering.name}
+            location={gathering.location}
+            dateTime={gathering.dateTime}
+            keywords={gathering.keywords || []}
+            image={gathering.image}
+          />
+        ));
+      case "createdGathering":
+        if (gatherings.length === 0) {
+          return <p>아직 만든 모임이 없어요.</p>;
         }
         return gatherings.map((gathering: GetMyJoinedGatheringsRes) => (
           <MypageCard
@@ -66,51 +96,6 @@ export default function Mypage() {
         return <p>유효하지 않은 탭입니다.</p>;
     }
   };
-
-  // useEffect(() => {
-  //   async function fetchGatherings() {
-  //     setLoading(true);
-  //     try {
-  //       const params = {
-  //         completed: false,
-  //         size: 10,
-  //         page: 0,
-  //         sort: "dateTime",
-  //         direction: "desc" as Direction,
-  //       };
-  //       const data = await getMyJoinedGatherings(params);
-  //       console.log(data); // 응답 데이터 확인
-  //       const gatheringsData: GetMyJoinedGatheringsRes[] = Array.isArray(data) ? data : [data];
-  //       setGatherings(gatheringsData);
-  //     } catch (error) {
-  //       console.error("Failed to fetch gatherings:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-
-  //   fetchGatherings();
-  // }, [activeTab]);
-
-  // const renderContent = () => {
-  //   if (loading) {
-  //     return <p>로딩 중...</p>;
-  //   }
-
-  //   if (!gatherings.length) {
-  //     return <p>신청한 모임이 아직 없어요</p>;
-  //   }
-
-  //   return gatherings.map((gathering: GetMyJoinedGatheringsRes) => (
-  //     <MypageCard
-  //       key={gathering.id}
-  //       name={gathering.name}
-  //       location={gathering.location}
-  //       dateTime={gathering.dateTime}
-  //       keywords={gathering.keywords || []}
-  //     />
-  //   ));
-  // };
 
   return (
     <div className="flex w-full justify-center">
