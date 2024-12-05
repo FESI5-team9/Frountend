@@ -2,24 +2,24 @@
 
 import { useState } from "react";
 import Image from "next/image";
-// import { FilterDropDown } from "@/components/Filter/FilterDropDown";
-// import { LOCATION_OPTIONS, SORT_OPTIONS } from "@/constants/filter";
+import { FilterDropDown } from "@/components/Filter/FilterDropDown";
+import { LOCATION_OPTIONS, SORT_OPTIONS } from "@/constants/filter";
 import Card from "./components/Card";
 
 type TagType = "식당" | "카페" | "비건" | "펍바";
 
 function Gathering() {
-  // const [, setSortOption] = useState(SORT_OPTIONS[0]);
-  // const [, setLocationOption] = useState(LOCATION_OPTIONS[0]);
+  const [, setSortOption] = useState(SORT_OPTIONS[0]);
+  const [, setLocationOption] = useState(LOCATION_OPTIONS[0]);
   const [, setTagSelect] = useState<TagType>("식당");
 
-  // const handleSortFilter = (selectedOption: string) => {
-  //   setSortOption(selectedOption);
-  // };
+  const handleSortFilter = (selectedOption: string) => {
+    setSortOption(selectedOption);
+  };
 
-  // const handleLocationFilter = (selectedOption: string) => {
-  //   setLocationOption(selectedOption);
-  // };
+  const handleLocationFilter = (selectedOption: string) => {
+    setLocationOption(selectedOption);
+  };
   const handleTagHandler = (selectedOption: TagType) => {
     setTagSelect(selectedOption);
   };
@@ -90,7 +90,7 @@ function Gathering() {
           모임 만들기
         </button>
       </div>
-      {/* <div className="mt-2 flex flex-row justify-between tablet:mt-4">
+      <div className="mt-2 flex flex-row justify-between tablet:mt-4">
         <div className="flex flex-row tablet:gap-4">
           <FilterDropDown
             filterType="sortFilter"
@@ -108,7 +108,7 @@ function Gathering() {
           options={SORT_OPTIONS}
           handleFilter={handleSortFilter}
         />
-      </div> */}
+      </div>
       {/* 컴포넌트 박스 */}
       <div className="mt-5 flex flex-col gap-4">
         {/* 컴포넌트 */}

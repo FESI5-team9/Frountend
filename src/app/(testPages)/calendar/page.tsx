@@ -1,6 +1,6 @@
 "use client";
 
-// import Calendar from "@/components/Calendar/Calendar";
+import Calendar from "@/components/Calendar/Calendar";
 import useDateStore from "@/store/dateStore";
 
 export default function Page() {
@@ -8,7 +8,7 @@ export default function Page() {
 
   return (
     <div className="flex h-screen w-full flex-col items-center bg-slate-400 pt-20">
-      {/* <Calendar multipleDates={true} /> */}
+      <Calendar multipleDates={true} />
 
       <div className="">
         <p className="mt-20">선택된 날짜: {firstDate ? firstDate.toLocaleDateString() : "없음"}</p>
