@@ -79,7 +79,7 @@ function Signup() {
     }
   };
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-8 rounded-3xl bg-white px-4 py-8 tablet:px-[54px] desktop:w-[510px] desktop:px-[54px]">
+    <div className="flex w-full flex-col items-center justify-center gap-8 rounded-3xl bg-gray-100 px-4 py-8 tablet:px-[54px] desktop:w-[510px] desktop:px-[54px]">
       <h1 className="text-xl">회원가입 </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-2 flex w-full flex-col gap-[28px]">
         <Input

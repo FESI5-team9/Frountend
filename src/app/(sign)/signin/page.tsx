@@ -37,7 +37,7 @@ function Login() {
     }
   };
   return (
-    <div className="flex h-[540px] w-full flex-col items-center justify-center gap-8 rounded-3xl bg-white px-4 tablet:h-[556px] tablet:px-[54px] desktop:h-[612px] desktop:w-[510px] desktop:px-[54px]">
+    <div className="flex h-[540px] w-full flex-col items-center justify-center gap-8 rounded-3xl bg-gray-100 px-4 tablet:h-[556px] tablet:px-[54px] desktop:h-[612px] desktop:w-[510px] desktop:px-[54px]">
       <h1 className="text-xl">로그인 </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-2 flex w-full flex-col gap-[28px]">
         <Input
