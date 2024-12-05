@@ -7,13 +7,14 @@ type MypageCardProps = {
   location: string;
   dateTime: string;
   keywords: string[];
+  image: string;
 };
 
-export default function MypageCard({ name, location, dateTime, keywords }: MypageCardProps) {
+export default function MypageCard({ name, location, dateTime, keywords, image }: MypageCardProps) {
   return (
     <div className="flex h-[352px] w-full flex-col gap-4 tablet:flex-row">
       <div className="relative flex h-[156px] w-full items-center justify-center overflow-hidden rounded-3xl tablet:w-[280px]">
-        <Image src={"/images/img_login.png"} fill objectFit="cover" alt="모임 이미지" />
+        <Image src={image} fill objectFit="cover" alt="모임 이미지" />
       </div>
       <div className="flex flex-col">
         <div className="mb-3 flex gap-2">
