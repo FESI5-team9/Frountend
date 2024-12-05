@@ -45,7 +45,7 @@ export default function DetailCard({ gathering }: GatheringProp) {
   const time = formatToKoreanTime(gathering.dateTime, "HH:mm");
 
   return (
-    <div className="flex min-h-[240px] flex-col rounded-3xl border-2 border-[#e5e7eb] bg-white px-6 py-[14px] tablet:min-h-[270px] tablet:p-6">
+    <div className="flex flex-col rounded-3xl border-2 border-[#e5e7eb] bg-white px-6 py-[14px] tablet:p-6">
       <div className="flex flex-col justify-between border-b-2 border-dashed border-[#E5E7EB]">
         <div className="flex w-full items-start justify-between">
           <div className="flex max-w-[360px] flex-col gap-1">

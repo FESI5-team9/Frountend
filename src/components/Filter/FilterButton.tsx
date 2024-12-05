@@ -4,7 +4,7 @@ export default function FilterButton({ selectedOption, filterType, onClick }: Fi
   return (
     <div
       onClick={onClick}
-      className="relative flex h-[36px] w-[110px] select-none items-center justify-between rounded-[12px] border-[2px] border-[#F3F4F6] bg-white px-[12px] py-[6px] text-[14px] tablet:h-[40px] tablet:w-[120px] tablet:py-[8px]"
+      className="relative flex h-[36px] w-[120px] select-none items-center justify-between rounded-[12px] border-[2px] border-[#F3F4F6] bg-white px-[12px] py-[6px] text-sm tablet:h-[40px] tablet:w-[124px] tablet:py-[8px]"
     >
       {filterType === "sortFilter" && (
         <div className="flex h-6 w-6 items-center">

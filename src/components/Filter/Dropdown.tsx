@@ -5,7 +5,7 @@ export default function Dropdown({ options, isOpen, handleOptionSelect }: Dropdo
     >
       {options.map((option, index) => (
         <li
-          className="h-[36px] w-full select-none rounded-xl px-[12px] py-[6px] hover:bg-[#FFFACD] tablet:h-[40px] tablet:py-[8px]"
+          className="h-[36px] w-full select-none rounded-xl px-[12px] py-[6px] text-sm hover:bg-[#FFFACD] tablet:h-[40px] tablet:py-[8px]"
           onClick={e => handleOptionSelect(e.currentTarget.textContent as string)}
           key={index}
         >
