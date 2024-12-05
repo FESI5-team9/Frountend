@@ -121,7 +121,7 @@ export default function DetailCard({ gathering }: GatheringProp) {
                     width: "12px",
                     height: "12px",
                   }}
-                  src="/images/checked.svg"
+                  src="/images/detailPage/checked.svg"
                   width={12}
                   height={12}
                   alt="개설 확정"

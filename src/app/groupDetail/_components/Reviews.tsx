@@ -30,12 +30,24 @@ export default function Reviews({ reviews }: ReviewProp) {
                 <div className="flex">
                   {Array.from({ length: review.score }).map((_, index) => (
                     <div key={index} className="flex h-6 w-6 items-center justify-center">
-                      <Image width={20} height={18} alt="평점" src="/images/filled_heart.svg" />
+                      <Image
+                        width={24}
+                        height={22}
+                        alt="평점"
+                        src="/images/heart/filled_heart.svg"
+                        style={{ width: "24px", height: "22px" }}
+                      />
                     </div>
                   ))}
                   {Array.from({ length: 5 - review.score }).map((_, index) => (
                     <div key={index} className="flex h-6 w-6 items-center justify-center">
-                      <Image width={20} height={18} alt="평점" src="/images/grey_heart.svg" />
+                      <Image
+                        width={24}
+                        height={22}
+                        alt="평점"
+                        src="/images/heart/grey_heart.svg"
+                        style={{ width: "24px", height: "22px" }}
+                      />
                     </div>
                   ))}
                 </div>
@@ -43,7 +55,7 @@ export default function Reviews({ reviews }: ReviewProp) {
                 <div className="flex items-center gap-1 text-xs font-medium">
                   <div className="flex items-center gap-1">
                     <div className="h-6 w-6 rounded-full bg-gray-400"></div>
-                    <span>{review.user.nickname}</span>
+                    <span className="text-[#3d3d3d]">{review.user.nickname}</span>
                   </div>
                   <span className="text-[#3C3C3C]">|</span>
 
