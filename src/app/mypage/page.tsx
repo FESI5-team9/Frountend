@@ -19,6 +19,7 @@ export default function Mypage() {
     try {
       const params = {
         completed: false,
+        reviewed: false,
         size: 10,
         page: 0,
         sort: "dateTime",
@@ -58,6 +59,7 @@ export default function Mypage() {
             location={gathering.location}
             dateTime={gathering.dateTime}
             keywords={gathering.keywords || []}
+            image={gathering.image}
           />
         ));
       default:

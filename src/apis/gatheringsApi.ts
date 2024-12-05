@@ -61,7 +61,7 @@ export async function getGatheringParticipants(id: number, params: GetGatheringP
 // 로그인된 사용자가 참석한 모임 목록 조회
 export async function getMyJoinedGatherings(params: GetMyJoinedGatherings) {
   const data = await fetchInstance.get<GetMyJoinedGatheringsRes>(
-    `/gatherings/joined?${params.completed ? `completed=${params.completed}&` : ""}${params.reviews ? `reviews=${params.reviews}&` : ""}${params.size ? `size=${params.size}&` : ""}${params.page ? `page=${params.page}&` : ""}${params.sort ? `sort=${params.sort}&` : ""}${params.direction ? `direction=${params.direction}` : ""}`,
+    `/gatherings/joined?${params.completed ? `completed=${params.completed}&` : ""}${params.reviews ? `reviews=${params.reviews}&` : ""}${params.size ? `size=${params.size}&` : ""}${params.page ? `page=${params.page}&` : ""}${params.sort ? `sort=id.gathering.dateTime&` : ""}${params.direction ? `direction=${params.direction}` : ""}`,
   );
   return data;
 }
