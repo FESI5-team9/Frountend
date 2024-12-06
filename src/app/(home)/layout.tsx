@@ -1,4 +1,3 @@
-import "../../app/globals.css";
 import FilterSection from "./_components/FilterSection";
 import HeroSection from "./_components/HeroSection";
 import SelectedType from "./_components/SelectedType";
