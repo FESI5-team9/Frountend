@@ -10,8 +10,8 @@ export async function signup(body: PostUsers) {
 }
 
 // 유저 정보 조회
-export async function getUserProfile() {
-  const data = await fetchInstance.get<User>("/auth/user");
+export async function getUserProfile(options?: { next?: NextFetchRequestConfig }) {
+  const data = await fetchInstance.get<User>("/auth/user", options);
   return data;
 }
 

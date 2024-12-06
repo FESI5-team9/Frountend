@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useQueryBuilder } from "@/hooks/useUrlParams";
+import useQueryBuilder from "@/hooks/useUrlParams";
 import { FilterDropDown } from "@/components/Filter/FilterDropDown";
 import { DIRECTION_OPTIONS, LOCATION_OPTIONS, SORT_OPTIONS } from "@/constants/filter";
 

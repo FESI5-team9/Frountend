@@ -14,7 +14,7 @@ export async function deleteFavoriteGathering(id: string) {
 }
 
 // 찜한 모임 목록 조회
-export async function getFavoriteGatherings() {
-  const data = await fetchInstance.get<GatheringsRes>("/gatherings/favorite");
+export async function getFavoriteGatherings(options?: { next?: NextFetchRequestConfig }) {
+  const data = await fetchInstance.get<GatheringsRes>("/gatherings/favorite", options);
   return data;
 }

@@ -55,15 +55,12 @@ export type AddReviewRes = ReviewResBase & {
   gatheringId: number;
 };
 
-export type GetReviewsRating = {
-  gatheringId?: number;
-  type?: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
-};
+export type GetReviewsRating = Pick<ReviewRating, "gatheringId" | "type">;
 
 export type GetReviewsRatingRes = ReviewRating[];
 
 export type ReviewRating = {
-  gatheringId: number;
+  gatheringId?: number;
   type?: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
   averageScore: number;
   oneStar: number;
@@ -72,3 +69,10 @@ export type ReviewRating = {
   fourStars: number;
   fiveStars: number;
 };
+
+export type GetReviewStatsRes = Omit<ReviewRating, "gatheringId" | "type">;
+
+export type GetReviewsRatingGathering = Pick<
+GetReviews,
+"gatheringId" | "size" | "page" | "sort" | "direction"
+>;
