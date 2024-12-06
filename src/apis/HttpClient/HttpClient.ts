@@ -1,11 +1,28 @@
+// src/lib/HttpClient/HttpClient.ts
 import { APIResponse, Client, Config, Interceptor } from "@/types/api/httpClient";
 import { APIError } from "./error";
 import { retry } from "./retry";
 
-// client.ts
 export const createClient = (baseConfig: Config = {}): Client => {
   const requestInterceptors: Interceptor<Config>[] = [];
   const responseInterceptors: Interceptor<APIResponse>[] = [];
+
+  const getAccessToken = async () => {
+    if (typeof window === "undefined") {
+      try {
+        // 동적 임포트
+        const { cookies } = await import("next/headers");
+        return cookies().get("accessToken")?.value;
+      } catch {
+        return undefined;
+      }
+    } else {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; accessToken=`);
+      if (parts.length === 2) return parts.pop()?.split(";").shift();
+      return undefined;
+    }
+  };
 
   const createURL = (path: string, params?: Record<string, string>): string => {
     if (!path) throw new Error("URL path is required");
@@ -51,7 +68,6 @@ export const createClient = (baseConfig: Config = {}): Client => {
     };
 
     if (config.body != null) {
-      // BodyInit 타입이거나 plain object인 경우 처리
       init.body =
         config.body instanceof FormData ||
         config.body instanceof Blob ||
@@ -109,6 +125,15 @@ export const createClient = (baseConfig: Config = {}): Client => {
       return interceptor.onFulfilled?.(conf) ?? conf;
     }, Promise.resolve(config));
 
+    // 토큰을 가져와서 헤더에 추가
+    if (!finalConfig.url?.includes("/auth/refresh-token")) {
+      const accessToken = await getAccessToken();
+      finalConfig.headers = {
+        ...finalConfig.headers,
+        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+      };
+    }
+
     const controller = new AbortController();
     const timeoutId = finalConfig.timeout
       ? setTimeout(() => controller.abort(), finalConfig.timeout)
@@ -140,13 +165,9 @@ export const createClient = (baseConfig: Config = {}): Client => {
     },
 
     get: (url, config = {}) => request({ ...config, url, method: "GET" }),
-
     post: (url, data, config = {}) => request({ ...config, url, method: "POST", body: data }),
-
     put: (url, data, config = {}) => request({ ...config, url, method: "PUT", body: data }),
-
     patch: (url, data, config = {}) => request({ ...config, url, method: "PATCH", body: data }),
-
     delete: (url, config = {}) => request({ ...config, url, method: "DELETE" }),
   };
 };
