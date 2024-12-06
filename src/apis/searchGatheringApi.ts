@@ -1,3 +1,4 @@
+import { getRegionMapping } from "@/hooks/useRegion";
 import {
   CreateGathering,
   GatheringRes,
@@ -7,14 +8,10 @@ import {
   GetGatheringParticipantsRes,
   GetMyJoinedGatherings,
   GetMyJoinedGatheringsRes,
+  GetSearchGatherings,
 } from "@/types/api/gatheringApi";
+import { DistrictName } from "@/types/hooks/region";
 import fetchInstance from "./fetchInstance";
-
-// 모임 취소
-export async function CancelGathering(id: string) {
-  const data = await fetchInstance.put<GatheringRes>(`/gatherings/${id}/cancel`);
-  return data;
-}
 
 // 모임 목록 조회
 export async function getGatherings(params: Gatherings) {
@@ -28,7 +25,9 @@ export async function getGatherings(params: Gatherings) {
 export async function createGathering(body: CreateGathering) {
   const formData = new FormData();
   Object.entries(body).forEach(([key, value]) => {
-    if (Array.isArray(value)) {
+    if (key === "location") {
+      formData.append(key, getRegionMapping(value as DistrictName));
+    } else if (Array.isArray(value)) {
       value.forEach(item => formData.append(key, item));
     } else if (value !== undefined && value !== null) {
       formData.append(key, value.toString());
@@ -58,16 +57,26 @@ export async function getGatheringParticipants(id: number, params: GetGatheringP
   return data;
 }
 
+// 모임 목록 검색
+export async function getSearchGatherings(params: GetSearchGatherings) {
+  const formatSearchKeywords = (searchText: string): string => {
+    return searchText
+      .trim()
+      .replace(/\s+/g, " ")
+      .split(" ")
+      .filter(word => word.length > 0)
+      .join(",");
+  };
+  const data = await fetchInstance.get<GatheringRes>(
+    `/gatherings/search?search=${formatSearchKeywords(params.search)}${params.size ? `size=${params.size}&` : ""}${params.page ? `page=${params.page}&` : ""}${params.sort ? `sort=${params.sort}&` : ""}${params.direction ? `direction=${params.direction}` : ""}`,
+  );
+  return data;
+}
+
 // 로그인된 사용자가 참석한 모임 목록 조회
 export async function getMyJoinedGatherings(params: GetMyJoinedGatherings) {
   const data = await fetchInstance.get<GetMyJoinedGatheringsRes>(
     `/gatherings/joined?${params.completed ? `completed=${params.completed}&` : ""}${params.reviews ? `reviews=${params.reviews}&` : ""}${params.size ? `size=${params.size}&` : ""}${params.page ? `page=${params.page}&` : ""}${params.sort ? `sort=id.gathering.dateTime&` : ""}${params.direction ? `direction=${params.direction}` : ""}`,
   );
-  return data;
-}
-
-// 모임 참여 취소
-export async function LeaveGathering(id: string) {
-  const data = await fetchInstance.delete(`/gatherings/${id}/leave`);
   return data;
 }

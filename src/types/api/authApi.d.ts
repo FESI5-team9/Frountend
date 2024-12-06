@@ -21,4 +21,6 @@ export type LoginRes = {
   refreshToken: string;
 };
 
-export type PutUsers = Partial<Pick<User, "nickname" | "image">>;
+export type PutUsers = Pick<User, "nickname"> & {
+  image?: File;
+};

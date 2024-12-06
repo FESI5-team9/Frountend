@@ -5,12 +5,14 @@ import {
   CancelGathering,
   LeaveGathering,
   createGathering,
+  joinGathering,
+} from "@/apis/assignGatheringApi";
+import {
   getGatheringDetail,
   getGatheringParticipants,
   getGatherings,
   getMyJoinedGatherings,
-  joinGathering,
-} from "@/apis/gatheringsApi";
+} from "@/apis/searchGatheringApi";
 import {
   CreateGathering,
   Gatherings,
@@ -46,7 +48,7 @@ export default function GatheringTestPage() {
     try {
       const gatheringData: CreateGathering = {
         type: "RESTAURANT",
-        location: "서울 강남구",
+        location: "제주특별자치도",
         name: "맛집 팀방",
         dateTime: "2024-12-02T07:06:02.489",
         capacity: 10,
