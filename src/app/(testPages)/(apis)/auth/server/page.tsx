@@ -1,6 +1,7 @@
-// src/app/test/page.tsx
 import { getUserProfile } from "@/apis/authApi";
 import { getGatherings } from "@/apis/searchGatheringApi";
+
+export const dynamic = "force-dynamic";
 
 export default async function TestPage() {
   const data = await getUserProfile();

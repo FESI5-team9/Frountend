@@ -73,7 +73,7 @@ export default function GatheringTestPage() {
     setLoading(true);
     setError("");
     try {
-      const data = await getGatheringDetail(1, 1);
+      const data = await getGatheringDetail(1);
       setResponse(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to get gathering detail");
