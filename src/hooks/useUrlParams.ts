@@ -1,4 +1,5 @@
 import { useRouter } from "next/navigation";
+import buildQueryParams from "./queryParams";
 
 interface QueryParams {
   search?: string;
@@ -11,20 +12,7 @@ interface QueryParams {
   direction?: string;
 }
 
-export const buildQueryParams = (existingParams: URLSearchParams, newParams: QueryParams) => {
-  // 기존 파라미터에 새 파라미터 병합
-  Object.entries(newParams).forEach(([key, value]) => {
-    if (value !== undefined && value !== null) {
-      existingParams.set(key, String(value)); // 새로운 값 설정
-    } else {
-      existingParams.delete(key); // 값이 없으면 삭제
-    }
-  });
-
-  return existingParams.toString();
-};
-
-export const useQueryBuilder = () => {
+const useQueryBuilder = () => {
   const router = useRouter();
 
   const updateQueryParams = (newParams: QueryParams) => {
@@ -36,3 +24,5 @@ export const useQueryBuilder = () => {
 
   return updateQueryParams;
 };
+
+export default useQueryBuilder;

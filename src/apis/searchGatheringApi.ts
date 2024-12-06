@@ -1,4 +1,4 @@
-import { buildQueryParams } from "@/hooks/useUrlParams";
+import buildQueryParams from "@/hooks/queryParams";
 import {
   GatheringRes,
   Gatherings,
