@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { getGatherings } from "@/apis/gatheringsApi";
+import { getGatherings } from "@/apis/searchGatheringApi";
 import { Gatherings } from "@/types/api/gatheringApi";
 import { GetGathering } from "@/types/components/card";
 import Card from "./Card";

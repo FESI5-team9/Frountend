@@ -15,15 +15,22 @@
 
 export interface GetGathering {
   id: number;
-  type: string;
+  type: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
   name: string;
   dateTime: string;
   registrationEnd: string;
-  location: string;
+  location?:
+  | "SEOUL"
+  | "GYEONGGI_DO"
+  | "GANGWON_DO"
+  | "CHUNGCHEONG_DO"
+  | "GYEONGSANG_DO"
+  | "JEOLLA_DO"
+  | "JEJU_ISLAND";
   address1: string;
   participantCount: number;
   capacity: number;
-  image?: string;
+  image: string;
   createdBy: string;
-  canceledAt?: string;
+  canceledAt: string;
 }
