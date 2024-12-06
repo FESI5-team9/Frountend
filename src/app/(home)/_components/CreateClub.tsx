@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import Button from "@/components/Button/Button";
+import Calendar from "@/components/Calendar/Calendar";
 import Kakao from "@/components/Kakaomap/Kakao";
 import Modal from "@/components/Modal";
-import Calendar from "@/components/calendar/Calendar";
 import { amTime, pmTime } from "../../../constants/categoryList";
 
 export default function CreateClub({

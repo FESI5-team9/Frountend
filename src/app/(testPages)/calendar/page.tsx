@@ -1,6 +1,6 @@
 "use client";
 
-import Calendar from "@/components/calendar/Calendar";
+import Calendar from "@/components/Calendar/Calendar";
 import useDateStore from "@/store/dateStore";
 
 export default function Page() {
