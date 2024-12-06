@@ -4,17 +4,20 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { getUserProfile } from "@/apis/authApi";
 import { getMyJoinedGatherings } from "@/apis/gatheringsApi";
-import MypageCard from "@/components/MypageCard";
 import { User } from "@/types/api/authApi";
 import { Direction } from "@/types/api/gatheringApi";
 import { GetMyJoinedGatheringsRes } from "@/types/api/gatheringApi";
+
+// import { renderContent } from "@/utils/myGathering";
+
+// renderContent 함수 임포트
 
 export default function Mypage() {
   const [activeTab, setActiveTab] = useState("reviews");
   const [gatherings, setGatherings] = useState<GetMyJoinedGatheringsRes[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [userProfile, setUserProfile] = useState<User[]>([]);
+  const [userProfile, setUserProfile] = useState<User | null>(null);
 
   const fetchGatherings = async () => {
     setLoading(true);
@@ -40,7 +43,7 @@ export default function Mypage() {
   const fetchUserProfile = async () => {
     try {
       const data = await getUserProfile();
-      setUserProfile(Array.isArray(data) ? data : [data]);
+      // setUserProfile(Array.isArray(data) ? data : [data]);
     } catch (err) {
       console.log(err);
     } finally {
@@ -48,60 +51,13 @@ export default function Mypage() {
   };
 
   useEffect(() => {
+    fetchUserProfile();
     if (activeTab === "gathering" || activeTab === "createdGathering") {
       fetchGatherings();
     } else if (activeTab === "reviews") {
       fetchUserProfile();
     }
   }, [activeTab]);
-
-  const renderContent = () => {
-    if (loading) return <p>로딩 중...</p>;
-    if (error) return <p>{error}</p>;
-
-    switch (activeTab) {
-      case "reviews":
-        if (userProfile.length === 0) {
-          return <p>아직 작성 가능한 리뷰가 없어요.</p>; // 리뷰 데이터 렌더링
-        }
-      case "gathering":
-        if (gatherings.length === 0) {
-          return <p>신청한 모임이 아직 없어요.</p>;
-        }
-        return gatherings.map((gathering: GetMyJoinedGatheringsRes) => (
-          <MypageCard
-            key={gathering.id}
-            name={gathering.name}
-            location={gathering.location}
-            address1={gathering.address1}
-            dateTime={gathering.dateTime}
-            keywords={gathering.keywords || []}
-            image={gathering.image}
-            participantCount={gathering.participantCount}
-            capacity={gathering.capacity}
-          />
-        ));
-      case "createdGathering":
-        if (gatherings.length === 0) {
-          return <p>아직 만든 모임이 없어요.</p>;
-        }
-        return gatherings.map((gathering: GetMyJoinedGatheringsRes) => (
-          <MypageCard
-            key={gathering.id}
-            name={gathering.name}
-            location={gathering.location}
-            address1={gathering.address1}
-            dateTime={gathering.dateTime}
-            keywords={gathering.keywords || []}
-            image={gathering.image}
-            participantCount={gathering.participantCount}
-            capacity={gathering.capacity}
-          />
-        ));
-      default:
-        return <p>유효하지 않은 탭입니다.</p>;
-    }
-  };
 
   return (
     <div className="flex w-full justify-center">
@@ -113,7 +69,7 @@ export default function Mypage() {
           <div className="relative">
             <span className="absolute left-[23px] top-[53px] flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white">
               <Image
-                src="/images/profile.svg"
+                src={userProfile?.image || "/image/profile.svg"}
                 width={56}
                 height={56}
                 alt="프로필 이미지"
@@ -169,7 +125,9 @@ export default function Mypage() {
               내가 만든 모임
             </button>
           </div>
-          <div className="px-6 py-6">{renderContent()}</div>
+          <div className="px-6 py-6">
+            {/* {renderContent({ activeTab, loading, error, gatherings })} */}
+          </div>
         </div>
       </div>
     </div>
