@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import { DAYS_OF_WEEK, MONTH_OF_YEAR } from "@/constants/calendar";
 import useDateStore from "@/store/dateStore";
@@ -8,12 +8,13 @@ import useDateStore from "@/store/dateStore";
 function DateCell({
   date,
   type,
-  currentDate,
-  selectedDate,
   today,
-  handleSelectedDate,
-  handlePrevMonth,
-  handleNextMonth,
+  currentDate,
+  firstDate,
+  secondDate,
+  onSelectDate,
+  onNavigateToPrevMonth,
+  onNavigateToNextMonth,
 }: DateCellProps) {
   const isToday =
     type === "current" &&
@@ -21,17 +22,24 @@ function DateCell({
     today.getMonth() === currentDate.getMonth() &&
     today.getDate() === date;
 
-  const isSelected =
+  const isFirstDate =
     type === "current" &&
-    selectedDate &&
-    selectedDate.getFullYear() === currentDate.getFullYear() &&
-    selectedDate.getMonth() === currentDate.getMonth() &&
-    selectedDate.getDate() === date;
+    firstDate &&
+    firstDate.getFullYear() === currentDate.getFullYear() &&
+    firstDate.getMonth() === currentDate.getMonth() &&
+    firstDate.getDate() === date;
+
+  const isSecondDate =
+    type === "current" &&
+    secondDate &&
+    secondDate.getFullYear() === currentDate.getFullYear() &&
+    secondDate.getMonth() === currentDate.getMonth() &&
+    secondDate.getDate() === date;
 
   const handleClick = {
-    current: handleSelectedDate,
-    prev: handlePrevMonth,
-    next: handleNextMonth,
+    current: onSelectDate,
+    prev: onNavigateToPrevMonth,
+    next: onNavigateToNextMonth,
   }[type];
 
   return (
@@ -39,7 +47,9 @@ function DateCell({
       <span
         className={`flex h-full w-full select-none items-center justify-center rounded-[8px] ${
           type === "prev" || type === "next" ? "text-gray-500" : ""
-        }${isToday && !isSelected ? "text-yellow-primary" : ""} ${isSelected ? "bg-yellow-primary" : ""}`}
+        } ${isFirstDate ? "bg-yellow-primary text-white" : ""} ${
+          isSecondDate ? "bg-[#FF9E48] text-white" : ""
+        }${isToday && !isFirstDate ? "text-gray-300" : ""} `}
       >
         {date}
       </span>
@@ -47,8 +57,12 @@ function DateCell({
   );
 }
 
-export default function Calendar({ handleDateSelect }: CalendarProp) {
-  const { selectedDate, setSelectedDate } = useDateStore();
+export default function Calendar({
+  onSelectDropdownDate,
+  selectMode,
+  multipleDates,
+}: CalendarProps) {
+  const { firstDate, secondDate, setFirstDate, setSecondDate } = useDateStore();
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const year = currentDate.getFullYear();
@@ -98,13 +112,45 @@ export default function Calendar({ handleDateSelect }: CalendarProp) {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
   };
 
-  const handleSelectedDate = (date: number) => {
-    const newDate = new Date(currentDate);
-    newDate.setDate(date);
+  const handleSelectedDate = useCallback(
+    (date: number) => {
+      const newDate = new Date(currentDate);
+      newDate.setDate(date);
 
-    setSelectedDate(newDate);
-    if (handleDateSelect) handleDateSelect(newDate);
-  };
+      if (multipleDates && !selectMode) {
+        if (firstDate) {
+          if (newDate > firstDate) {
+            setSecondDate(newDate);
+          } else if (newDate <= firstDate) {
+            setSecondDate(firstDate);
+            setFirstDate(newDate);
+          }
+        } else {
+          setFirstDate(newDate);
+        }
+      }
+
+      if (selectMode && selectMode === "first") {
+        setFirstDate(newDate);
+      } else if (selectMode && selectMode === "second") {
+        setSecondDate(newDate);
+      }
+
+      if (onSelectDropdownDate) {
+        onSelectDropdownDate(newDate);
+        setFirstDate(newDate);
+      }
+    },
+    [
+      currentDate,
+      firstDate,
+      multipleDates,
+      selectMode,
+      setFirstDate,
+      setSecondDate,
+      onSelectDropdownDate,
+    ],
+  );
 
   return (
     <div className="flex w-[280px] flex-col items-center justify-center rounded-[12px] bg-white py-3">
@@ -147,10 +193,11 @@ export default function Calendar({ handleDateSelect }: CalendarProp) {
                   type={type}
                   today={today}
                   currentDate={currentDate}
-                  selectedDate={selectedDate}
-                  handleSelectedDate={() => handleSelectedDate(date)}
-                  handlePrevMonth={handlePrevMonth}
-                  handleNextMonth={handleNextMonth}
+                  firstDate={firstDate}
+                  secondDate={secondDate}
+                  onSelectDate={() => handleSelectedDate(date)}
+                  onNavigateToPrevMonth={handlePrevMonth}
+                  onNavigateToNextMonth={handleNextMonth}
                 />
               ))}
             </tr>

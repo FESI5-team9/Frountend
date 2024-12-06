@@ -8,3 +8,7 @@ interface ButtonProps {
   children?: React.ReactNode;
   className?: string;
 }
+
+type FavoriteButtonProps = {
+  gatheringId: number;
+};

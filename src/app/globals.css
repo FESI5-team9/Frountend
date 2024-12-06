@@ -24,3 +24,32 @@
 ::-webkit-scrollbar:horizontal {
   height: 4px;
 }
+
+
+@layer utilities {
+  .grid-areas-custom {
+    display: grid;
+    grid-template-areas:
+      "topLeft topRight"
+      "topLeft bottomRight"
+      "bottom bottom";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, auto);
+  }
+
+  .grid-area-topLeft {
+    grid-area: topLeft;
+  }
+
+  .grid-area-topRight {
+    grid-area: topRight;
+  }
+
+  .grid-area-bottomRight {
+    grid-area: bottomRight;
+  }
+
+  .grid-area-bottom {
+    grid-area: bottom;
+  }
+}

@@ -1,10 +1,12 @@
 import { create } from "zustand";
 
 const useDateStore = create<DateStore>(set => ({
-  selectedDate: null,
+  firstDate: null,
+  secondDate: null,
   selectedOption: "날짜 선택",
-  setSelectedDate: date => set({ selectedDate: date }),
-  setSelectedOption: option => set({ selectedOption: option }),
+  setFirstDate: (date: Date | null) => set({ firstDate: date }),
+  setSecondDate: (date: Date | null) => set({ secondDate: date }),
+  setSelectedOption: (option: string) => set({ selectedOption: option }),
 }));
 
 export default useDateStore;

@@ -1,22 +1,23 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import Dropdown from "./Dropdown";
-import FilterButton from "./FilterButton";
+import Dropdown from "@/components/Filter/Dropdown";
+import FilterButton from "@/components/Filter/FilterButton";
 
-export function FilterDropDown({ filterType, options, handleFilter }: DropDownProps) {
+export function FilterDropDown({ filterType, options, onSelectFilterOption }: FilterDropdownProps) {
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOptionSelect = useCallback(
-    (textContent: string) => {
-      setSelectedOption(textContent);
-      handleFilter(textContent);
+    (option: OptionType) => {
+      setSelectedOption(option);
+      onSelectFilterOption(option.ko);
+      setIsOpen(false);
     },
-    [handleFilter],
+    [onSelectFilterOption],
   );
 
-  const handleFilterButtonClick = useCallback(() => {
+  const toggleDropdown = useCallback(() => {
     setIsOpen(prevState => !prevState);
   }, []);
 
@@ -25,14 +26,14 @@ export function FilterDropDown({ filterType, options, handleFilter }: DropDownPr
       <FilterButton
         selectedOption={selectedOption}
         filterType={filterType}
-        onClick={handleFilterButtonClick}
+        onToggle={toggleDropdown}
       />
 
       <Dropdown
         options={options}
         isOpen={isOpen}
         selectedOption={selectedOption}
-        handleOptionSelect={handleOptionSelect}
+        onSelectOption={handleOptionSelect}
         filterType={filterType}
       />
     </div>
