@@ -1,16 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { getUserProfile } from "@/apis/authApi";
-import { getMyJoinedGatherings } from "@/apis/gatheringsApi";
+import { updateUserProfile } from "@/apis/authApi";
+import { getMyJoinedGatherings } from "@/apis/searchGatheringApi";
 import { User } from "@/types/api/authApi";
 import { Direction } from "@/types/api/gatheringApi";
 import { GetMyJoinedGatheringsRes } from "@/types/api/gatheringApi";
-
-// import { renderContent } from "@/utils/myGathering";
-
-// renderContent 함수 임포트
+import { renderContent } from "@/utils/myGathering";
 
 export default function Mypage() {
   const [activeTab, setActiveTab] = useState("reviews");
@@ -18,6 +16,7 @@ export default function Mypage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userProfile, setUserProfile] = useState<User | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const fetchGatherings = async () => {
     setLoading(true);
@@ -43,11 +42,26 @@ export default function Mypage() {
   const fetchUserProfile = async () => {
     try {
       const data = await getUserProfile();
-      // setUserProfile(Array.isArray(data) ? data : [data]);
+      setUserProfile(data);
     } catch (err) {
-      console.log(err);
     } finally {
     }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && userProfile) {
+      try {
+        const updatedUser = await updateUserProfile({ image: file });
+        setUserProfile(updatedUser);
+      } catch (err) {
+        setError("프로필 이미지 업로드에 실패했습니다.");
+      }
+    }
+  };
+
+  const handleImageEditClick = () => {
+    fileInputRef.current?.click();
   };
 
   useEffect(() => {
@@ -69,15 +83,32 @@ export default function Mypage() {
           <div className="relative">
             <span className="absolute left-[23px] top-[53px] flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white">
               <Image
-                src={userProfile?.image || "/image/profile.svg"}
+                src={userProfile?.image || "/images/profile.svg"}
                 width={56}
                 height={56}
                 alt="프로필 이미지"
-                className=""
+                className="overflow-hidden rounded-full"
               />
-              <button className="absolute bottom-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white">
+              <button
+                className="absolute bottom-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white"
+                onClick={handleImageEditClick}
+              ></button>
+              <label
+                htmlFor="profileImage"
+                className="absolute bottom-1 right-1 flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-white"
+              >
                 <Image src="/images/modify.svg" width={18} height={18} alt="프로필 이미지 수정" />
-              </button>
+              </label>
+              <input
+                id="profileImage"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageUpload}
+              />
+              {/* <button className="absolute bottom-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white">
+                <Image src="/images/modify.svg" width={18} height={18} alt="프로필 이미지 수정" />
+              </button> */}
             </span>
           </div>
           <div className="flex h-[65px] justify-between rounded-t-3xl bg-yellow-primary px-[25px] py-4 text-base text-gray-900">
@@ -87,10 +118,11 @@ export default function Mypage() {
             </button>
           </div>
           <div className="mt-[15px] flex flex-col gap-[9px] pl-[92px] text-sm text-gray-800">
-            <span className="text-base font-semibold leading-normal">닉네임</span>{" "}
+            <span className="text-base font-semibold leading-normal">{userProfile?.nickname}</span>{" "}
             {/*api 연동 필요*/}
             <span className="flex gap-1.5">
-              <p>E-mail :</p> <p className="text-gray-700">codeit@codeit.com</p> {/*api 연동 필요*/}
+              <p>E-mail :</p> <p className="text-gray-700">{userProfile?.email}</p>{" "}
+              {/*api 연동 필요*/}
             </span>
           </div>
         </div>
@@ -126,7 +158,7 @@ export default function Mypage() {
             </button>
           </div>
           <div className="px-6 py-6">
-            {/* {renderContent({ activeTab, loading, error, gatherings })} */}
+            {renderContent({ activeTab, loading, error, gatherings })}
           </div>
         </div>
       </div>
