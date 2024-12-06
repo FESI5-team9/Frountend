@@ -10,7 +10,7 @@ export default function DropdownCalendar() {
   const { selectedOption, setSelectedOption, setFirstDate } = useDateStore();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleFilterButtonClick = () => {
+  const toggleDropdown = () => {
     setIsOpen(prevState => !prevState);
   };
 
@@ -30,9 +30,9 @@ export default function DropdownCalendar() {
   return (
     <div className="w-[330px]">
       <FilterButton
-        selectedOption={selectedOption}
+        selectedDateOption={selectedOption}
         filterType="selectionFilter"
-        onClick={handleFilterButtonClick}
+        onToggle={toggleDropdown}
       />
 
       <div

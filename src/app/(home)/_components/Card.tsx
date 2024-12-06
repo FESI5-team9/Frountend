@@ -1,13 +1,20 @@
 import Image from "next/image";
 import Chip from "@/components/Chips";
 import Progressbar from "@/components/Progressbar";
+// import { CardType } from "@/types/components/card";
+import { GetGathering } from "@/types/components/card";
+import { formatToKoreanTime, getRemainingHours } from "@/utils/date";
 
-export default function Card() {
+export default function Card({ cardData }: { cardData: GetGathering }) {
   return (
     <div className="border-gray flex w-full flex-col rounded-2xl border-y-2 bg-gray-background tablet:w-auto tablet:flex-row">
       <div className="relative flex">
         <Image
-          src="/images/mainPage/ex-images/donw3.svg"
+          src={
+            cardData.image && cardData.image.trim() !== ""
+              ? cardData.image
+              : "/images/mainPage/ex-images/donw3.svg"
+          }
           alt="food"
           width={272}
           height={153}
@@ -15,7 +22,7 @@ export default function Card() {
         />
         <div className="absolute right-0 top-0 flex flex-row items-center gap-1 rounded-bl-xl border border-none bg-yellow-primary px-2 py-1">
           <Image src="/images/mainPage/alarm.svg" width={20} height={16} alt="alarm" />
-          <p>오늘 21시 마감</p>
+          <p>{getRemainingHours(cardData.registrationEnd) || "날짜 없음"}</p>
         </div>
       </div>
       <div className="flex w-full flex-col justify-between p-4">
@@ -23,15 +30,15 @@ export default function Card() {
         <div className="flex justify-between">
           <div className="flex flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
-              <h3 className="text-lg">소문난 성수 감자탕</h3>
-              <p className="border-l-2 px-2 text-sm">서울 성동구</p>
+              <h3 className="text-lg">{cardData.name}</h3>
+              <p className="border-l-2 px-2 text-sm">{cardData.address1}</p>
             </div>
             <div className="mb-6 flex flex-row gap-2">
               <Chip type="default" bgColor="bg-black" textColor="text-white">
-                1월 7일
+                {formatToKoreanTime(cardData.dateTime, "MM월 dd일") || "날짜 없음"}
               </Chip>
               <Chip type="default" bgColor="bg-black" textColor="text-yellow-primary">
-                17:30
+                {formatToKoreanTime(cardData.dateTime, "HH시 mm분") || "날짜 없음"}
               </Chip>
             </div>
           </div>
@@ -45,7 +52,9 @@ export default function Card() {
             <div className="flex flex-row gap-2 text-sm">
               <div className="flex gap-1">
                 <Image src="/images/mainPage/card/people.svg" width={16} height={16} alt="people" />
-                <p>3/5</p>
+                <p>
+                  {cardData.participantCount} / {cardData.capacity}
+                </p>
               </div>
               <div className="flex gap-1">
                 <Image
@@ -57,8 +66,7 @@ export default function Card() {
                 <div>개설확정</div>
               </div>
             </div>
-
-            <Progressbar now={10} max={20} />
+            <Progressbar now={cardData.participantCount} max={cardData.capacity} />
           </div>
           <div className="rounded-xl border bg-yellow-primary px-4 py-2 text-black">참여하기</div>
         </div>

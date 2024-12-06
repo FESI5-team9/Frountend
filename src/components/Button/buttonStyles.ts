@@ -28,9 +28,11 @@ export const getOutlinedStyle = (bgColor: string, disabled?: boolean) => {
 
 export const getSizeClasses = (size: string) => {
   switch (size) {
+    case "onlyPadding":
+      return "px-2 text-base";
     case "small":
-      return "h-10 px-4 text-sm w-full";
+      return "h-10 px-4 text-sm";
     case "large":
-      return "h-12 px-6 text-base w-full";
+      return "h-12 px-6 text-base";
   }
 };

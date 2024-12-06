@@ -21,6 +21,11 @@
   width: 0;
 }
 
+::-webkit-scrollbar:horizontal {
+  height: 4px;
+}
+
+
 @layer utilities {
   .grid-areas-custom {
     display: grid;
