@@ -39,6 +39,8 @@ export type GatheringRes = GatheringBase & {
   description: string;
   keyword: string[];
   host: boolean;
+  favorite: boolean;
+  participants: Participant;
 };
 
 export type User = {
@@ -49,7 +51,7 @@ export type User = {
 
 export type GatheringsRes = GatheringBase[];
 
-export type GetMyJoinedGatheringsRes = Omit<GatheringBase, "image"> & {
+export type GetMyJoinedGatheringsRes = Omit<GatheringBase, "canceledAt"> & {
   address2: string;
   keywords: string[];
   joinedAt: string;
@@ -61,6 +63,7 @@ export type CreateGathering = Omit<
 GatheringBase,
 "id" | "participantCount" | "createdBy" | "canceledAt" | "image" | "location"
 > & {
+  openParticipantCount?: string;
   location: string;
   address2: string;
   description: string;
@@ -86,6 +89,8 @@ export type Gatherings = PaginationParams & {
 export type GetSearchGatherings = PaginationParams & {
   search: string;
 };
+
+export type GetSearchGatheringRes = GatheringBase[];
 
 export type GetMyJoinedGatherings = PaginationParams & {
   completed?: boolean;
