@@ -11,7 +11,7 @@ interface QueryParams {
   direction?: string;
 }
 
-const buildQueryParams = (existingParams: URLSearchParams, newParams: QueryParams) => {
+export const buildQueryParams = (existingParams: URLSearchParams, newParams: QueryParams) => {
   // 기존 파라미터에 새 파라미터 병합
   Object.entries(newParams).forEach(([key, value]) => {
     if (value !== undefined && value !== null) {

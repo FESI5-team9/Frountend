@@ -1,3 +1,4 @@
+import { buildQueryParams } from "@/hooks/useUrlParams";
 import {
   AddReviews,
   AddReviewsRes,
@@ -12,8 +13,11 @@ import fetchInstance from "./fetchInstance";
 
 // 리뷰 목록 조회
 export async function getReviews(params?: GetReviews, options?: { next?: NextFetchRequestConfig }) {
+  const searchParams = new URLSearchParams();
+  const queryString = params ? buildQueryParams(searchParams, params) : "";
+
   const data = await fetchInstance.get<ReviewsRes>(
-    `/reviews?${params?.gatheringId ? `gatheringId=${params.gatheringId}&` : ""}${params?.userId ? `userId=${params.userId}&` : ""}${params?.type ? `type=${params.type}&` : ""}${params?.location ? `location=${params.location}&` : ""}${params?.date ? `date=${params.date}&` : ""}${params?.registrationEnd ? `registrationEnd=${params.registrationEnd}&` : ""}${params?.size ? `size=${params.size}&` : ""}${params?.page ? `page=${params.page}&` : ""}${params?.sort ? `sort=${params.sort}&` : ""}${params?.direction ? `direction=${params.direction}` : ""}`,
+    `/reviews${queryString ? `?${queryString}` : ""}`,
     options,
   );
   return data;
@@ -30,13 +34,15 @@ export async function getReviewsRating(
   params: GetReviewsRating,
   options?: { next?: NextFetchRequestConfig },
 ) {
+  const searchParams = new URLSearchParams();
+  const queryString = buildQueryParams(searchParams, params);
+
   const data = await fetchInstance.get<GetReviewsRatingRes>(
-    `/reviews/score?${params?.gatheringId ? `gatheringId=${params.gatheringId}&` : ""}${params?.type ? `type=${params.type}` : ""}`,
+    `/reviews/score${queryString ? `?${queryString}` : ""}`,
     options,
   );
   return data;
 }
-
 // 타입 별 리뷰 평점 통계 조회
 export async function getReviewStats(type: string, options?: { next?: NextFetchRequestConfig }) {
   const data = await fetchInstance.get<GetReviewStatsRes>(
@@ -51,8 +57,11 @@ export async function getReviewsRatingGathering(
   params: GetReviewsRatingGathering,
   options?: { next?: NextFetchRequestConfig },
 ) {
+  const searchParams = new URLSearchParams();
+  const queryString = buildQueryParams(searchParams, params);
+
   const data = await fetchInstance.get<AddReviewsRes>(
-    `/reviews/score?${params?.gatheringId ? `gatheringId=${params.gatheringId}` : ""}`,
+    `/reviews/score${queryString ? `?${queryString}` : ""}`,
     options,
   );
   return data;
