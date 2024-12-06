@@ -85,10 +85,11 @@ export const createClient = (baseConfig: Config = {}): Client => {
   const handleResponse = async <T>(response: Response, config: Config): Promise<T> => {
     if (!response.ok) {
       const errorData = await response.json().catch(() => null);
+
       const error = new APIError(
         response.status,
-        errorData,
-        errorData?.message ?? `Error ${response.status}`,
+        config.body || null,
+        errorData?.message || `Error ${response.status}`,
         config,
       );
 
@@ -104,6 +105,7 @@ export const createClient = (baseConfig: Config = {}): Client => {
         }
       }, Promise.reject(error));
     }
+
     const data = await response.json();
     const apiResponse: APIResponse = {
       data,

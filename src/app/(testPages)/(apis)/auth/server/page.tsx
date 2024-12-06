@@ -20,15 +20,15 @@ export default async function TestPage() {
 
       <div className="space-y-4">
         {data && (
-          <div className="rounded bg-green-100 p-4">
+          <div className="rounded bg-blue-100 p-4">
             <h2 className="mb-2 font-bold">Response:</h2>
-            <pre className="whitespace-pre-wrap">{JSON.stringify(data, null, 2)}</pre>
+            <pre>{JSON.stringify(data, null, 2)}</pre>
           </div>
         )}
         {gathering && (
-          <div className="rounded bg-green-100 p-4">
+          <div className="rounded bg-blue-100 p-4">
             <h2 className="mb-2 font-bold">Response:</h2>
-            <pre className="whitespace-pre-wrap">{JSON.stringify(gathering, null, 2)}</pre>
+            <pre>{JSON.stringify(gathering, null, 2)}</pre>
           </div>
         )}
       </div>

@@ -1,7 +1,6 @@
 // src/lib/client.ts
 import { setAuthCookies } from "@/app/actions/auth";
 import { LoginRes } from "@/types/api/authApi";
-import { handleApiError } from "./ApiError";
 import { createClient } from "./HttpClient/HttpClient";
 import { APIError } from "./HttpClient/error";
 
@@ -59,9 +58,6 @@ fetchInstance.interceptors.response.push({
         return Promise.reject(refreshError);
       }
     }
-
-    const handledError = handleApiError(error);
-    return Promise.reject(handledError);
   },
 });
 
