@@ -4,7 +4,7 @@ import { useState } from "react";
 import Button from "@/components/Button/Button";
 import Kakao from "@/components/Kakaomap/Kakao";
 import Modal from "@/components/Modal";
-import Calendar from "@/components/calendar/Calendar";
+import Calendar from "@/components/calendars/Calendar";
 import { amTime, pmTime } from "../../../constants/categoryList";
 
 export default function CreateClub({

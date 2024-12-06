@@ -1,6 +1,6 @@
 "use client";
 
-import DropdownCalendar from "@/components/calendar/DropdownCalendar";
+import DropdownCalendar from "@/components/calendars/DropdownCalendar";
 import useDateStore from "@/store/dateStore";
 
 export default function Page() {
