@@ -1,5 +1,15 @@
-export default function CreateClub() {
-  return <div></div>;
+export default function CreateClub({
+  isOpen,
+  setIsOpen,
+}: {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const useProps = () => {
+    setIsOpen(isOpen);
+  };
+
+  return <div onClick={useProps}></div>;
 }
 
 // "use client";
