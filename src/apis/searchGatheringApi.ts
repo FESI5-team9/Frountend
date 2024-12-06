@@ -1,6 +1,4 @@
-import { getRegionMapping } from "@/hooks/useRegion";
 import {
-  CreateGathering,
   GatheringRes,
   Gatherings,
   GatheringsRes,
@@ -8,9 +6,9 @@ import {
   GetGatheringParticipantsRes,
   GetMyJoinedGatherings,
   GetMyJoinedGatheringsRes,
+  GetSearchGatheringRes,
   GetSearchGatherings,
 } from "@/types/api/gatheringApi";
-import { DistrictName } from "@/types/hooks/region";
 import fetchInstance from "./fetchInstance";
 
 // 모임 목록 조회
@@ -21,31 +19,9 @@ export async function getGatherings(params: Gatherings) {
   return data;
 }
 
-// 모임 생성
-export async function createGathering(body: CreateGathering) {
-  const formData = new FormData();
-  Object.entries(body).forEach(([key, value]) => {
-    if (key === "location") {
-      formData.append(key, getRegionMapping(value as DistrictName));
-    } else if (Array.isArray(value)) {
-      value.forEach(item => formData.append(key, item));
-    } else if (value !== undefined && value !== null) {
-      formData.append(key, value.toString());
-    }
-  });
-  const data = await fetchInstance.post<GatheringRes>("/gatherings", formData);
-  return data;
-}
-
-// 모임 참여
-export async function joinGathering(id: string) {
-  const data = await fetchInstance.post(`/gatherings/${id}/join`);
-  return data;
-}
-
 // 모임 상세 조회
-export async function getGatheringDetail(id: number, userId: number) {
-  const data = await fetchInstance.get<GatheringRes>(`/gatherings/${id}?uerId=${userId}`);
+export async function getGatheringDetail(id: number) {
+  const data = await fetchInstance.get<GatheringRes>(`/gatherings/${id}`);
   return data;
 }
 
@@ -67,7 +43,7 @@ export async function getSearchGatherings(params: GetSearchGatherings) {
       .filter(word => word.length > 0)
       .join(",");
   };
-  const data = await fetchInstance.get<GatheringRes>(
+  const data = await fetchInstance.get<GetSearchGatheringRes>(
     `/gatherings/search?search=${formatSearchKeywords(params.search)}${params.size ? `size=${params.size}&` : ""}${params.page ? `page=${params.page}&` : ""}${params.sort ? `sort=${params.sort}&` : ""}${params.direction ? `direction=${params.direction}` : ""}`,
   );
   return data;

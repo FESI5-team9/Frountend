@@ -1,8 +1,10 @@
 import {
   AddReviews,
   AddReviewsRes,
+  GetReviewStatsRes,
   GetReviews,
   GetReviewsRating,
+  GetReviewsRatingGathering,
   GetReviewsRatingRes,
   ReviewsRes,
 } from "@/types/api/reviews";
@@ -26,6 +28,22 @@ export async function addReviews(body: AddReviews) {
 export async function getReviewsRating(params: GetReviewsRating) {
   const data = await fetchInstance.get<GetReviewsRatingRes>(
     `/reviews/score?${params?.gatheringId ? `gatheringId=${params.gatheringId}&` : ""}${params?.type ? `type=${params.type}` : ""}`,
+  );
+  return data;
+}
+
+// 타입 별 리뷰 평점 통계 조회
+export async function getReviewStats(type: string) {
+  const data = await fetchInstance.get<GetReviewStatsRes>(
+    `/reviews/statistics?${type ? `type=${type}` : ""}`,
+  );
+  return data;
+}
+
+// 모임 별 리뷰 평점 목록 조회
+export async function getReviewsRatingGathering(params: GetReviewsRatingGathering) {
+  const data = await fetchInstance.get<AddReviewsRes>(
+    `/reviews/score?${params?.gatheringId ? `gatheringId=${params.gatheringId}` : ""}`,
   );
   return data;
 }
