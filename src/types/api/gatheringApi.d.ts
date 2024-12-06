@@ -13,11 +13,18 @@ export type PaginationParams = {
 
 export type GatheringBase = {
   id: number;
-  type: string;
+  type: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
   name: string;
   dateTime: string;
   registrationEnd: string;
-  location: string;
+  location?:
+  | "SEOUL"
+  | "GYEONGGI_DO"
+  | "GANGWON_DO"
+  | "CHUNGCHEONG_DO"
+  | "GYEONGSANG_DO"
+  | "JEOLLA_DO"
+  | "JEJU_ISLAND";
   address1: string;
   participantCount: number;
   capacity: number;
@@ -42,45 +49,42 @@ export type User = {
 
 export type GatheringsRes = GatheringBase[];
 
-export type GetMyJoinedGatheringsRes = {
-  id: number;
-  type: string;
-  name: string;
-  dateTime: string;
-  registrationEnd: string;
-  location: string;
-  address1: string;
+export type GetMyJoinedGatheringsRes = Omit<GatheringBase, "image"> & {
   address2: string;
   keywords: string[];
-  participantCount: number;
-  capacity: number;
-  createdBy: string;
-  canceledAt: string;
   joinedAt: string;
   isCompleted: boolean;
   isReviewed: boolean;
 };
 
-export type CreateGathering = {
-  type: string;
+export type CreateGathering = Omit<
+GatheringBase,
+"id" | "participantCount" | "createdBy" | "canceledAt" | "image" | "location"
+> & {
   location: string;
-  name: string;
-  dateTime: string;
-  capacity: number;
-  image?: string;
-  registrationEnd: string;
-  address1: string;
   address2: string;
   description: string;
   keyword: string[];
+  image?: File;
 };
 
 export type Gatherings = PaginationParams & {
   id?: number[];
-  type?: string;
+  type?: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
   dateTime?: string;
-  location?: string;
+  location?:
+  | "SEOUL"
+  | "GYEONGGI_DO"
+  | "GANGWON_DO"
+  | "CHUNGCHEONG_DO"
+  | "GYEONGSANG_DO"
+  | "JEOLLA_DO"
+  | "JEJU_ISLAND";
   createdBy?: string;
+};
+
+export type GetSearchGatherings = PaginationParams & {
+  search: string;
 };
 
 export type GetMyJoinedGatherings = PaginationParams & {

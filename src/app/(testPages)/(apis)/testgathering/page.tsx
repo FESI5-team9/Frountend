@@ -5,12 +5,14 @@ import {
   CancelGathering,
   LeaveGathering,
   createGathering,
+  joinGathering,
+} from "@/apis/assignGatheringApi";
+import {
   getGatheringDetail,
   getGatheringParticipants,
   getGatherings,
   getMyJoinedGatherings,
-  joinGathering,
-} from "@/apis/gatheringsApi";
+} from "@/apis/searchGatheringApi";
 import {
   CreateGathering,
   Gatherings,
