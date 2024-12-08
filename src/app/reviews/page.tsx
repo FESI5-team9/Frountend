@@ -1,31 +1,27 @@
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
-import { getReviews } from "@/apis/reviewsApi";
-import HeaderComponent from "./_components/HeaderComponent";
-import RatingComponent from "./_components/RatingComponent";
-import ReviewListComponent from "./_components/ReviewListComponent";
+import { getReviewStats, getReviews } from "@/apis/reviewsApi";
+import AllReviews from "./_components/AllReviews";
 
 async function Reviews() {
   const queryClient = new QueryClient();
 
-  // 기본값으로 CAFE 설정
   await queryClient.prefetchQuery({
-    queryKey: ["reviews", { size: 10, type: "CAFE" }],
+    queryKey: [
+      "reviews",
+      { size: 10, type: "CAFE", location: undefined, date: undefined, sort: "createdAt" },
+    ],
     queryFn: () => getReviews({ type: "CAFE" }),
   });
 
+  await queryClient.prefetchQuery({
+    queryKey: ["stats", { type: "CAFE" }],
+    queryFn: () => getReviewStats("CAFE"),
+  });
+
   return (
-    <>
-      {/* <HeaderComponent type={selectedType} onTypeChange={setSelectedType} />
-      <RatingComponent type={selectedType} />
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <ReviewListComponent type={selectedType} />
-      </HydrationBoundary> */}
-      <HeaderComponent />
-      <RatingComponent />
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <ReviewListComponent />
-      </HydrationBoundary>
-    </>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <AllReviews />
+    </HydrationBoundary>
   );
 }
 
