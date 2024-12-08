@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Progressbar from "@/components/Progressbar";
 import { GetReviewStatsRes } from "@/types/api/reviews";
 
@@ -27,34 +28,41 @@ function RatingComponent({ stats }: { stats?: GetReviewStatsRes }) {
   ];
 
   return (
-    <div className="w-full max-w-md p-4">
-      <div className="mb-4 flex items-center gap-2">
-        <span className="text-3xl font-bold">{mockData.averageScore}</span>
-        <span className="text-xl text-gray-400">/5</span>
-        <div className="ml-2 flex">
-          {[...Array(5)].map((_, i) => (
-            <svg
-              key={i}
-              className={`h-6 w-6 ${i < Math.floor(mockData.averageScore) ? "text-yellow-400" : "text-gray-300"}`}
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
+    <div className="border-y-2">
+      <div className="mx-auto flex w-full max-w-[610px] items-center justify-between px-6 py-8">
+        <div className="flex h-[60px] w-[148px] flex-col items-center justify-center gap-2 py-7 pr-5">
+          <div className="text-xl font-bold">
+            <span>{mockData.averageScore.toFixed(1)} </span>
+            <span className="text-gray-400">/5</span>
+          </div>
+          <div className="flex w-[120px]">
+            {[...Array(5)].map((_, i) => (
+              <Image
+                key={i}
+                src={
+                  i < Math.floor(mockData.averageScore)
+                    ? "/icons/heart.svg"
+                    : "/icons/empty_heart.svg"
+                }
+                alt={i < Math.floor(mockData.averageScore) ? "가득찬 하트" : "빈하트"}
+                width={24}
+                height={24}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="flex w-full max-w-[294px] flex-col gap-1">
+          {starLabels.map((label, index) => (
+            <div key={label} className="flex items-center gap-3 text-sm">
+              <span>{label}</span>
+              <div className="flex-1">
+                <Progressbar now={mockData[starKeys[index]]} max={totalRatings} />
+              </div>
+              <span className="text-gray-400">{mockData[starKeys[index]]}</span>
+            </div>
           ))}
         </div>
-      </div>
-
-      <div className="space-y-2">
-        {starLabels.map((label, index) => (
-          <div key={label} className="flex items-center gap-2">
-            <span className="w-8 text-sm">{label}</span>
-            <div className="flex-1">
-              <Progressbar now={mockData[starKeys[index]]} max={totalRatings} />
-            </div>
-            <span className="w-8 text-right text-sm">{mockData[starKeys[index]]}</span>
-          </div>
-        ))}
       </div>
     </div>
   );

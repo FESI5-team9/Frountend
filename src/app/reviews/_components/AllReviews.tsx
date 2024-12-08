@@ -51,7 +51,7 @@ function AllReviews() {
 
   return (
     <>
-      <div className="mb-10 flex flex-row items-center gap-4 px-2 tablet:px-0">
+      <div className="mb-1 flex flex-row items-center gap-4 px-2 tablet:px-0">
         <Image
           src="/images/mainPage/head.svg"
           width={72}
@@ -64,7 +64,7 @@ function AllReviews() {
           <h1 className="pb-2 text-sm">밀엔메이트를 이용한 분들은 이렇게 느꼈아요!</h1>
         </div>
       </div>
-      <div className="mb-2 flex justify-between border-b-2 px-2 pb-2 tablet:px-0">
+      <div className="flex justify-between px-2 pb-2 tablet:px-0">
         <ul className="flex gap-3 p-2 text-lg tablet:justify-between tablet:gap-4">
           {categories.map(category => (
             <li
