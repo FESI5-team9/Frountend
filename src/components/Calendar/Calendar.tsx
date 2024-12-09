@@ -16,26 +16,15 @@ function DateCell({
   onNavigateToPrevMonth,
   onNavigateToNextMonth,
 }: DateCellProps) {
-  const isToday =
-    type === "current" &&
-    today.getFullYear() === currentDate.getFullYear() &&
-    today.getMonth() === currentDate.getMonth() &&
-    today.getDate() === date;
+  const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), date)
+    .toISOString()
+    .slice(0, 10);
 
-  const isFirstDate =
-    type === "current" &&
-    firstDate &&
-    firstDate.getFullYear() === currentDate.getFullYear() &&
-    firstDate.getMonth() === currentDate.getMonth() &&
-    firstDate.getDate() === date;
+  const isToday = type === "current" && today.toISOString().slice(0, 10) === selectedDate;
 
-  const isSecondDate =
-    type === "current" &&
-    secondDate &&
-    secondDate.getFullYear() === currentDate.getFullYear() &&
-    secondDate.getMonth() === currentDate.getMonth() &&
-    secondDate.getDate() === date;
+  const isFirstDate = type === "current" && firstDate && firstDate.slice(0, 10) === selectedDate;
 
+  const isSecondDate = type === "current" && secondDate && secondDate.slice(0, 10) === selectedDate;
   const handleClick = {
     current: onSelectDate,
     prev: onNavigateToPrevMonth,
@@ -111,37 +100,44 @@ export default function Calendar({ selectMode, multipleDates }: CalendarProps) {
   const handleSelectedDate = (date: number) => {
     const newDate = new Date(currentDate);
     newDate.setDate(date);
+    newDate.setHours(0, 0, 0, 0);
+
+    const formattedDate = newDate.toISOString();
+
+    if (firstDate && !secondDate && firstDate === formattedDate) {
+      return setFirstDate(null);
+    }
 
     if (!multipleDates) {
-      setFirstDate(newDate);
+      setFirstDate(formattedDate);
     }
 
     if (!selectMode && multipleDates) {
       if (!secondDate && firstDate) {
-        if (newDate > firstDate) {
-          setSecondDate(newDate);
+        if (formattedDate > firstDate) {
+          setSecondDate(formattedDate);
         } else {
           setSecondDate(firstDate);
-          setFirstDate(newDate);
+          setFirstDate(formattedDate);
         }
       } else if (firstDate && secondDate) {
-        setFirstDate(newDate);
+        setFirstDate(formattedDate);
         setSecondDate(null);
       } else if (!firstDate && !secondDate) {
-        setFirstDate(newDate);
+        setFirstDate(formattedDate);
       }
     }
 
     if (selectMode && selectMode === "first") {
-      setFirstDate(newDate);
+      setFirstDate(formattedDate);
     } else if (selectMode && selectMode === "second") {
-      setSecondDate(newDate);
+      setSecondDate(formattedDate);
     }
   };
 
   return (
     <div className="flex w-[280px] flex-col items-center justify-center rounded-[12px] bg-white py-3">
-      <div className="flex h-8 w-[250px] items-center justify-between">
+      <div className="mb-1 flex h-8 w-[250px] items-center justify-between">
         <button type="button" onClick={handlePrevMonth}>
           <Image
             className="rotate-180"
