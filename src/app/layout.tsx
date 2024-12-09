@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import Gnb from "@/components/Gnb";
 import "./globals.css";
+
+const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOJSKEY}&libraries=services&autoload=false`;
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,6 +23,7 @@ export default function RootLayout({
       <body className={`${inter.className} pt-[60px]`}>
         <Gnb />
         {children}
+        <Script src={KAKAO_SDK_URL} strategy="beforeInteractive" />
       </body>
     </html>
   );
