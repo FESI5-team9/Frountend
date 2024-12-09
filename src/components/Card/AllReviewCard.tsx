@@ -25,9 +25,7 @@ export default function AllReviewCard({
     try {
       const data = await getReviews();
       setReview(data);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   useEffect(() => {

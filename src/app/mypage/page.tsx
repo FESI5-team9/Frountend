@@ -2,74 +2,29 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { getUserProfile } from "@/apis/authApi";
-import { updateUserProfile } from "@/apis/authApi";
-import { getMyJoinedGatherings } from "@/apis/searchGatheringApi";
-import { User } from "@/types/api/authApi";
-import { Direction } from "@/types/api/gatheringApi";
-import { GetMyJoinedGatheringsRes } from "@/types/api/gatheringApi";
-import { renderContent } from "@/utils/myGathering";
+import { useGatherings } from "@/hooks/useGatherings";
+import { useImageUpload } from "@/hooks/useImageUpload";
+import { useUserProfile } from "@/hooks/useUserProfile";
+import { CreateGathering } from "@/app/mypage/utils/CreateGathering";
+import { MyGathering } from "@/app/mypage/utils/MyGathering/MyGathering";
 
 export default function Mypage() {
   const [activeTab, setActiveTab] = useState("reviews");
-  const [gatherings, setGatherings] = useState<GetMyJoinedGatheringsRes[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [userProfile, setUserProfile] = useState<User | null>(null);
+  const { userProfile, error: userProfileError } = useUserProfile();
+  const { gatherings, loading, error } = useGatherings();
+  const { handleImageUpload, error: uploadError } = useImageUpload(userProfile);
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  const fetchGatherings = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const params = {
-        completed: true,
-        reviewed: false,
-        size: 10,
-        page: 0,
-        sort: "id.gathering.dateTime",
-        direction: "desc" as Direction,
-      };
-      const data = await getMyJoinedGatherings(params);
-      setGatherings(Array.isArray(data) ? data : [data]);
-    } catch (err) {
-      setError("데이터를 불러오는 데 실패했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchUserProfile = async () => {
-    try {
-      const data = await getUserProfile();
-      setUserProfile(data);
-    } catch (err) {
-    } finally {
-    }
-  };
-
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && userProfile) {
-      try {
-        const updatedUser = await updateUserProfile({ image: file });
-        setUserProfile(updatedUser);
-      } catch (err) {
-        setError("프로필 이미지 업로드에 실패했습니다.");
-      }
-    }
-  };
 
   const handleImageEditClick = () => {
     fileInputRef.current?.click();
   };
 
   useEffect(() => {
-    fetchUserProfile();
     if (activeTab === "gathering" || activeTab === "createdGathering") {
-      fetchGatherings();
+      // Fetch gatherings logic
     } else if (activeTab === "reviews") {
-      fetchReviews();
+      // Fetch reviews logic
     }
   }, [activeTab]);
 
@@ -158,7 +113,12 @@ export default function Mypage() {
             </button>
           </div>
           <div className="px-6 py-6">
-            {renderContent({ activeTab, loading, error, gatherings })}
+            {/* activeTab 값에 따라 각 컴포넌트 렌더링 */}
+            {activeTab === "reviews" && <Reviews />}
+            {activeTab === "gathering" && (
+              <MyGathering gatherings={gatherings} loading={loading} error={error} />
+            )}
+            {activeTab === "createdGathering" && <CreateGathering />}
           </div>
         </div>
       </div>

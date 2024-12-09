@@ -8,7 +8,7 @@ interface RenderContentProps {
   gatherings: GetMyJoinedGatheringsRes[];
 }
 
-export const renderContent = ({ activeTab, loading, error, gatherings }: RenderContentProps) => {
+export const MyGathering = ({ activeTab, loading, error, gatherings }: RenderContentProps) => {
   if (loading) return <p>로딩 중...</p>;
   if (error) return <p>{error}</p>;
 
