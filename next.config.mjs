@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["mukitlistbucket.s3.ap-northeast-2.amazonaws.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "mukitlistbucket.s3.ap-northeast-2.amazonaws.com",
+      },
+    ],
   },
 };
 

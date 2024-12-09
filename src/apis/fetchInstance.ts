@@ -33,6 +33,12 @@ fetchInstance.interceptors.request.push({
       ...newConfig.headers,
       Authorization: `Bearer ${accessToken}`,
     };
+
+    // FormData 사용 시 Content-Type 제거
+    if (config.data instanceof FormData) {
+      delete newConfig.headers["Content-Type"];
+    }
+
     return newConfig;
   },
   onRejected: error => Promise.reject(error),
