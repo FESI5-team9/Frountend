@@ -8,7 +8,7 @@ type MapProps = {
 export default function Map({ address }: MapProps) {
   return (
     <div className="h-full w-full">
-      <div className="aspect-square w-full rounded-2xl bg-gray-500 tablet:h-[180px]">
+      <div className="h-[336px] w-full rounded-2xl bg-gray-500 tablet:h-[180px]">
         <KakaoMapLayout />
       </div>
       <div className="mt-2 flex items-center gap-1">
