@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Script from "next/script";
 import Gnb from "@/components/Gnb";
 import "./globals.css";
-
-const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOJSKEY}&libraries=services&autoload=false`;
 
 const pretendard = localFont({
   src: "../../public/fonts/PretendardVariable.ttf",
@@ -27,7 +24,6 @@ export default function RootLayout({
       <body className={`${pretendard.className} pt-[60px]`}>
         <Gnb />
         {children}
-        <Script src={KAKAO_SDK_URL} strategy="beforeInteractive" />
       </body>
     </html>
   );
