@@ -23,8 +23,10 @@ export default function DropdownCalendar() {
   };
 
   const resetAndCloseDropdown = () => {
-    resetDate();
-    setIsOpen(false);
+    if (isOpen) {
+      resetDate();
+      setIsOpen(false);
+    }
   };
 
   useClickOutside(dropdownRef, resetAndCloseDropdown);

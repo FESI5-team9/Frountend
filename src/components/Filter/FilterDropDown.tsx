@@ -25,7 +25,7 @@ export function FilterDropDown({ filterType, options, onSelectFilterOption }: Fi
   }, []);
 
   const closeDropdown = () => {
-    setIsOpen(false);
+    if (isOpen) setIsOpen(false);
   };
 
   useClickOutside(dropdownRef, closeDropdown);
