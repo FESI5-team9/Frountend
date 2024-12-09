@@ -1,4 +1,6 @@
 // export interface CardType {
+import { AllReviewCard } from "@/components/Card/AllReviewCard";
+
 //   address1: string;
 //   canceledAt: null;
 //   capacity: number;
@@ -20,17 +22,35 @@ export interface GetGathering {
   dateTime: string;
   registrationEnd: string;
   location?:
-  | "SEOUL"
-  | "GYEONGGI_DO"
-  | "GANGWON_DO"
-  | "CHUNGCHEONG_DO"
-  | "GYEONGSANG_DO"
-  | "JEOLLA_DO"
-  | "JEJU_ISLAND";
+    | "SEOUL"
+    | "GYEONGGI_DO"
+    | "GANGWON_DO"
+    | "CHUNGCHEONG_DO"
+    | "GYEONGSANG_DO"
+    | "JEOLLA_DO"
+    | "JEJU_ISLAND";
   address1: string;
   participantCount: number;
   capacity: number;
   image: string;
   createdBy: string;
   canceledAt: string;
+}
+
+export interface MypageCardProps {
+  name: string;
+  location: string;
+  address1: string;
+  dateTime: string;
+  image: string;
+  participantCount: number;
+  capacity: number;
+}
+
+export interface AllReviewCardProps {
+  image: string;
+  score: number;
+  comment: string;
+  location: string;
+  date: string;
 }

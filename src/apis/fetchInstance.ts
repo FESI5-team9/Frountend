@@ -1,7 +1,6 @@
 // src/lib/client.ts
 import { setAuthCookies } from "@/app/actions/auth";
 import { LoginRes } from "@/types/api/authApi";
-import { handleApiError } from "./ApiError";
 import { createClient } from "./HttpClient/HttpClient";
 import { APIError } from "./HttpClient/error";
 
@@ -14,35 +13,7 @@ const fetchInstance = createClient({
   credentials: "include",
 });
 
-// 요청 인터셉터 추가
-fetchInstance.interceptors.request.push({
-  onFulfilled: async config => {
-    const excludedUrls = ["/auth/refresh-token"];
-    if (excludedUrls.some(url => config.url?.includes(url))) {
-      return config;
-    }
-    const getCookie = (name: string) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop()?.split(";").shift();
-      return undefined;
-    };
-    const accessToken = getCookie("accessToken");
-    const newConfig = { ...config };
-    newConfig.headers = {
-      ...newConfig.headers,
-      Authorization: `Bearer ${accessToken}`,
-    };
-
-    // FormData 사용 시 Content-Type 제거
-    if (config.data instanceof FormData) {
-      delete newConfig.headers["Content-Type"];
-    }
-
-    return newConfig;
-  },
-  onRejected: error => Promise.reject(error),
-});
+// 토큰 관련 로직 제거하고 필요한 인터셉터만 남김
 fetchInstance.interceptors.response.push({
   onFulfilled: response => {
     return response;
@@ -58,23 +29,8 @@ fetchInstance.interceptors.response.push({
       prevConfig.retry = true;
 
       try {
-        const getCookie = (name: string) => {
-          const value = `; ${document.cookie}`;
-          const parts = value.split(`; ${name}=`);
-          if (parts.length === 2) return parts.pop()?.split(";").shift();
-          return undefined;
-        };
-
-        const currentRefreshToken = getCookie("refreshToken");
-        if (!currentRefreshToken) {
-          return await Promise.reject(error);
-        }
-
         const refreshClient = createClient({
           baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${currentRefreshToken}`,
-          },
         });
 
         const data = await refreshClient.post<LoginRes>("/auth/refresh-token");
@@ -102,9 +58,6 @@ fetchInstance.interceptors.response.push({
         return Promise.reject(refreshError);
       }
     }
-
-    const handledError = handleApiError(error);
-    return Promise.reject(handledError);
   },
 });
 

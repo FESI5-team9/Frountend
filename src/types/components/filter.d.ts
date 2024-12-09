@@ -1,21 +1,24 @@
 type FilterType = "sortFilter" | "selectionFilter";
 
-type DropDownProps = {
+type OptionType = { ko: string; eng: string };
+
+type FilterDropdownProps = {
   filterType: FilterType;
-  options: string[];
-  handleFilter: (currentOption: string) => void;
+  options: OptionType[];
+  onSelectFilterOption: (currentOption: string) => void;
 };
 
 type FilterButtonProps = {
-  selectedOption?: string;
+  selectedOption?: OptionType;
+  selectedDateOption?: string;
   filterType: string;
-  onClick: () => void;
+  onToggle: () => void;
 };
 
 type DropdownProps = {
-  options: string[];
+  options: OptionType[];
   isOpen: boolean;
-  selectedOption: string;
-  handleOptionSelect: (textContent: string) => void;
+  selectedOption: OptionType;
+  onSelectOption: (textContent: OptionType) => void;
   filterType: string;
 };

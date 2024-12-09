@@ -1,4 +1,4 @@
-import MypageCard from "@/components/MypageCard";
+import MypageCard from "@/components/Card/MypageCard";
 import { GetMyJoinedGatheringsRes } from "@/types/api/gatheringApi";
 
 interface RenderContentProps {
@@ -13,27 +13,27 @@ export const renderContent = ({ activeTab, loading, error, gatherings }: RenderC
   if (error) return <p>{error}</p>;
 
   switch (activeTab) {
-    case "reviews":
-      // if (userProfile.length === 0) {
-      //   return <p>아직 작성 가능한 리뷰가 없어요.</p>;
-      // }
-      break;
     case "gathering":
       if (gatherings.length === 0) {
         return <p>신청한 모임이 아직 없어요.</p>;
       }
-      return gatherings.map((gathering: GetMyJoinedGatheringsRes) => (
-        <MypageCard
-          key={gathering.id}
-          name={gathering.name}
-          location={gathering.location}
-          address1={gathering.address1}
-          dateTime={gathering.dateTime}
-          keywords={gathering.keywords || []}
-          image={gathering.image}
-          participantCount={gathering.participantCount}
-          capacity={gathering.capacity}
-        />
+      return gatherings.map((gathering: GetMyJoinedGatheringsRes, index) => (
+        <div key={gathering.id}>
+          <MypageCard
+            key={gathering.id}
+            name={gathering.name}
+            location={gathering.location}
+            address1={gathering.address1}
+            dateTime={gathering.dateTime}
+            image={gathering.image}
+            participantCount={gathering.participantCount}
+            capacity={gathering.capacity}
+          />
+          {/* 구분선 추가 (마지막 요소 제외) */}
+          {index !== gatherings.length - 1 && (
+            <div className="mb-6 mt-6 border-[2px] border-dashed border-gray-200"></div>
+          )}
+        </div>
       ));
     case "createdGathering":
       if (gatherings.length === 0) {

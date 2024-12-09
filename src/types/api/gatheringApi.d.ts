@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export const DIRECTION = {
   ASC: "ASC",
   DESC: "DESC",
@@ -18,13 +20,13 @@ export type GatheringBase = {
   dateTime: string;
   registrationEnd: string;
   location?:
-  | "SEOUL"
-  | "GYEONGGI_DO"
-  | "GANGWON_DO"
-  | "CHUNGCHEONG_DO"
-  | "GYEONGSANG_DO"
-  | "JEOLLA_DO"
-  | "JEJU_ISLAND";
+    | "SEOUL"
+    | "GYEONGGI_DO"
+    | "GANGWON_DO"
+    | "CHUNGCHEONG_DO"
+    | "GYEONGSANG_DO"
+    | "JEOLLA_DO"
+    | "JEJU_ISLAND";
   address1: string;
   participantCount: number;
   capacity: number;
@@ -50,6 +52,7 @@ export type User = {
 export type GatheringsRes = GatheringBase[];
 
 export type GetMyJoinedGatheringsRes = Omit<GatheringBase, "image"> & {
+  name: string;
   address2: string;
   keywords: string[];
   joinedAt: string;
@@ -59,8 +62,8 @@ export type GetMyJoinedGatheringsRes = Omit<GatheringBase, "image"> & {
 };
 
 export type CreateGathering = Omit<
-GatheringBase,
-"id" | "participantCount" | "createdBy" | "canceledAt" | "image" | "location"
+  GatheringBase,
+  "id" | "participantCount" | "createdBy" | "canceledAt" | "image" | "location"
 > & {
   location: string;
   address2: string;
@@ -74,13 +77,13 @@ export type Gatherings = PaginationParams & {
   type?: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
   dateTime?: string;
   location?:
-  | "SEOUL"
-  | "GYEONGGI_DO"
-  | "GANGWON_DO"
-  | "CHUNGCHEONG_DO"
-  | "GYEONGSANG_DO"
-  | "JEOLLA_DO"
-  | "JEJU_ISLAND";
+    | "SEOUL"
+    | "GYEONGGI_DO"
+    | "GANGWON_DO"
+    | "CHUNGCHEONG_DO"
+    | "GYEONGSANG_DO"
+    | "JEOLLA_DO"
+    | "JEJU_ISLAND";
   createdBy?: string;
 };
 

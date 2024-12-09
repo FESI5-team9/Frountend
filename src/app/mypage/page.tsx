@@ -23,11 +23,11 @@ export default function Mypage() {
     setError(null);
     try {
       const params = {
-        completed: false,
+        completed: true,
         reviewed: false,
         size: 10,
         page: 0,
-        sort: "dateTime",
+        sort: "id.gathering.dateTime",
         direction: "desc" as Direction,
       };
       const data = await getMyJoinedGatherings(params);
@@ -69,7 +69,7 @@ export default function Mypage() {
     if (activeTab === "gathering" || activeTab === "createdGathering") {
       fetchGatherings();
     } else if (activeTab === "reviews") {
-      fetchUserProfile();
+      fetchReviews();
     }
   }, [activeTab]);
 
