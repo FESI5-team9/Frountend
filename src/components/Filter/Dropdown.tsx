@@ -1,7 +1,7 @@
 export default function Dropdown({ options, isOpen, onSelectOption }: DropdownProps) {
   return (
     <ul
-      className={`${isOpen ? "block" : "hidden"} absolute z-50 mt-3 w-[110px] rounded-[12px] bg-white p-1 tablet:w-[120px]`}
+      className={`${isOpen ? "block" : "hidden"} absolute z-50 mt-3 w-[110px] rounded-[12px] border-2 border-gray-100 bg-white p-1 tablet:w-[120px]`}
     >
       {options.map((option, index) => (
         <li
