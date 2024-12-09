@@ -8,8 +8,7 @@ import FilterButton from "@/components/Filter/FilterButton";
 import useDateStore from "@/store/dateStore";
 
 export default function DropdownCalendar() {
-  const { selectedOption, setSelectedOption, setFirstDate, setSecondDate, firstDate } =
-    useDateStore();
+  const { setFirstDate, setSecondDate, firstDate } = useDateStore();
   const [isOpen, setIsOpen] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -17,7 +16,6 @@ export default function DropdownCalendar() {
   const resetDate = () => {
     setFirstDate(null);
     setSecondDate(null);
-    setSelectedOption("날짜 선택");
   };
 
   const toggleDropdown = () => {
@@ -38,7 +36,7 @@ export default function DropdownCalendar() {
   return (
     <div ref={dropdownRef} className="w-[330px]">
       <FilterButton
-        selectedDateOption={selectedOption}
+        selectedDateOption="날짜 선택"
         filterType="selectionFilter"
         onToggle={toggleDropdown}
       />
