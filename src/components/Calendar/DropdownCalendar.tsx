@@ -1,34 +1,36 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { format } from "date-fns";
+import { useRef, useState } from "react";
+import useClickOutside from "@/hooks/useClickOutside";
 import Calendar from "@/components/Calendar/Calendar";
 import FilterButton from "@/components/Filter/FilterButton";
 import useDateStore from "@/store/dateStore";
 
 export default function DropdownCalendar() {
-  const { selectedOption, setSelectedOption, setFirstDate } = useDateStore();
+  const { selectedOption, setSelectedOption, setFirstDate, setSecondDate } = useDateStore();
   const [isOpen, setIsOpen] = useState(false);
+
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  const resetDate = () => {
+    setFirstDate(null);
+    setSecondDate(null);
+    setSelectedOption("날짜 선택");
+  };
 
   const toggleDropdown = () => {
     setIsOpen(prevState => !prevState);
   };
 
-  const handleDateSelect = useCallback(
-    (date: Date) => {
-      setSelectedOption(format(date, "yy/MM/dd"));
-      setFirstDate(date);
-    },
-    [setSelectedOption, setFirstDate],
-  );
+  const resetAndCloseDropdown = () => {
+    resetDate();
+    setIsOpen(false);
+  };
 
-  const resetDate = useCallback(() => {
-    setFirstDate(null);
-    setSelectedOption("날짜 선택");
-  }, [setFirstDate, setSelectedOption]);
+  useClickOutside(dropdownRef, resetAndCloseDropdown);
 
   return (
-    <div className="w-[330px]">
+    <div ref={dropdownRef} className="w-[330px]">
       <FilterButton
         selectedDateOption={selectedOption}
         filterType="selectionFilter"
@@ -38,7 +40,7 @@ export default function DropdownCalendar() {
       <div
         className={`absolute z-50 mt-3 flex w-[330px] flex-col items-center justify-center rounded-[12px] bg-white ${isOpen ? "block" : "hidden"}`}
       >
-        <Calendar multipleDates={false} onSelectDropdownDate={handleDateSelect} />
+        <Calendar multipleDates={true} />
         <div className="mb-3 flex w-[250px] justify-between">
           <button onClick={resetDate} className="h-10 w-[118px]">
             초기화

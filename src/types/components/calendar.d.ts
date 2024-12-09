@@ -12,7 +12,6 @@ type DateCellProps = {
 
 type CalendarProps = {
   selectMode?: string;
-  onSelectDropdownDate?: (date: Date) => void;
   multipleDates: boolean;
 };
 
