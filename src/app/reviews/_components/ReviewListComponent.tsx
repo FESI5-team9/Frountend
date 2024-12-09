@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import FilterButton from "@/components/Filter/FilterButton";
+import { useEffect } from "react";
+import DropdownCalendar from "@/components/Calendar/DropdownCalendar";
 import { FilterDropDown } from "@/components/Filter/FilterDropDown";
 import { LOCATION_OPTIONS, SORT_OPTIONS } from "@/constants/filter";
 import useDateStore from "@/store/dateStore";
@@ -61,22 +61,21 @@ const mockData = [
   },
 ];
 
-function ReviewListComponent({ reviews, filters, setFilters }: ReviewListComponentProps) {
-  const [, setIsOpen] = useState(false);
+function ReviewListComponent({ reviews, setFilters }: ReviewListComponentProps) {
+  const { firstDate } = useDateStore();
+
+  useEffect(() => {
+    if (firstDate) {
+      setFilters(prev => ({ ...prev, date: firstDate.toString() }));
+    }
+  }, [firstDate, setFilters]);
 
   const handleLocationFilter = (location: string) => {
-    setFilters({ ...filters, location: location as GetReviews["location"] });
+    setFilters(prev => ({ ...prev, location: location as GetReviews["location"] }));
   };
-
   const handleSortFilter = (sort: string) => {
-    setFilters({ ...filters, sort });
+    setFilters(prev => ({ ...prev, sort }));
   };
-
-  const handleDateFilter = () => {
-    setIsOpen(prevState => !prevState);
-  };
-
-  const { selectedOption } = useDateStore();
   // eslint-disable-next-line no-console
   console.log(reviews);
 
@@ -89,11 +88,8 @@ function ReviewListComponent({ reviews, filters, setFilters }: ReviewListCompone
             options={LOCATION_OPTIONS}
             onSelectFilterOption={handleLocationFilter}
           />
-          <FilterButton
-            selectedDateOption={selectedOption}
-            filterType="selectionFilter"
-            onToggle={handleDateFilter}
-          />
+
+          <DropdownCalendar />
         </div>
         <FilterDropDown
           filterType="sortFilter"

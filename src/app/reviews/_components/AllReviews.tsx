@@ -18,7 +18,7 @@ interface Filters {
 }
 
 function AllReviews() {
-  const [type, setType] = useState<Category["link"]>("CAFE");
+  const [type, setType] = useState<Category["link"]>("RESTAURANT");
   const [filters, setFilters] = useState<Filters>({
     type: "CAFE",
     location: undefined,
