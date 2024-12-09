@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import FilterButton from "@/components/Filter/FilterButton";
 import { FilterDropDown } from "@/components/Filter/FilterDropDown";
 import { LOCATION_OPTIONS, SORT_OPTIONS } from "@/constants/filter";
@@ -21,6 +20,47 @@ interface ReviewListComponentProps {
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
 }
 
+const mockData = [
+  {
+    id: 0,
+    score: 0,
+    comment: "string",
+    createdAt: "2024-12-09T00:05:03.161Z",
+    gathering: {
+      id: 0,
+      type: "CAFE",
+      name: "string",
+      dateTime: "2024-12-09T00:05:03.161Z",
+      location: "SEOUL",
+      image: "string",
+    },
+    user: {
+      id: 0,
+      nickname: "string",
+      image: "string",
+    },
+  },
+  {
+    id: 0,
+    score: 0,
+    comment: "string",
+    createdAt: "2024-12-09T00:05:03.161Z",
+    gathering: {
+      id: 0,
+      type: "CAFE",
+      name: "string",
+      dateTime: "2024-12-09T00:05:03.161Z",
+      location: "SEOUL",
+      image: "string",
+    },
+    user: {
+      id: 0,
+      nickname: "string",
+      image: "string",
+    },
+  },
+];
+
 function ReviewListComponent({ reviews, filters, setFilters }: ReviewListComponentProps) {
   const [, setIsOpen] = useState(false);
 
@@ -37,6 +77,8 @@ function ReviewListComponent({ reviews, filters, setFilters }: ReviewListCompone
   };
 
   const { selectedOption } = useDateStore();
+  // eslint-disable-next-line no-console
+  console.log(reviews);
 
   return (
     <div className="flex flex-col gap-4">
@@ -61,29 +103,8 @@ function ReviewListComponent({ reviews, filters, setFilters }: ReviewListCompone
       </div>
 
       <div className="flex flex-col gap-6">
-        {reviews?.map(review => (
-          <div key={review.id} className="rounded-lg border p-4">
-            <Image
-              src={review.gathering.image}
-              alt="체험 이미지 사진"
-              width={400}
-              height={300}
-              className="mb-4 rounded-lg"
-            />
-            <div className="flex gap-1">
-              {[...Array(review.score)].map((_, i) => (
-                <span key={i} className="text-yellow-400">
-                  ★
-                </span>
-              ))}
-            </div>
-            <p className="mt-2">{review.comment}</p>
-            <div className="mt-4 flex items-center gap-2 text-gray-500">
-              <span>{review.user.nickname}</span>
-              <span>|</span>
-              <span>{review.createdAt}</span>
-            </div>
-          </div>
+        {mockData?.map(review => (
+          <div key={review.id} className="h-20 w-full rounded-lg border p-4"></div>
         ))}
       </div>
     </div>
