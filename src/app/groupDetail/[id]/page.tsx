@@ -1,9 +1,10 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import Button from "@/components/Button/Button";
+// import { useEffect } from "react";
+// import { useParams } from "next/navigation";
 import { formatToKoreanTime } from "@/utils/date";
 import DetailCard from "../_components/DetailCard";
+import FixedBottomBar from "../_components/FixedBottomBar";
 import Map from "../_components/Map";
 import Reviews from "../_components/Reviews";
 
@@ -13,16 +14,16 @@ const MOCK_DETAIL = {
   name: "하이디라오 건대점",
   dateTime: "2024-12-03T04:16:28.268",
   registrationEnd: "2024-12-02T11:59:59",
-  createdBy: "2024-12-03T04:16:28.268",
+  createdAt: "2024-12-03T04:16:28.268",
   canceledAt: "2024-12-03T04:16:28.268",
   location: "서울",
   address1: "서울 광진구",
   address2: "서울 광진구 능동로 110서울 광진구 능동로 110",
   description: "모임 설명이에요",
   image: "/images/image.png",
-  favorite: false,
+  favorite: true,
   keyword: ["처유마라훠궈(오리지널)", "처유마라훠궈(오리지널)", "처유마라훠궈(오리지널)"],
-  participantCount: 16,
+  participantCount: 5,
   capacity: 20,
   user: {
     id: 0,
@@ -82,14 +83,15 @@ const MOCK_REVIEWS = [
 ];
 
 function GroupDetailPage() {
-  const { id } = useParams();
-  const userId = "1";
+  // const { id } = useParams();
+  // const userId = "1";
 
-  const submitJoin = () => {};
+  // useEffect(() => {
+  //   console.log(id, typeof id);
+  // }, [id]);
 
-  const cancelGathering = () => {};
-
-  const shareGathering = () => {};
+  if (!MOCK_DETAIL)
+    return <div className="mx-auto max-w-[1200px] px-4 tablet:px-8 desktop:px-[62px]"></div>;
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 tablet:px-8 desktop:px-[62px]">
@@ -118,7 +120,7 @@ function GroupDetailPage() {
             <span className="text-[#3C3C3C]">|</span>
 
             <span className="text-[#9CA3AF]">
-              {formatToKoreanTime(MOCK_DETAIL?.createdBy, "yyyy.MM.dd")}
+              {formatToKoreanTime(MOCK_DETAIL.createdAt, "yyyy.MM.dd")}
             </span>
           </div>
         </div>
@@ -126,34 +128,11 @@ function GroupDetailPage() {
           <Map address={MOCK_DETAIL.address2} />
         </div>
       </div>
-      <div className="w-full tablet:px-6 desktop:px-[62px]">
+      <div className="w-full pb-[134px] tablet:px-6 desktop:px-[62px]">
         <Reviews reviews={MOCK_REVIEWS} />
       </div>
 
-      <div className="fixed bottom-0 left-0 z-[999] h-[134px] w-full border-t-2 bg-white tablet:h-[84px] desktop:h-[87px]">
-        <div className="mx-auto flex max-w-[744px] flex-wrap justify-between gap-[10px] px-4 py-5 tablet:px-6 tablet:py-5 desktop:px-12">
-          <div>
-            <p className="text-sm font-semibold">메이트들의 PICK!</p>
-            <p className="text-xs">메이트들이 선택한 맛집에서 즐거운 한끼 어떠세요?</p>
-          </div>
-          {id && id === userId ? (
-            <div className="flex w-full gap-2 tablet:w-[238px]">
-              <Button className="h-11 bg-[#E5E7EB] text-[#262626]" onClick={cancelGathering}>
-                취소하기
-              </Button>
-              <Button className="h-11 bg-yellow-primary text-[#262626]" onClick={shareGathering}>
-                공유하기
-              </Button>
-            </div>
-          ) : (
-            <div className="w-[115px]">
-              <Button className="h-11 bg-yellow-primary text-[#262626]" onClick={submitJoin}>
-                참여하기
-              </Button>
-            </div>
-          )}
-        </div>
-      </div>
+      <FixedBottomBar gatheringId={MOCK_DETAIL.id} status="join" />
     </div>
   );
 }

@@ -22,6 +22,7 @@ type Gathering = {
   name: string;
   dateTime: string;
   registrationEnd: string;
+  createdAt: string;
   location: string;
   address1: string;
   address2: string;
@@ -29,11 +30,11 @@ type Gathering = {
   participantCount: number;
   capacity: number;
   image: string;
-  createdBy: string;
   canceledAt: string;
   keyword: string[];
   participants: Participant[];
   user: User;
+  favorite: boolean;
 };
 
 type GatheringProp = {
@@ -72,7 +73,7 @@ export default function DetailCard({ gathering }: GatheringProp) {
               </Chip>
             </div>
           </div>
-          <FavoriteButton gatheringId={gathering.id} />
+          <FavoriteButton gatheringId={gathering.id} initialFavorite={gathering.favorite} />
         </div>
 
         <div className="my-[10px] flex flex-wrap items-center gap-1">
@@ -111,10 +112,6 @@ export default function DetailCard({ gathering }: GatheringProp) {
           </div>
           {gathering.participantCount >= 5 ? (
             <div className="flex gap-1">
-              {/* <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-black">
-                <Image src="/images/checked.svg" width={12} height={12} alt="개설 확정" />
-              </div> */}
-
               <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-black">
                 <Image
                   style={{
@@ -132,7 +129,7 @@ export default function DetailCard({ gathering }: GatheringProp) {
           ) : null}
         </div>
         <div>
-          <Progressbar now={16} max={20} />
+          <Progressbar now={gathering.participantCount} max={20} />
         </div>
         <div className="flex items-center justify-between text-xs text-[#3C3C3C]">
           <p>최소인원 5명</p>
