@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Gnb from "@/components/Gnb";
 import "./globals.css";
+import ReactQueryProviders from "./providers";
 
 const pretendard = localFont({
   src: "../../public/fonts/PretendardVariable.ttf",
@@ -23,7 +24,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`${pretendard.className} pt-[60px]`}>
         <Gnb />
-        {children}
+        <ReactQueryProviders>{children}</ReactQueryProviders>
       </body>
     </html>
   );
