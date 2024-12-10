@@ -34,7 +34,7 @@ fetchInstance.interceptors.response.push({
         });
 
         const data = await refreshClient.post<LoginRes>("/auth/refresh-token");
-        await setAuthCookies(data.accessToken, data.refreshToken);
+        await setAuthCookies(data.accessToken);
 
         const { method, url, body, ...restConfig } = prevConfig;
         prevConfig.headers = {
