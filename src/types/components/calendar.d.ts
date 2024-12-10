@@ -2,8 +2,8 @@ type DateCellProps = {
   date: number;
   type: string;
   currentDate: Date;
-  firstDate: Date | null;
-  secondDate: Date | null;
+  firstDate: string | null;
+  secondDate: string | null;
   today: Date;
   onSelectDate: () => void;
   onNavigateToPrevMonth: () => void;
@@ -12,15 +12,12 @@ type DateCellProps = {
 
 type CalendarProps = {
   selectMode?: string;
-  onSelectDropdownDate?: (date: Date) => void;
   multipleDates: boolean;
 };
 
 type DateStore = {
-  firstDate: Date | null;
-  secondDate: Date | null;
-  selectedOption: string; // 드롭다운 선택된 날짜 표시용
-  setFirstDate: (date: Date | null) => void;
-  setSecondDate: (date: Date | null) => void;
-  setSelectedOption: (option: string) => void; // 날짜 선택 시 옵션 변경
+  firstDate: string | null;
+  secondDate: string | null;
+  setFirstDate: (date: string | null) => void;
+  setSecondDate: (date: string | null) => void;
 };
