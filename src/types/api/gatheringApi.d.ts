@@ -62,7 +62,7 @@ export type GetMyJoinedGatheringsRes = Omit<GatheringBase, "canceledAt"> & {
 
 export type CreateGathering = Omit<
 GatheringBase,
-"id" | "participantCount" | "createdBy" | "canceledAt" | "image" | "location"
+"id" | "participantCount" | "createdAt" | "canceledAt" | "image" | "location"
 > & {
   openParticipantCount?: string;
   location: string;

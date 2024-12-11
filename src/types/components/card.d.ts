@@ -28,9 +28,10 @@ export interface GetGathering {
   | "JEOLLA_DO"
   | "JEJU_ISLAND";
   address1: string;
+  address2: string;
   participantCount: number;
   capacity: number;
   image: string;
-  createdBy: string;
+  createdAt: string;
   canceledAt: string;
 }
