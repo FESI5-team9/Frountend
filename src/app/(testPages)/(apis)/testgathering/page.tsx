@@ -52,7 +52,6 @@ export default function GatheringTestPage() {
         name: "맛집 팀방",
         dateTime: "2024-12-02T07:06:02.489",
         capacity: 10,
-        registrationEnd: "2024-12-02T07:21:02.489",
         address1: "string",
         address2: "string",
         description: "string",

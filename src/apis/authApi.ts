@@ -11,7 +11,7 @@ export async function signup(body: PostUsers) {
 
 // 유저 정보 조회
 export async function getUserProfile() {
-  const data = await fetchInstance.get<User>("/auth/user");
+  const data = await fetchInstance.get<User>("/user");
   return data;
 }
 
@@ -43,7 +43,7 @@ export async function updateUserProfile(body: PutUsers) {
   if (body.image) {
     formData.append("image", body.image);
   }
-  const data = await fetchInstance.put<User>("/auth/user", formData);
+  const data = await fetchInstance.put<User>("/user", formData);
 
   const userStore = useUserStore.getState();
   userStore.setUser({
@@ -52,5 +52,17 @@ export async function updateUserProfile(body: PutUsers) {
     nickname: data.nickname,
     image: data.image,
   });
+  return data;
+}
+
+// 이메일 검증
+export async function checkEmail(email: string) {
+  const data = await fetchInstance.get(`/auth/check-email?email=${email}`);
+  return data;
+}
+
+// 닉네임 검증
+export async function checkNickName(nickname: string) {
+  const data = await fetchInstance.get(`/auth/check-nickname?nickname=${nickname}`);
   return data;
 }
