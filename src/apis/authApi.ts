@@ -10,8 +10,8 @@ export async function signup(body: PostUsers) {
 }
 
 // 유저 정보 조회
-export async function getUserProfile(options?: { next?: NextFetchRequestConfig }) {
-  const data = await fetchInstance.get<User>("/auth/user", options);
+export async function getUserProfile() {
+  const data = await fetchInstance.get<User>("/auth/user");
   return data;
 }
 
@@ -19,16 +19,15 @@ export async function getUserProfile(options?: { next?: NextFetchRequestConfig }
 export async function signin(body: Login) {
   const data = await fetchInstance.post<LoginRes>("/auth/signin", body);
 
-  await setAuthCookies(data.accessToken, data.refreshToken);
+  await setAuthCookies(data.accessToken);
 
-  const { id, email, nickname, name, image } = await getUserProfile();
+  const { id, email, nickname, image } = await getUserProfile();
 
   const userStore = useUserStore.getState();
   userStore.setUser({
     id,
     email,
     nickname,
-    name,
     image,
   });
 
@@ -51,7 +50,6 @@ export async function updateUserProfile(body: PutUsers) {
     id: data.id,
     email: data.email,
     nickname: data.nickname,
-    name: data.name,
     image: data.image,
   });
   return data;
