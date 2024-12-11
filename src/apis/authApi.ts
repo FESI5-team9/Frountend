@@ -54,3 +54,15 @@ export async function updateUserProfile(body: PutUsers) {
   });
   return data;
 }
+
+// 이메일 검증
+export async function checkEmail(email: string) {
+  const data = await fetchInstance.get(`/auth/check-email?email=${email}`);
+  return data;
+}
+
+// 닉네임 검증
+export async function checkNickName(nickname: string) {
+  const data = await fetchInstance.get(`/auth/check-nickname?nickname=${nickname}`);
+  return data;
+}
