@@ -13,16 +13,12 @@ import {
 import fetchInstance from "./fetchInstance";
 
 // 모임 목록 조회
-export async function getGatherings(
-  params: Gatherings,
-  options?: { next?: NextFetchRequestConfig },
-) {
+export async function getGatherings(params: Gatherings) {
   const searchParams = new URLSearchParams();
   const queryString = buildQueryParams(searchParams, params);
 
   const data = await fetchInstance.get<GatheringsRes>(
     `/gatherings${queryString ? `?${queryString}` : ""}`,
-    options,
   );
   return data;
 }

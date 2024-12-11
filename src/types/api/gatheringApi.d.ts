@@ -26,10 +26,11 @@ export type GatheringBase = {
   | "JEOLLA_DO"
   | "JEJU_ISLAND";
   address1: string;
+  address2: string;
   participantCount: number;
   capacity: number;
   image: string;
-  createdBy: string;
+  createdAt: string;
   canceledAt: string;
 };
 
@@ -74,7 +75,8 @@ GatheringBase,
 export type Gatherings = PaginationParams & {
   id?: number[];
   type?: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
-  dateTime?: string;
+  startDate?: string;
+  endDate?: string;
   location?:
   | "SEOUL"
   | "GYEONGGI_DO"
