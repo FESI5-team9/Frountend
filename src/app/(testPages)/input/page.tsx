@@ -10,7 +10,7 @@ import baseSchema from "@/utils/schema";
 type LoginFormData = z.infer<typeof baseSchema>;
 
 const loginSchema = baseSchema
-  .pick({ name: true, email: true, nickname: true, password: true, confirmPassword: true })
+  .pick({ email: true, nickname: true, password: true, confirmPassword: true })
   .refine(data => data.password === data.confirmPassword, {
     message: "비밀번호가 일치하지 않습니다.",
     path: ["confirmPassword"],
@@ -27,14 +27,6 @@ function SignIn() {
 
   return (
     <form className="mx-auto flex max-w-[600px] flex-col gap-6 px-10 pt-20">
-      <Input
-        register={register("name")}
-        type="text"
-        name="name"
-        label="이름"
-        placeholder="이름을 입력해주세요"
-        error={errors.name}
-      />
       <Input
         register={register("email")}
         type="email"
