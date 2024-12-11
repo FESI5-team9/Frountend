@@ -1,7 +1,6 @@
-import FilterSection from "../_components/FilterSection";
-import GatheringServer from "../_components/GatheringSever";
-import HeroSection from "../_components/HeroSection";
-import SelectedType from "../_components/SelectedType";
+import FilterSection from "../../_components/FilterSection";
+import HeroSection from "../../_components/HeroSection";
+import SelectedType from "../../_components/SelectedType";
 
 export default async function page() {
   return (
@@ -9,7 +8,7 @@ export default async function page() {
       <HeroSection />
       <SelectedType />
       <FilterSection />
-      <GatheringServer />
+      {/* <GatheringServer /> */}
     </main>
   );
 }

@@ -1,5 +1,4 @@
 import FilterSection from "./(home)/_components/FilterSection";
-import GatheringServer from "./(home)/_components/GatheringSever";
 import HeroSection from "./(home)/_components/HeroSection";
 import SelectedType from "./(home)/_components/SelectedType";
 
@@ -9,7 +8,7 @@ export default function Home() {
       <HeroSection />
       <SelectedType />
       <FilterSection />
-      <GatheringServer />
+      {/* <GatheringServer /> */}
     </main>
   );
 }
