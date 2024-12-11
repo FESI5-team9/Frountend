@@ -32,3 +32,5 @@ export async function LeaveGathering(id: string) {
   const data = await fetchInstance.delete(`/gatherings/${id}/leave`);
   return data;
 }
+
+// 모임 수정

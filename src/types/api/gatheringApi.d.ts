@@ -36,12 +36,12 @@ export type GatheringBase = {
 
 export type GatheringRes = GatheringBase & {
   user: User;
-  address2: string;
   description: string;
   keyword: string[];
   host: boolean;
   favorite: boolean;
-  participants: Participant;
+  open: boolean;
+  participants: Participant[];
 };
 
 export type User = {
@@ -52,8 +52,7 @@ export type User = {
 
 export type GatheringsRes = GatheringBase[];
 
-export type GetMyJoinedGatheringsRes = Omit<GatheringBase, "canceledAt"> & {
-  address2: string;
+export type GetMyJoinedGatheringsRes = GatheringBase & {
   keywords: string[];
   joinedAt: string;
   isCompleted: boolean;
@@ -90,6 +89,15 @@ export type Gatherings = PaginationParams & {
 
 export type GetSearchGatherings = PaginationParams & {
   search: string;
+  type?: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
+  location?:
+  | "SEOUL"
+  | "GYEONGGI_DO"
+  | "GANGWON_DO"
+  | "CHUNGCHEONG_DO"
+  | "GYEONGSANG_DO"
+  | "JEOLLA_DO"
+  | "JEJU_ISLAND";
 };
 
 export type GetSearchGatheringRes = GatheringBase[];
@@ -104,7 +112,6 @@ export type Participant = {
   joinedAt: string;
   userId: number;
   email: string;
-  name: string;
   nickname: string;
   image: string;
 };
