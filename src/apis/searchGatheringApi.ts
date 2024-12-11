@@ -1,6 +1,6 @@
 import buildQueryParams from "@/hooks/queryParams";
 import {
-  GatheringRes,
+  GatheringDetailRes,
   Gatherings,
   GatheringsRes,
   GetGatheringParticipants,
@@ -25,7 +25,7 @@ export async function getGatherings(params: Gatherings) {
 
 // 모임 상세 조회
 export async function getGatheringDetail(id: number) {
-  const data = await fetchInstance.get<GatheringRes>(`/gatherings/${id}`);
+  const data = await fetchInstance.get<GatheringDetailRes>(`/gatherings/${id}`);
   return data;
 }
 
@@ -75,12 +75,11 @@ export async function getMyJoinedGatherings(params: GetMyJoinedGatherings) {
 }
 
 // 내 모임 조회
-// 특정 모임의 참가자 목록 조회
 export async function getMyGathering(params: GetGatheringParticipants) {
   const searchParams = new URLSearchParams();
   const queryString = buildQueryParams(searchParams, params);
 
-  const data = await fetchInstance.get<GatheringsRes>(
+  const data = await fetchInstance.get<GetGatheringParticipantsRes>(
     `/my/gathering${queryString ? `?${queryString}` : ""}`,
   );
   return data;

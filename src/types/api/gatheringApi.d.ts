@@ -33,7 +33,6 @@ export type GatheringBase = {
   createdAt: string;
   canceledAt: string;
 };
-
 export type GatheringRes = GatheringBase & {
   user: User;
   description: string;
@@ -42,6 +41,10 @@ export type GatheringRes = GatheringBase & {
   favorite: boolean;
   open: boolean;
   participants: Participant[];
+};
+
+export type GatheringDetailRes = GatheringRes & {
+  openParticipantCount: number;
 };
 
 export type User = {
@@ -57,9 +60,19 @@ export type CancelGatheringRes = GatheringBase & {
   host: boolean;
 };
 
-export type GatheringsRes = GatheringBase[];
+export type Gathering = GatheringBase & {
+  status: "RECRUITING" | "RECRUITMENT_COMPLETED";
+  open: boolean;
+  participation: boolean;
+};
 
-export type GetMyJoinedGatheringsRes = GatheringBase & {
+export type GatheringsRes = Gathering[];
+
+export type GatheringsFavoriteRes = GatheringBase[];
+
+export type GetMyJoinedGatheringsRes = GetMyJoinedGatherings[];
+
+export type GetMyJoinedGathering = GatheringBase & {
   keywords: string[];
   joinedAt: string;
   isCompleted: boolean;
