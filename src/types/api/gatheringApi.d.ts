@@ -50,6 +50,13 @@ export type User = {
   image: string;
 };
 
+export type CancelGatheringRes = GatheringBase & {
+  user: User;
+  description: string;
+  keyword: string[];
+  host: boolean;
+};
+
 export type GatheringsRes = GatheringBase[];
 
 export type GetMyJoinedGatheringsRes = GatheringBase & {
@@ -61,11 +68,10 @@ export type GetMyJoinedGatheringsRes = GatheringBase & {
 
 export type CreateGathering = Omit<
 GatheringBase,
-"id" | "participantCount" | "createdAt" | "canceledAt" | "image" | "location"
+"id" | "participantCount" | "createdAt" | "canceledAt" | "image" | "location" | "registrationEnd"
 > & {
   openParticipantCount?: string;
   location: string;
-  address2: string;
   description: string;
   keyword: string[];
   image?: File;
