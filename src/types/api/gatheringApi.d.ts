@@ -44,6 +44,7 @@ export type GatheringRes = GatheringBase & {
 };
 
 export type GatheringDetailRes = GatheringRes & {
+  status: "RECRUITING" | "RECRUITMENT_COMPLETED";
   openParticipantCount: number;
 };
 
