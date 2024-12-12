@@ -28,16 +28,14 @@ export default function CreateGathering({
 }) {
   const [formData, setFormData] = useState<CreateGatheringFormData>({
     name: "",
-    type: "",
+    type: "RESTAURANT",
     location: "",
-    image: null,
     dateTime: "",
     capacity: 0, //모집정원(최소 5인 이상)
-    openParticipantCount: 0,
     description: "",
     address1: "",
     address2: "",
-    keywords: [] as string[], // 키워드 리스트
+    keyword: [] as string[], // 키워드 리스트
   });
   const [selectedDate] = useState<Date>(); // 선택된 날짜
   const [selectedTime, setSelectedTime] = useState<string>(""); // 선택된 시간
@@ -275,7 +273,7 @@ export default function CreateGathering({
         <p>최소 인원 : {formData.openParticipantCount}</p>
         <p>
           <strong>Keywords:</strong>{" "}
-          {Array.isArray(formData.keywords) && formData.keywords?.join(", ")}
+          {Array.isArray(formData.keyword) && formData.keyword?.join(", ")}
         </p>
       </div>
     </Modal>

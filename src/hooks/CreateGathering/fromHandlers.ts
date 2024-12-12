@@ -3,16 +3,16 @@ import { Dispatch, SetStateAction } from "react";
 // 폼 데이터 타입 정의
 export interface CreateGatheringFormData {
   name: string;
-  type: string;
-  location: string;
+  type: "RESTAURANT" | "CAFE" | "PUB" | "VEGAN";
+  location?: string;
   image?: File | null;
   dateTime: string;
   capacity: number;
-  description: string;
-  address1: string;
-  address2: string;
-  openParticipantCount: number;
-  keywords: string[];
+  description?: string;
+  address1?: string;
+  address2?: string;
+  openParticipantCount?: number;
+  keyword: string[];
 }
 
 // 핸들러 함수들
@@ -91,15 +91,10 @@ export const handleTimeSelect = (
     const dateTime = new Date(selectedDate);
     dateTime.setHours(hours, minutes);
 
-    // -6시간 계산
-    const registrationEnd = new Date(dateTime);
-    registrationEnd.setHours(dateTime.getHours() - 6);
-
     // formData 업데이트
     setFormData(prev => ({
       ...prev,
       dateTime: `${selectedDate.toISOString().split("T")[0]}T${time}:00`,
-      registrationEnd: registrationEnd.toISOString(),
     }));
   }
 };
@@ -127,17 +122,22 @@ export const handleSubmit = async (
   try {
     // 환경 변수에서 API URL 가져오기
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const cookies = document.cookie;
+    const token = cookies
+      .split("; ")
+      .find(row => row.startsWith("accessToken=")) // `token` 쿠키를 가져옴
+      ?.split("=")[1];
     if (!baseUrl) {
       throw new Error("NEXT_PUBLIC_BASE_URL 환경 변수를 설정하세요!");
     }
 
     // 쿠키 가져오기
-    const cookies = document.cookie;
+
     const response = await fetch(`${baseUrl}/gatherings`, {
       method: "POST",
       body: formDataToSend,
       headers: {
-        Cookie: cookies, // 쿠키 추가
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -172,7 +172,7 @@ export const handleKeywordAddition = (
     }
     setFormData(prev => ({
       ...prev,
-      keywords: [...(prev.keywords || []), newKeyword],
+      keyword: [...(prev.keyword || []), newKeyword],
     }));
     setKeywordInput(""); // 입력 필드 초기화
   }
