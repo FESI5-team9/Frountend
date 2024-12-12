@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { FilterDropDown } from "@/components/Filter/FilterDropDown";
 import { LOCATION_OPTIONS, SORT_OPTIONS } from "@/constants/filter";
 import { GetReviews, ReviewsRes } from "@/types/api/reviews";
@@ -11,18 +12,64 @@ interface Filters {
 }
 
 interface ReviewListComponentProps {
-  reviews: ReviewsRes | undefined;
+  reviews: ReviewsRes;
+  isLoading: boolean;
+  isError: boolean;
+  fetchNextPage: () => void;
+  hasNextPage: boolean | undefined;
+  isFetchingNextPage: boolean;
   filters: Filters;
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
 }
 
-function ReviewListComponent({ reviews, setFilters }: ReviewListComponentProps) {
+function ReviewListComponent({
+  reviews,
+  isLoading,
+  isError,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
+  setFilters,
+}: ReviewListComponentProps) {
+  const observerRef = useRef<IntersectionObserver>();
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    observerRef.current?.disconnect();
+
+    observerRef.current = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    if (loadMoreRef.current) {
+      observerRef.current.observe(loadMoreRef.current);
+    }
+
+    return () => {
+      observerRef.current?.disconnect();
+    };
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
   const handleLocationFilter = (location: string) => {
     setFilters(prev => ({ ...prev, location: location as GetReviews["location"] }));
   };
+
   const handleSortFilter = (sort: string) => {
     setFilters(prev => ({ ...prev, sort }));
   };
+
+  if (isError) {
+    return (
+      <div className="flex h-40 items-center justify-center text-red-500">
+        데이터를 불러오는 중 오류가 발생했습니다.
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -42,9 +89,25 @@ function ReviewListComponent({ reviews, setFilters }: ReviewListComponentProps) 
       </div>
 
       <div className="flex flex-col gap-6">
-        {reviews?.map(review => (
-          <div key={review.id} className="h-20 w-full rounded-lg border p-4"></div>
-        ))}
+        {isLoading ? (
+          <div className="flex h-40 items-center justify-center">데이터를 불러오는 중...</div>
+        ) : Array.isArray(reviews) && reviews.length > 0 ? (
+          <>
+            {reviews.map(review => (
+              <div key={review.id} className="h-20 w-full rounded-lg border p-4" />
+            ))}
+
+            {isFetchingNextPage && (
+              <div className="py-4 text-center text-gray-500">추가 데이터를 불러오는 중...</div>
+            )}
+
+            <div ref={loadMoreRef} className="h-4" />
+          </>
+        ) : (
+          <div className="flex h-40 items-center justify-center text-gray-500">
+            리뷰가 없습니다.
+          </div>
+        )}
       </div>
     </div>
   );

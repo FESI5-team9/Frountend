@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
+import { InfiniteData, useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getReviewStats, getReviews } from "@/apis/reviewsApi";
 import { categories } from "@/constants/categoryList";
 import { GetReviewStatsRes, GetReviews, ReviewsRes } from "@/types/api/reviews";
 import RatingComponent from "./RatingComponent";
 import ReviewListComponent from "./ReviewListComponent";
+
+const PAGE_SIZE = 10;
 
 interface Filters {
   type: GetReviews["type"];
@@ -15,16 +17,18 @@ interface Filters {
   sort: string;
 }
 
+type ReviewQueryKey = readonly ["reviews", Filters];
+
 function AllReviews() {
   const [type, setType] = useState<Category["link"]>("RESTAURANT");
   const [filters, setFilters] = useState<Filters>({
-    type: "CAFE",
+    type: "RESTAURANT",
     location: undefined,
     sort: "createdAt",
   });
+
   const handleTypeChange = (newType: Category["link"]) => {
     setType(newType);
-    // 모든 필터 상태 초기화
     setFilters({
       type: newType,
       location: undefined,
@@ -32,15 +36,38 @@ function AllReviews() {
     });
   };
 
-  const { data: reviews } = useQuery<ReviewsRes>({
-    queryKey: ["reviews", { size: 10, ...filters }],
-    queryFn: () => getReviews({ size: 10, ...filters }),
+  const {
+    data: reviewsData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading: isReviewsLoading,
+    isError: isReviewsError,
+  } = useInfiniteQuery<ReviewsRes, Error, InfiniteData<ReviewsRes>, ReviewQueryKey>({
+    queryKey: ["reviews", filters] as const,
+    queryFn: async context => {
+      const response = await getReviews({
+        ...filters,
+        page: context.pageParam as number,
+        size: PAGE_SIZE,
+      });
+      return response;
+    },
+    initialPageParam: 0,
+    getNextPageParam: lastPage => {
+      if (!lastPage || lastPage.length < PAGE_SIZE) {
+        return undefined;
+      }
+      return Math.floor(lastPage.length / PAGE_SIZE) + 1;
+    },
   });
 
   const { data: stats } = useQuery<GetReviewStatsRes>({
     queryKey: ["stats", { type }],
     queryFn: () => getReviewStats(type),
   });
+
+  const reviews = reviewsData?.pages.flat() ?? [];
 
   return (
     <>
@@ -51,12 +78,14 @@ function AllReviews() {
           height={72}
           className="h-auto w-auto"
           alt="head"
+          priority
         />
         <div>
           <h4 className="text-2xl">모든리뷰</h4>
           <h1 className="pb-2 text-sm">밀엔메이트를 이용한 분들은 이렇게 느꼈아요!</h1>
         </div>
       </div>
+
       <div className="flex justify-between px-2 pb-2 tablet:px-0">
         <ul className="flex gap-3 p-2 text-lg tablet:justify-between tablet:gap-4">
           {categories.map(category => (
@@ -81,9 +110,16 @@ function AllReviews() {
           ))}
         </ul>
       </div>
+
       <RatingComponent stats={stats} />
+
       <ReviewListComponent
         reviews={reviews}
+        isLoading={isReviewsLoading}
+        isError={isReviewsError}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
         filters={{ ...filters, type }}
         setFilters={setFilters}
       />
