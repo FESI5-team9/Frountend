@@ -1,12 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  CancelGathering,
-  LeaveGathering,
-  createGathering,
-  joinGathering,
-} from "@/apis/assignGatheringApi";
+import { CancelGathering, LeaveGathering, joinGathering } from "@/apis/assignGatheringApi";
 import {
   getGatheringDetail,
   getGatheringParticipants,
@@ -14,7 +9,6 @@ import {
   getMyJoinedGatherings,
 } from "@/apis/searchGatheringApi";
 import {
-  CreateGathering,
   Gatherings,
   GetGatheringParticipants,
   GetMyJoinedGatherings,
@@ -36,32 +30,6 @@ export default function GatheringTestPage() {
       setResponse(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to get gatherings");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // 모임 생성 테스트
-  const testCreateGathering = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      const gatheringData: CreateGathering = {
-        type: "RESTAURANT",
-        location: "제주특별자치도",
-        name: "맛집 팀방",
-        dateTime: "2024-12-02T07:06:02.489",
-        capacity: 10,
-        address1: "string",
-        address2: "string",
-        description: "string",
-        keyword: ["string"],
-      };
-
-      const data = await createGathering(gatheringData);
-      setResponse(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to create gathering");
     } finally {
       setLoading(false);
     }
@@ -164,14 +132,6 @@ export default function GatheringTestPage() {
           className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:bg-gray-400"
         >
           모임 목록 조회
-        </button>
-
-        <button
-          onClick={testCreateGathering}
-          disabled={loading}
-          className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600 disabled:bg-gray-400"
-        >
-          모임 생성
         </button>
 
         <button
