@@ -1,7 +1,6 @@
 // src/lib/HttpClient/HttpClient.ts
 import { APIResponse, Client, Config, Interceptor } from "@/types/api/httpClient";
 import { APIError } from "./error";
-import { retry } from "./retry";
 
 export const createClient = (baseConfig: Config = {}): Client => {
   const requestInterceptors: Interceptor<Config>[] = [];
@@ -147,14 +146,8 @@ export const createClient = (baseConfig: Config = {}): Client => {
         ...finalConfig,
         signal: controller.signal,
       });
-      const execute = () => fetch(url, init).then(res => handleResponse<T>(res, finalConfig));
 
-      if (finalConfig.retryConfig) {
-        const { maxRetries, retryDelay, retryCondition } = finalConfig.retryConfig;
-        return await retry(execute, maxRetries, retryDelay, retryCondition);
-      }
-
-      return await execute();
+      return await fetch(url, init).then(res => handleResponse<T>(res, finalConfig));
     } finally {
       if (timeoutId) clearTimeout(timeoutId);
     }

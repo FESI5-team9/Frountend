@@ -1,17 +1,23 @@
 import { useState } from "react";
 import Image from "next/image";
+import { deleteFavoriteGathering, getFavoriteGathering } from "@/apis/favoriteGatheringApi";
 
 export default function FavoriteButton({ gatheringId, initialFavorite }: FavoriteButtonProps) {
   const [isFavorite, setIsFavorite] = useState<boolean>(initialFavorite);
 
-  const submitFavorite = () => {
+  const submitFavorite = async () => {
     if (isFavorite) {
       // api 찜하기 취소 요청
-      alert(gatheringId);
+      await deleteFavoriteGathering(gatheringId);
+      // const result = await deleteFavoriteGathering(gatheringId);
       setIsFavorite(false);
+      // console.log(result);
     } else {
       // api 찜하기 요청
+      await getFavoriteGathering(gatheringId);
+      // const result = await getFavoriteGathering(gatheringId);
       setIsFavorite(true);
+      // console.log(result);
     }
   };
 

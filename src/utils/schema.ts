@@ -1,12 +1,6 @@
 import { z } from "zod";
 
 const baseSchema = z.object({
-  name: z
-    .string()
-    .min(2, "이름을 입력해주세요")
-    .max(4, "4자 이하로 작성해주세요")
-    .regex(/^[가-힣]+$/, "한글로 입력해주세요"),
-
   nickname: z
     .string()
     .min(2, "닉네임을 입력해주세요")

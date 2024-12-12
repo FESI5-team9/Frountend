@@ -1,19 +1,9 @@
 import Image from "next/image";
+import { ReviewsRes } from "@/types/api/reviews";
 import { formatToKoreanTime } from "@/utils/date";
 
-type ReviewType = {
-  id: number;
-  score: number;
-  comment: string;
-  createdAt: string;
-  user: {
-    nickname: string;
-    image: string;
-  };
-};
-
 type ReviewProp = {
-  reviews: ReviewType[];
+  reviews: ReviewsRes;
 };
 
 export default function Reviews({ reviews }: ReviewProp) {

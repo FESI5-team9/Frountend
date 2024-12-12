@@ -26,21 +26,26 @@ export type GatheringBase = {
   | "JEOLLA_DO"
   | "JEJU_ISLAND";
   address1: string;
+  address2: string;
   participantCount: number;
   capacity: number;
   image: string;
-  createdBy: string;
+  createdAt: string;
   canceledAt: string;
 };
-
 export type GatheringRes = GatheringBase & {
   user: User;
-  address2: string;
   description: string;
   keyword: string[];
   host: boolean;
   favorite: boolean;
-  participants: Participant;
+  open: boolean;
+  participants: Participant[];
+};
+
+export type GatheringDetailRes = GatheringRes & {
+  status: "RECRUITING" | "RECRUITMENT_COMPLETED";
+  openParticipantCount: number;
 };
 
 export type User = {
@@ -49,10 +54,26 @@ export type User = {
   image: string;
 };
 
-export type GatheringsRes = GatheringBase[];
+export type CancelGatheringRes = GatheringBase & {
+  user: User;
+  description: string;
+  keyword: string[];
+  host: boolean;
+};
 
-export type GetMyJoinedGatheringsRes = Omit<GatheringBase, "canceledAt"> & {
-  address2: string;
+export type Gathering = GatheringBase & {
+  status: "RECRUITING" | "RECRUITMENT_COMPLETED";
+  open: boolean;
+  participation: boolean;
+};
+
+export type GatheringsRes = Gathering[];
+
+export type GatheringsFavoriteRes = GatheringBase[];
+
+export type GetMyJoinedGatheringsRes = GetMyJoinedGatherings[];
+
+export type GetMyJoinedGathering = GatheringBase & {
   keywords: string[];
   joinedAt: string;
   isCompleted: boolean;
@@ -61,11 +82,10 @@ export type GetMyJoinedGatheringsRes = Omit<GatheringBase, "canceledAt"> & {
 
 export type CreateGathering = Omit<
 GatheringBase,
-"id" | "participantCount" | "createdBy" | "canceledAt" | "image" | "location"
+"id" | "participantCount" | "createdAt" | "canceledAt" | "image" | "location" | "registrationEnd"
 > & {
   openParticipantCount?: string;
   location: string;
-  address2: string;
   description: string;
   keyword: string[];
   image?: File;
@@ -74,7 +94,8 @@ GatheringBase,
 export type Gatherings = PaginationParams & {
   id?: number[];
   type?: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
-  dateTime?: string;
+  startDate?: string;
+  endDate?: string;
   location?:
   | "SEOUL"
   | "GYEONGGI_DO"
@@ -88,6 +109,15 @@ export type Gatherings = PaginationParams & {
 
 export type GetSearchGatherings = PaginationParams & {
   search: string;
+  type?: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
+  location?:
+  | "SEOUL"
+  | "GYEONGGI_DO"
+  | "GANGWON_DO"
+  | "CHUNGCHEONG_DO"
+  | "GYEONGSANG_DO"
+  | "JEOLLA_DO"
+  | "JEJU_ISLAND";
 };
 
 export type GetSearchGatheringRes = GatheringBase[];
@@ -102,7 +132,6 @@ export type Participant = {
   joinedAt: string;
   userId: number;
   email: string;
-  name: string;
   nickname: string;
   image: string;
 };

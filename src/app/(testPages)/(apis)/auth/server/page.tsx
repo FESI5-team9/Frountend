@@ -5,15 +5,7 @@ export const dynamic = "force-dynamic";
 
 export default async function TestPage() {
   const data = await getUserProfile();
-  const gathering = await getGatherings(
-    {},
-    {
-      next: {
-        revalidate: 300,
-        tags: ["custom-tag"],
-      },
-    },
-  );
+  const gathering = await getGatherings({});
 
   return (
     <div className="p-4">

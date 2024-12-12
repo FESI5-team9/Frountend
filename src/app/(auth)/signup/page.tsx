@@ -1,38 +1,70 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { APIError } from "@/apis/HttpClient/error";
-import { signup } from "@/apis/authApi";
+import { checkEmail, checkNickName, signup } from "@/apis/authApi";
 import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
 import Popup from "@/components/Popup";
 import baseSchema from "@/utils/schema";
 
-type LoginFormData = z.infer<typeof baseSchema>;
-const loginSchema = baseSchema
-  .pick({
-    email: true,
-    password: true,
-    nickname: true,
-    name: true,
-    confirmPassword: true,
-  })
-  .refine(data => data.password === data.confirmPassword, {
-    message: "비밀번호가 일치하지 않습니다.",
-    path: ["confirmPassword"],
-  });
-
 function Signup() {
+  const [emailVerified, setEmailVerified] = useState<boolean | null>(null);
+  const [nicknameVerified, setNicknameVerified] = useState<boolean | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState<string | null>(null);
+  type LoginFormData = z.infer<typeof baseSchema>;
+  const loginSchema = baseSchema
+    .pick({
+      email: true,
+      password: true,
+      nickname: true,
+      confirmPassword: true,
+    })
+    .refine(data => data.password === data.confirmPassword, {
+      message: "비밀번호가 일치하지 않습니다.",
+      path: ["confirmPassword"],
+    })
+    .superRefine((data, ctx) => {
+      if (data.email && emailVerified === false) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "사용할 수 없는 이메일입니다.",
+          path: ["email"],
+        });
+      } else if (data.email && emailVerified === null) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "이메일 중복 확인이 필요합니다.",
+          path: ["email"],
+        });
+      }
+
+      if (data.nickname && nicknameVerified === false) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "동일한 닉네임이 존재합니다.",
+          path: ["nickname"],
+        });
+      } else if (data.nickname && nicknameVerified === null) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "닉네임 중복 확인이 필요합니다.",
+          path: ["nickname"],
+        });
+      }
+      return true;
+    });
+
   const {
     register,
     handleSubmit,
+    getValues,
+    trigger,
     formState: { errors, isValid },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -52,7 +84,12 @@ function Signup() {
       />
       <p className="bold mt-2 text-center text-gray-700">{message}</p>
       <div className="w-[120px] tablet:self-end">
-        <Button onClick={() => setIsPopupOpen(null)} size="small" bgColor="yellow">
+        <Button
+          onClick={() => setIsPopupOpen(null)}
+          size="small"
+          bgColor="yellow"
+          className="w-full"
+        >
           확인
         </Button>
       </div>
@@ -64,48 +101,95 @@ function Signup() {
       await signup(data);
       router.push("/");
     } catch (error) {
-      if (error instanceof APIError) {
-        const errorInfo = JSON.parse(error.message);
-        const errorMessage = errorInfo.message.message;
-
-        if (errorMessage === "중복된 이메일입니다") {
-          setIsPopupOpen("email-exists");
-        } else if (errorMessage === "중복된 닉네임입니다") {
-          setIsPopupOpen("nickname-exists");
-        } else {
-          setIsPopupOpen("signup-failed");
-        }
-      }
+      setIsPopupOpen("signup-failed");
     }
   };
+
+  useEffect(() => {
+    if (emailVerified !== null) {
+      trigger("email");
+    }
+  }, [emailVerified, trigger]);
+
+  // nicknameVerified가 변경되었을 때 유효성 검사 트리거
+  useEffect(() => {
+    if (nicknameVerified !== null) {
+      trigger("nickname");
+    }
+  }, [nicknameVerified, trigger]);
+
+  const onCheckEmail = async () => {
+    const email = getValues("email");
+    const { message } = await checkEmail(email);
+
+    if (message === "true") {
+      setEmailVerified(false);
+      setIsPopupOpen("email-exists");
+    } else {
+      setEmailVerified(true);
+      setIsPopupOpen("email-ok");
+    }
+  };
+
+  const onCheckNickname = async () => {
+    const nickname = getValues("nickname");
+    const { message } = await checkNickName(nickname);
+
+    if (message === "true") {
+      setNicknameVerified(false);
+      setIsPopupOpen("nickname-exists");
+    } else {
+      setNicknameVerified(true);
+      setIsPopupOpen("nickname-ok");
+    }
+  };
+
   return (
     <div className="flex w-full flex-col items-center justify-center gap-8 rounded-3xl bg-white px-4 py-8 tablet:px-[54px] desktop:w-[510px] desktop:px-[54px]">
       <h1 className="text-xl">회원가입 </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-2 flex w-full flex-col gap-[28px]">
-        <Input
-          register={register("name")}
-          type="text"
-          name="name"
-          label="이름"
-          placeholder="이름을 입력해주세요"
-          error={errors.name}
-        />
-        <Input
-          register={register("email")}
-          type="email"
-          name="email"
-          label="이메일"
-          placeholder="이메일을 입력해주세요"
-          error={errors.email}
-        />
-        <Input
-          register={register("nickname")}
-          type="text"
-          name="nickname"
-          label="닉네임"
-          placeholder="닉네임을 입력해주세요"
-          error={errors.nickname}
-        />
+        <div className="relative flex w-full gap-3">
+          <div className="flex-1">
+            <Input
+              register={register("nickname")}
+              type="text"
+              name="nickname"
+              label="닉네임"
+              placeholder="닉네임을 입력해주세요"
+              error={errors.nickname}
+            />
+          </div>
+          <Button
+            type="button"
+            onClick={onCheckNickname}
+            className="mt-7"
+            size="small"
+            bgColor="yellow"
+          >
+            중복 확인
+          </Button>
+        </div>
+        <div className="relative flex w-full gap-3">
+          <div className="flex-1">
+            <Input
+              register={register("email")}
+              type="email"
+              name="email"
+              label="이메일"
+              placeholder="이메일을 입력해주세요"
+              error={errors.email}
+            />
+          </div>
+          <Button
+            type="button"
+            onClick={onCheckEmail}
+            className="mt-7"
+            size="small"
+            bgColor="yellow"
+          >
+            중복 확인
+          </Button>
+        </div>
         <Input
           register={register("password")}
           type="password"
@@ -183,6 +267,18 @@ function Signup() {
         onClose={() => setIsPopupOpen(null)}
       >
         <PopupContent message="회원가입에 실패했습니다." />
+      </Popup>
+
+      <Popup
+        id="nickname-ok"
+        isOpen={isPopupOpen === "nickname-ok"}
+        onClose={() => setIsPopupOpen(null)}
+      >
+        <PopupContent message="사용 가능한 닉네임 입니다." />
+      </Popup>
+
+      <Popup id="email-ok" isOpen={isPopupOpen === "email-ok"} onClose={() => setIsPopupOpen(null)}>
+        <PopupContent message="사용 가능한 이메일입니다." />
       </Popup>
     </div>
   );
