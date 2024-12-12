@@ -4,15 +4,18 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useGatherings } from "@/hooks/useGatherings";
 import { useImageUpload } from "@/hooks/useImageUpload";
+import { useReviews } from "@/hooks/useReviews";
 import { useUserProfile } from "@/hooks/useUserProfile";
-import { CreateGathering } from "@/app/mypage/utils/CreateGathering";
+// import { CreateGathering } from "@/app/mypage/utils/CreateGathering";
 import { MyGathering } from "@/app/mypage/utils/MyGathering/MyGathering";
+import MyReviews from "@/app/mypage/utils/MyReviews/MyReviews";
 
 export default function Mypage() {
   const [activeTab, setActiveTab] = useState("reviews");
-  const { userProfile, error: userProfileError } = useUserProfile();
+  const { userProfile } = useUserProfile();
   const { gatherings, loading, error } = useGatherings();
-  const { handleImageUpload, error: uploadError } = useImageUpload(userProfile);
+  const { completedReviews, unCompletedReviews } = useReviews();
+  const { handleImageUpload } = useImageUpload(userProfile);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -114,11 +117,21 @@ export default function Mypage() {
           </div>
           <div className="px-6 py-6">
             {/* activeTab 값에 따라 각 컴포넌트 렌더링 */}
-            {activeTab === "reviews" && <Reviews />}
-            {activeTab === "gathering" && (
-              <MyGathering gatherings={gatherings} loading={loading} error={error} />
+            {activeTab === "reviews" && (
+              <MyReviews
+                completedReviews={completedReviews}
+                unCompletedReview={unCompletedReviews}
+              />
             )}
-            {activeTab === "createdGathering" && <CreateGathering />}
+            {activeTab === "gathering" && (
+              <MyGathering
+                activeTab={activeTab}
+                gatherings={gatherings}
+                loading={loading}
+                error={error}
+              />
+            )}
+            {/* {activeTab === "createdGathering" && <CreateGathering />} */}
           </div>
         </div>
       </div>

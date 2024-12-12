@@ -45,8 +45,8 @@ export type GatheringRes = GatheringBase & {
 
 export type User = {
   id: number;
-  nickname: string;
-  image: string;
+  nickname?: string;
+  image?: string;
 };
 
 export type GatheringsRes = GatheringBase[];
