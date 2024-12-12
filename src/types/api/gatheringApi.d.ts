@@ -80,7 +80,6 @@ export type GetMyJoinedGathering = GatheringBase & {
   joinedAt: string;
   isCompleted: boolean;
   isReviewed: boolean;
-  image: string;
 };
 
 export type CreateGathering = Omit<

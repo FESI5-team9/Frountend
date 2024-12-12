@@ -1,10 +1,12 @@
 import Image from "next/image";
+import { LeaveGathering } from "@/apis/assignGatheringApi";
 import Button from "@/components/Button/Button";
 import Chip from "@/components/Chips";
 import { MypageCardProps } from "@/types/components/card";
 import { formatToKoreanTime } from "@/utils/date";
 
 export default function MypageCard({
+  id,
   name,
   location,
   address1,
@@ -19,6 +21,17 @@ export default function MypageCard({
   const gatheringDate = formatToKoreanTime(isDateTime, dateString);
   const gatheringTime = formatToKoreanTime(isDateTime, timeString);
 
+  const handleLeaveGathering = async () => {
+    try {
+      const response = await LeaveGathering(id.toString()); // id 전달
+      alert(response);
+      alert("모임이 성공적으로 취소되었습니다.");
+    } catch (error) {
+      console.error("모임 취소 실패:", error);
+      alert("모임 취소에 실패했습니다.");
+    }
+  };
+
   return (
     <div className="flex h-[352px] w-full flex-col gap-4 tablet:h-[153px] tablet:flex-row">
       <div className="relative flex h-[153px] w-full items-center justify-center overflow-hidden rounded-3xl tablet:w-[280px]">
@@ -32,15 +45,15 @@ export default function MypageCard({
             textColor="text-orange-primary"
             className="flex items-center justify-center"
           >
-            이용 예정 {/*API 연동 필요*/}
+            이용 예정
           </Chip>
           <Chip
             type="state"
-            textColor="text-orange-primary"
-            bgColor="bg-transparent"
-            className="flex items-center justify-center outline outline-orange-100"
+            textColor={participantCount >= 3 ? "text-orange-primary" : "text-gray-400"}
+            bgColor={"bg-transparent"}
+            className={`flex items-center justify-center outline ${participantCount >= 3 ? "outline-orange-100" : "outline-gray-200"}`}
           >
-            개설 예정 {/*API 연동 필요*/}
+            {participantCount >= 3 ? "개설확정" : "개설대기"}
           </Chip>
         </div>
         <div className="flex gap-3">
@@ -71,9 +84,12 @@ export default function MypageCard({
           <Button
             size="small"
             isFilled
+            onClick={() => {
+              handleLeaveGathering();
+            }}
             className="border border-orange-primary px-0 text-[14px] text-orange-primary"
           >
-            예약 취소하기
+            모임 취소하기
           </Button>
         </div>
       </div>

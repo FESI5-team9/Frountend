@@ -105,22 +105,36 @@ export default function AllReviewCard({ review, reviewed }: AllReviewCardProps) 
           {/* 작성한 리뷰 */}
           {activeTab === "completed" &&
             reviewed?.map(item => (
-              <div key={item.id} className="flex gap-4">
-                <Image
-                  src={
-                    typeof item.gathering.image === "string"
-                      ? item.gathering.image
-                      : "/images/image.png"
-                  }
-                  width={100}
-                  height={50}
-                  alt="이미지"
-                  className="h-32 w-32 rounded-lg"
-                />
-                <div>
-                  <Rating score={item.score} />
-                  <h3 className="text-lg font-semibold">{}</h3>
-                  <p className="text-sm text-gray-500">{}</p>
+              <div
+                key={item.id}
+                className="flex h-[355px] w-full flex-col gap-6 tablet:h-[153px] tablet:flex-row"
+              >
+                <div className="relative flex h-[153px] w-[272px] max-w-[272px] items-center justify-center overflow-hidden rounded-3xl">
+                  <Image
+                    src={
+                      typeof item.gathering.image === "string"
+                        ? item.gathering.image
+                        : "/images/image.png"
+                    }
+                    fill
+                    alt="이미지"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex w-full flex-col">
+                  <div>
+                    <Rating score={item.score} />
+                  </div>
+                  <p className="mt-[10px] inline-block w-full text-sm text-gray-800">
+                    {item.comment}
+                  </p>
+                  <span className="mt-[10px] inline-block text-gray-800">
+                    {item.gathering.location}
+                  </span>
+                  <span className="mt-2 inline-block text-gray-disable">
+                    {item.gathering.dateTime as React.ReactNode}
+                  </span>
+                  <div className="mt-auto w-full border border-dashed border-b-gray-disable"></div>
                 </div>
               </div>
             ))}

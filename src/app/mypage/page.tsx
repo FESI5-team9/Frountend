@@ -118,13 +118,13 @@ export default function Mypage() {
             {activeTab === "reviews" && (
               <MyReviews
                 completedReviews={completedReviews}
-                unCompletedReview={unCompletedReviews}
+                unCompletedReview={unCompletedReviews || []}
               />
             )}
             {activeTab === "gathering" && (
               <MyGathering
                 activeTab={activeTab}
-                gatherings={gatherings}
+                gatherings={gatherings || []}
                 loading={loading}
                 error={error}
               />

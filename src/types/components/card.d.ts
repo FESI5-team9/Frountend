@@ -38,6 +38,7 @@ export interface GetGathering {
 }
 
 export interface MypageCardProps {
+  id: number;
   name: string;
   location?: string;
   address1: string;

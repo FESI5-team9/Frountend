@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { getReviews } from "@/apis/reviewsApi";
 import { getMyJoinedGatherings } from "@/apis/searchGatheringApi";
-import { GetMyJoinedGatheringsRes } from "@/types/api/gatheringApi";
+import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
 import { ReviewsRes } from "@/types/api/reviews";
 
 export const DIRECTION = {
@@ -12,7 +12,7 @@ export const DIRECTION = {
 
 export const useReviews = () => {
   const [completedReviews, setCompletedReviews] = useState<ReviewsRes>([]);
-  const [unCompletedReviews, setUnCompletedReviews] = useState<GetMyJoinedGatheringsRes[]>([]);
+  const [unCompletedReviews, setUnCompletedReviews] = useState<GetMyJoinedGathering[]>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
