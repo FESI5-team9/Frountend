@@ -10,12 +10,14 @@ type FixedBottomBarProps = {
 export default function FixedBottomBar({ gatheringId, status, setStatus }: FixedBottomBarProps) {
   const handleJoin = async () => {
     // 참여하기 api 요청
+
     await joinGathering(String(gatheringId));
 
     setStatus("cancelJoin");
   };
   const handleLeaveGathering = async () => {
     // 참여 취소하기 api 요청
+
     await LeaveGathering(String(gatheringId));
 
     setStatus("join");

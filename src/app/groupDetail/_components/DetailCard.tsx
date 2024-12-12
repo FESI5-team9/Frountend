@@ -78,7 +78,7 @@ export default function DetailCard({ gathering }: GatheringProp) {
               ) : null}
             </div>
           </div>
-          {gathering.participantCount >= 5 ? (
+          {gathering.participantCount >= gathering.openParticipantCount ? (
             <div className="flex gap-1">
               <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-black">
                 <Image
@@ -100,7 +100,7 @@ export default function DetailCard({ gathering }: GatheringProp) {
           <Progressbar now={gathering.participantCount} max={20} />
         </div>
         <div className="flex items-center justify-between text-xs text-[#3C3C3C]">
-          <p>최소인원 5명</p>
+          <p>최소인원 {gathering.openParticipantCount}명</p>
           <p>최대인원 {gathering.capacity}명</p>
         </div>
       </div>

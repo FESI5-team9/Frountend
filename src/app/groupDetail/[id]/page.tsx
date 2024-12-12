@@ -19,34 +19,37 @@ function GroupDetailPage() {
   const [status, setStatus] = useState<"join" | "cancelJoin" | "closed" | "host">("join");
 
   const { id } = useParams();
-  const userId = 10; // 계정 userId 일단 적어둠
+  const userId = 12; // 계정 userId 일단 적어둠
 
   const checkParticipated = (participants: Participant[]) => {
     const isUserInList = participants.find(participant => participant.userId === userId);
     return isUserInList;
   };
 
-  const getStatus = useCallback((data: GatheringDetailRes) => {
-    if (data.host) {
-      setStatus("host");
-    } else {
-      if (data.status === "RECRUITING") {
-        if (checkParticipated(data.participants)) {
-          setStatus("cancelJoin");
-        } else {
-          setStatus("join");
-        }
+  const getStatus = useCallback(
+    (data: GatheringDetailRes) => {
+      if (data.host) {
+        setStatus("host");
       } else {
-        setStatus("closed");
+        if (data.status === "RECRUITING") {
+          if (checkParticipated(data.participants)) {
+            setStatus("cancelJoin");
+          } else {
+            setStatus("join");
+          }
+        } else {
+          setStatus("closed");
+        }
       }
-    }
-  }, []);
+    },
+    [status],
+  );
 
   const getDatailData = useCallback(async () => {
     const data = await getGatheringDetail(Number(id));
     setDetail(data);
     getStatus(data);
-  }, [id, getStatus]);
+  }, [id, getStatus, status]);
 
   const getReviewData = useCallback(async () => {
     const data = await getReviews({ gatheringId: Number(id) });
