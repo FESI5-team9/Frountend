@@ -1,58 +1,68 @@
 "use client";
 
-// URL에서 검색 파라미터 가져오기
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Button from "@/components/Button/Button";
 import { categories } from "../../../constants/categoryList";
-import CreateClub from "./CreateClub";
+import CreateClub from "./CreateGathering";
 
 export default function SelectedType() {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedFilters, setSelectedFilters] = useState<Record<string, string | null>>({});
   const searchParams = useSearchParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // URL에서 type 파라미터를 읽어 초기화
+  // URL에서 초기 필터 값 설정
   useEffect(() => {
-    const typeParam = searchParams.get("type"); // "type" 파라미터 값 가져오기
-    if (typeParam) {
-      setSelectedCategory(typeParam); // URL 값으로 상태 업데이트
-    }
+    const params: Record<string, string | null> = {};
+    searchParams.forEach((value, key) => {
+      params[key] = value; // URL의 모든 쿼리 파라미터를 객체로 저장
+    });
+    setSelectedFilters(params);
   }, [searchParams]);
 
-  // 태그 바꾸기
-  const handleTagHandler = (selectedOption: string) => {
-    const newCategory = selectedCategory === selectedOption ? "" : selectedOption;
-    setSelectedCategory(newCategory);
-    const currentParams = new URLSearchParams(window.location.search);
+  // 필터 변경 핸들러
+  const handleFilterChange = (key: string, value: string) => {
+    const updatedFilters = { ...selectedFilters };
 
-    if (newCategory === "") {
-      currentParams.delete("type");
+    // 동일한 값 클릭 시 제거
+    if (updatedFilters[key] === value) {
+      updatedFilters[key] = null;
     } else {
-      currentParams.set("type", newCategory);
+      updatedFilters[key] = value;
     }
-    const newUrl = `${window.location.pathname}?${currentParams.toString()}`;
+
+    setSelectedFilters(updatedFilters);
+
+    // URL 파라미터 업데이트
+    const currentParams = new URLSearchParams(window.location.search);
+    if (updatedFilters[key] === null) {
+      currentParams.delete(key); // 해당 키 삭제
+    } else {
+      currentParams.set(key, updatedFilters[key]!); // 해당 키 업데이트
+    }
+
+    const newUrl = `?${currentParams.toString()}`;
     window.history.pushState({}, "", newUrl);
   };
 
   return (
-    <div className="mb-2 flex justify-between border-b-2 px-2 pb-2 tablet:px-0">
+    <div className="mb-2 flex justify-between border-b-2 pb-2">
       <CreateClub isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
       <ul className="flex gap-3 p-2 text-lg tablet:justify-between tablet:gap-4">
         {categories.map(category => (
           <li
             key={category.name}
             className={`flex list-none items-center gap-[3px] border-b-2 hover:cursor-pointer ${
-              selectedCategory === category.link
+              selectedFilters.type === category.link
                 ? `border-black text-black`
                 : "border-transparent text-gray-400"
             }`}
-            onClick={() => handleTagHandler(category.link)} // 링크와 선택된 카테고리 전달
+            onClick={() => handleFilterChange("type", category.link)} // 여긴 그대로 두셔도 돼요!
           >
             <p>{category.name}</p>
             <Image
-              src={selectedCategory === category.link ? category.icon : category.disabled}
+              src={selectedFilters.type === category.link ? category.icon : category.disabled}
               alt={category.alt}
               width={18}
               height={20}
@@ -64,7 +74,6 @@ export default function SelectedType() {
       <Button
         onClick={() => {
           setIsModalOpen(true);
-          // console.log(isModalOpen);
         }}
         size="small"
         bgColor="yellow"
