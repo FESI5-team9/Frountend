@@ -10,7 +10,7 @@ export async function CancelGathering(id: string) {
 }
 
 // 모임 생성
-export async function createGathering(body: CreateGathering) {
+export async function createGathering(body: CreateGathering, image?: File) {
   const formData = new FormData();
 
   Object.entries(body).forEach(([key, value]) => {
@@ -25,6 +25,9 @@ export async function createGathering(body: CreateGathering) {
       formData.append(key, value.toString());
     }
   });
+  if (image) {
+    formData.append("image", image, image.name);
+  }
   const data = await fetchInstance.post<GatheringRes>("/gatherings", formData);
   return data;
 }

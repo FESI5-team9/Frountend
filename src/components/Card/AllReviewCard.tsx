@@ -6,11 +6,11 @@ import Image from "next/image";
 import Button from "@/components/Button/Button";
 import Chip from "@/components/Chips";
 import Rating from "@/app/mypage/components/mypage/Rating";
-import { GetMyJoinedGatheringsRes } from "@/types/api/gatheringApi";
+import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
 import { ReviewRes } from "@/types/api/reviews";
 
 interface AllReviewCardProps {
-  review: GetMyJoinedGatheringsRes[];
+  review: GetMyJoinedGathering[];
   reviewed: ReviewRes[];
 }
 

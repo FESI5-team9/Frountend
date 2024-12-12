@@ -39,7 +39,7 @@ export default function Mypage() {
         </div>
         <div className="h-[178px] w-full rounded-3xl border-[2px] border-gray-300 bg-white tablet:h-[172px]">
           <div className="relative">
-            <span className="absolute left-[23px] top-[53px] flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white">
+            <span className="absolute left-[24px] top-[57px] flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white">
               <Image
                 src={userProfile?.image || "/images/profile.svg"}
                 width={56}
@@ -69,23 +69,21 @@ export default function Mypage() {
               </button> */}
             </span>
           </div>
-          <div className="flex h-[65px] justify-between rounded-t-3xl bg-yellow-primary px-[25px] py-4 text-base text-gray-900">
+          <div className="flex h-[65px] justify-between rounded-t-3xl border-b-[2px] border-b-gray-300 px-[25px] py-4 text-base text-gray-900">
             <span className="flex items-center text-lg font-semibold text-gray-900">내 프로필</span>
             <button>
               <Image src="/images/modify.svg" width={32} height={32} alt="프로필 정보 수정하기" />
             </button>
           </div>
-          <div className="mt-[15px] flex flex-col gap-[9px] pl-[92px] text-sm text-gray-800">
+          <div className="mt-[20px] flex flex-col gap-[9px] pl-[92px] text-sm text-gray-800">
             <span className="text-base font-semibold leading-normal">{userProfile?.nickname}</span>{" "}
-            {/*api 연동 필요*/}
             <span className="flex gap-1.5">
               <p>E-mail :</p> <p className="text-gray-700">{userProfile?.email}</p>{" "}
-              {/*api 연동 필요*/}
             </span>
           </div>
         </div>
         <div className="border-t-2 border-black bg-white">
-          <div className="mx-auto mt-6 flex h-[34px] gap-3 pl-4">
+          <div className="mx-auto mt-6 flex h-[34px] gap-3 pl-6">
             <button
               onClick={() => setActiveTab("reviews")}
               className={`text-lg font-semibold ${
