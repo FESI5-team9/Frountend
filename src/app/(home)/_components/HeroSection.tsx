@@ -7,8 +7,10 @@ export default function HeroSection() {
         src="/images/mainPage/head.svg"
         width={72}
         height={72}
-        className="h-auto w-auto"
         alt="head"
+        priority
+        placeholder="blur"
+        blurDataURL="data:image/svg+xml;base64,..."
       />
       <div>
         <h4 className="pb-2 text-sm">함께 힐 사람이 없나요?</h4>

@@ -33,5 +33,5 @@ export interface GetGathering {
   capacity: number;
   image: string;
   createdAt: string;
-  canceledAt: string;
+  // createdBy: string;
 }

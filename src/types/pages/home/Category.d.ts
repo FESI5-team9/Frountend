@@ -3,5 +3,5 @@ type Category = {
   icon: string;
   alt: string;
   disabled: string;
-  link: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
+  link: "RESTAURANT" | "CAFE" | "PUB" | "VEGAN";
 };
