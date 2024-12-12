@@ -17,7 +17,6 @@ export default function AuthTestPage() {
       const signupData: PostUsers = {
         email: "test@test.com",
         password: "test1234!",
-        name: "test",
         nickname: "test1",
       };
       const data = await signup(signupData);

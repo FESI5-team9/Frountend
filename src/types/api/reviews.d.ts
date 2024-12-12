@@ -71,8 +71,3 @@ export type ReviewRating = {
 };
 
 export type GetReviewStatsRes = Omit<ReviewRating, "gatheringId" | "type">;
-
-export type GetReviewsRatingGathering = Pick<
-GetReviews,
-"gatheringId" | "size" | "page" | "sort" | "direction"
->;

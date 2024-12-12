@@ -126,11 +126,11 @@ function GroupDetailPage() {
           <Map address={MOCK_DETAIL.address2} />
         </div>
       </div>
-      <div className="w-full px-6 desktop:px-[62px]">
+      <div className="w-full tablet:px-6 desktop:px-[62px]">
         <Reviews reviews={MOCK_REVIEWS} />
       </div>
 
-      <div className="fixed bottom-0 left-0 h-[134px] w-full border-t-2 bg-white tablet:h-[84px] desktop:h-[87px]">
+      <div className="fixed bottom-0 left-0 z-[999] h-[134px] w-full border-t-2 bg-white tablet:h-[84px] desktop:h-[87px]">
         <div className="mx-auto flex max-w-[744px] flex-wrap justify-between gap-[10px] px-4 py-5 tablet:px-6 tablet:py-5 desktop:px-12">
           <div>
             <p className="text-sm font-semibold">메이트들의 PICK!</p>

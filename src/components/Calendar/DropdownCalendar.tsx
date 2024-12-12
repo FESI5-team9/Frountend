@@ -1,51 +1,63 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { format } from "date-fns";
+import { useRef, useState } from "react";
+import useClickOutside from "@/hooks/useClickOutside";
+import Button from "@/components/Button/Button";
 import Calendar from "@/components/Calendar/Calendar";
 import FilterButton from "@/components/Filter/FilterButton";
 import useDateStore from "@/store/dateStore";
 
 export default function DropdownCalendar() {
-  const { selectedOption, setSelectedOption, setFirstDate } = useDateStore();
+  const { setFirstDate, setSecondDate, firstDate } = useDateStore();
   const [isOpen, setIsOpen] = useState(false);
+
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  const resetDate = () => {
+    setFirstDate(null);
+    setSecondDate(null);
+  };
 
   const toggleDropdown = () => {
     setIsOpen(prevState => !prevState);
   };
 
-  const handleDateSelect = useCallback(
-    (date: Date) => {
-      setSelectedOption(format(date, "yy/MM/dd"));
-      setFirstDate(date);
-    },
-    [setSelectedOption, setFirstDate],
-  );
+  const resetAndCloseDropdown = () => {
+    if (isOpen) {
+      resetDate();
+      setIsOpen(false);
+    }
+  };
 
-  const resetDate = useCallback(() => {
-    setFirstDate(null);
-    setSelectedOption("날짜 선택");
-  }, [setFirstDate, setSelectedOption]);
+  useClickOutside(dropdownRef, resetAndCloseDropdown);
+
+  const submitDates = () => {
+    if (firstDate) setIsOpen(false);
+  };
 
   return (
-    <div className="w-[330px]">
+    <div ref={dropdownRef} className="w-[330px]">
       <FilterButton
-        selectedDateOption={selectedOption}
+        selectedDateOption="날짜 선택"
         filterType="selectionFilter"
         onToggle={toggleDropdown}
       />
 
       <div
-        className={`absolute z-50 mt-3 flex w-[330px] flex-col items-center justify-center rounded-[12px] bg-white ${isOpen ? "block" : "hidden"}`}
+        className={`absolute z-50 mt-3 flex w-[300px] flex-col items-center justify-center rounded-[12px] border-[2px] border-[#F3F4F6] bg-white ${isOpen ? "block" : "hidden"}`}
       >
-        <Calendar multipleDates={false} onSelectDropdownDate={handleDateSelect} />
-        <div className="mb-3 flex w-[250px] justify-between">
-          <button onClick={resetDate} className="h-10 w-[118px]">
+        <Calendar multipleDates={true} />
+        <div className="mb-3 flex w-full justify-around px-3">
+          <Button onClick={resetDate} size="small" className="w-[118px] bg-[#F3F4F6] font-semibold">
             초기화
-          </button>
-          <button onClick={() => setIsOpen(false)} className="h-10 w-[118px]">
+          </Button>
+          <Button
+            onClick={submitDates}
+            size="small"
+            className="w-[118px] bg-[#FFFACD] font-semibold"
+          >
             적용
-          </button>
+          </Button>
         </div>
       </div>
     </div>

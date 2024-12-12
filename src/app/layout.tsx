@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import Gnb from "@/components/Gnb";
 import "./globals.css";
 import ReactQueryProviders from "./providers";
 
-const inter = Inter({ subsets: ["latin"] });
+const pretendard = localFont({
+  src: "../../public/fonts/PretendardVariable.ttf",
+  variable: "--font-pretendard",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${inter.className} pt-[60px]`}>
+      <body className={`${pretendard.className} pt-[60px]`}>
         <Gnb />
         <ReactQueryProviders>{children}</ReactQueryProviders>
       </body>
