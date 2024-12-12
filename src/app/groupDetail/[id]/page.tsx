@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { getReviews } from "@/apis/reviewsApi";
 import { getGatheringDetail } from "@/apis/searchGatheringApi";
-import { GatheringDetailRes } from "@/types/api/gatheringApi";
+import { GatheringDetailRes, Participant } from "@/types/api/gatheringApi";
 import { ReviewsRes } from "@/types/api/reviews";
 import { formatToKoreanTime, getRemainingHours } from "@/utils/date";
 import DetailCard from "../_components/DetailCard";
@@ -16,12 +16,37 @@ import Reviews from "../_components/Reviews";
 function GroupDetailPage() {
   const [detail, setDetail] = useState<GatheringDetailRes>();
   const [reviews, setReviews] = useState<ReviewsRes>([]);
+  const [status, setStatus] = useState<"join" | "cancelJoin" | "closed" | "host">("join");
+
   const { id } = useParams();
+  const userId = 10; // 계정 userId 일단 적어둠
+
+  const checkParticipated = (participants: Participant[]) => {
+    const isUserInList = participants.find(participant => participant.userId === userId);
+    return isUserInList;
+  };
+
+  const getStatus = useCallback((data: GatheringDetailRes) => {
+    if (data.host) {
+      setStatus("host");
+    } else {
+      if (data.status === "RECRUITING") {
+        if (checkParticipated(data.participants)) {
+          setStatus("cancelJoin");
+        } else {
+          setStatus("join");
+        }
+      } else {
+        setStatus("closed");
+      }
+    }
+  }, []);
 
   const getDatailData = useCallback(async () => {
     const data = await getGatheringDetail(Number(id));
     setDetail(data);
-  }, [id]);
+    getStatus(data);
+  }, [id, getStatus]);
 
   const getReviewData = useCallback(async () => {
     const data = await getReviews({ gatheringId: Number(id) });
@@ -92,7 +117,7 @@ function GroupDetailPage() {
         <Reviews reviews={reviews} />
       </div>
 
-      <FixedBottomBar gatheringId={detail.id} status="join" />
+      <FixedBottomBar gatheringId={detail.id} status={status} setStatus={setStatus} />
     </div>
   );
 }

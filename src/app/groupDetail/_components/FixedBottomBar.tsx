@@ -1,22 +1,30 @@
+import { CancelGathering, LeaveGathering, joinGathering } from "@/apis/assignGatheringApi";
 import Button from "@/components/Button/Button";
 
 type FixedBottomBarProps = {
   gatheringId: number;
   status: "join" | "cancelJoin" | "closed" | "host";
+  setStatus: React.Dispatch<React.SetStateAction<"join" | "cancelJoin" | "closed" | "host">>;
 };
 
-export default function FixedBottomBar({ gatheringId, status }: FixedBottomBarProps) {
-  const handleJoin = () => {
+export default function FixedBottomBar({ gatheringId, status, setStatus }: FixedBottomBarProps) {
+  const handleJoin = async () => {
     // 참여하기 api 요청
-    if (gatheringId) alert(gatheringId);
+    await joinGathering(String(gatheringId));
+
+    setStatus("cancelJoin");
   };
-  const handleLeaveGathering = () => {
+  const handleLeaveGathering = async () => {
     // 참여 취소하기 api 요청
+    await LeaveGathering(String(gatheringId));
+
+    setStatus("join");
   };
-  const handleCancelGathering = () => {
+  const handleCancelGathering = async () => {
     // 모임 삭제하기 api 요청
+    await CancelGathering(String(gatheringId));
   };
-  const handleShare = () => {
+  const handleShare = async () => {
     // 모임 공유하기
   };
 
