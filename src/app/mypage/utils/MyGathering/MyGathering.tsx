@@ -1,11 +1,11 @@
 import MypageCard from "@/components/Card/MypageCard";
-import { GetMyJoinedGatheringsRes } from "@/types/api/gatheringApi";
+import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
 
 interface RenderContentProps {
   activeTab: string;
   loading: boolean;
   error: string | null;
-  gatherings: GetMyJoinedGatheringsRes[];
+  gatherings: GetMyJoinedGathering[];
 }
 
 export const MyGathering = ({ activeTab, loading, error, gatherings }: RenderContentProps) => {
@@ -17,7 +17,7 @@ export const MyGathering = ({ activeTab, loading, error, gatherings }: RenderCon
       if (gatherings.length === 0) {
         return <p>신청한 모임이 아직 없어요.</p>;
       }
-      return gatherings.map((gathering: GetMyJoinedGatheringsRes, index) => (
+      return gatherings.map((gathering: GetMyJoinedGathering, index) => (
         <div key={gathering.id}>
           <MypageCard
             key={gathering.id}
@@ -39,14 +39,14 @@ export const MyGathering = ({ activeTab, loading, error, gatherings }: RenderCon
       if (gatherings.length === 0) {
         return <p>아직 만든 모임이 없어요.</p>;
       }
-      return gatherings.map((gathering: GetMyJoinedGatheringsRes) => (
+      return gatherings.map((gathering: GetMyJoinedGathering) => (
         <MypageCard
           key={gathering.id}
           name={gathering.name}
           location={gathering.location}
           address1={gathering.address1}
           dateTime={gathering.dateTime}
-          keywords={gathering.keywords || []}
+          keywords={gathering.keywords}
           image={gathering.image}
           participantCount={gathering.participantCount}
           capacity={gathering.capacity}

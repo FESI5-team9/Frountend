@@ -1,11 +1,11 @@
 // useGatherings.ts
 import { useEffect, useState } from "react";
 import { getMyJoinedGatherings } from "@/apis/searchGatheringApi";
-import { GetMyJoinedGatheringsRes } from "@/types/api/gatheringApi";
+import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
 import { Direction } from "@/types/api/gatheringApi";
 
 export const useGatherings = () => {
-  const [gatherings, setGatherings] = useState<GetMyJoinedGatheringsRes[]>([]);
+  const [gatherings, setGatherings] = useState<GetMyJoinedGathering[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,7 +15,7 @@ export const useGatherings = () => {
       setError(null);
       try {
         const params = {
-          completed: true,
+          completed: false,
           reviewed: false,
           size: 10,
           page: 0,
@@ -23,7 +23,7 @@ export const useGatherings = () => {
           direction: "desc" as Direction,
         };
         const data = await getMyJoinedGatherings(params);
-        setGatherings(Array.isArray(data) ? data : [data]);
+        setGatherings(data);
       } catch (err) {
         setError("데이터를 불러오는 데 실패했습니다.");
       } finally {

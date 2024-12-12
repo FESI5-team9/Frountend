@@ -21,8 +21,8 @@ export default function MypageCard({
 
   return (
     <div className="flex h-[352px] w-full flex-col gap-4 tablet:h-[153px] tablet:flex-row">
-      <div className="relative flex h-[156px] w-full items-center justify-center overflow-hidden rounded-3xl tablet:w-[280px]">
-        <Image src={image} fill objectFit="cover" alt="모임 이미지" />
+      <div className="relative flex h-[153px] w-full items-center justify-center overflow-hidden rounded-3xl tablet:w-[280px]">
+        <Image src={image} fill objectFit="cover" alt="모임 이미지" className="" />
       </div>
       <div className="flex flex-col">
         <div className="mb-3 flex gap-2">
