@@ -14,7 +14,7 @@ export function FilterDropDown({ filterType, options, onSelectFilterOption }: Fi
   const handleOptionSelect = useCallback(
     (option: OptionType) => {
       setSelectedOption(option);
-      onSelectFilterOption(option.ko);
+      onSelectFilterOption(option.eng);
       setIsOpen(false);
     },
     [onSelectFilterOption],

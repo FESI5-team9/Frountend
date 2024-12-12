@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { getReviewStats, getReviews } from "@/apis/reviewsApi";
 import { categories } from "@/constants/categoryList";
-import useDateStore from "@/store/dateStore";
 import { GetReviewStatsRes, GetReviews, ReviewsRes } from "@/types/api/reviews";
 import RatingComponent from "./RatingComponent";
 import ReviewListComponent from "./ReviewListComponent";
@@ -13,7 +12,6 @@ import ReviewListComponent from "./ReviewListComponent";
 interface Filters {
   type: GetReviews["type"];
   location: GetReviews["location"];
-  date: GetReviews["date"];
   sort: string;
 }
 
@@ -22,21 +20,16 @@ function AllReviews() {
   const [filters, setFilters] = useState<Filters>({
     type: "CAFE",
     location: undefined,
-    date: undefined,
     sort: "createdAt",
   });
-
   const handleTypeChange = (newType: Category["link"]) => {
     setType(newType);
     // 모든 필터 상태 초기화
     setFilters({
       type: newType,
       location: undefined,
-      date: undefined,
       sort: "createdAt",
     });
-    // DateStore 초기화
-    useDateStore.setState({ selectedOption: undefined });
   };
 
   const { data: reviews } = useQuery<ReviewsRes>({
