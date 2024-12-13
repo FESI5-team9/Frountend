@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { getReviews } from "@/apis/reviewsApi";
 import { getGatheringDetail } from "@/apis/searchGatheringApi";
+import useUserStore from "@/store/userStore";
 import { GatheringDetailRes, Participant } from "@/types/api/gatheringApi";
 import { ReviewsRes } from "@/types/api/reviews";
 import { formatToKoreanTime, getRemainingHours } from "@/utils/date";
@@ -17,12 +18,12 @@ function GroupDetailPage() {
   const [detail, setDetail] = useState<GatheringDetailRes>();
   const [reviews, setReviews] = useState<ReviewsRes>([]);
   const [status, setStatus] = useState<"join" | "cancelJoin" | "closed" | "host">("join");
+  const userInfo = useUserStore();
 
   const { id } = useParams();
-  const userId = 12; // 계정 userId 일단 적어둠
 
   const checkParticipated = (participants: Participant[]) => {
-    const isUserInList = participants.find(participant => participant.userId === userId);
+    const isUserInList = participants.find(participant => participant.userId === userInfo.id);
     return isUserInList;
   };
 
