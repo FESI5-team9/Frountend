@@ -50,7 +50,7 @@ export type GatheringDetailRes = GatheringRes & {
 
 export type User = {
   id: number;
-  nickname: string;
+  nickname?: string;
   image?: string;
 };
 

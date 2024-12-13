@@ -12,10 +12,17 @@ import MyReviews from "@/app/mypage/utils/MyReviews/MyReviews";
 
 export default function Mypage() {
   const [activeTab, setActiveTab] = useState("reviews");
-  const { userProfile } = useUserProfile();
+  const { userProfile, setUserProfile } = useUserProfile();
   const { gatherings, loading, error } = useGatherings();
   const { completedReviews, unCompletedReviews } = useReviews();
   const { handleImageUpload } = useImageUpload(userProfile);
+
+  const handleImageUploadAndUpdate = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedUser = await handleImageUpload(e);
+    if (updatedUser) {
+      setUserProfile(updatedUser); // 상태를 업데이트
+    }
+  };
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -62,7 +69,7 @@ export default function Mypage() {
                 type="file"
                 accept="image/*"
                 className="hidden"
-                onChange={handleImageUpload}
+                onChange={handleImageUploadAndUpdate}
               />
               {/* <button className="absolute bottom-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white">
                 <Image src="/images/modify.svg" width={18} height={18} alt="프로필 이미지 수정" />
