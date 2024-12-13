@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
-// import { useReviews } from "@/hooks/useReviews";
 import Button from "@/components/Button/Button";
 import Chip from "@/components/Chips";
 import Rating from "@/app/mypage/components/mypage/Rating";
 import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
 import { ReviewRes } from "@/types/api/reviews";
+import { formatToKoreanTime } from "@/utils/date";
 
 interface AllReviewCardProps {
   review: GetMyJoinedGathering[];
@@ -121,18 +121,20 @@ export default function AllReviewCard({ review, reviewed }: AllReviewCardProps) 
                     className="object-cover"
                   />
                 </div>
-                <div className="flex w-full flex-col">
+                <div className="flex flex-1 flex-col">
                   <div>
                     <Rating score={item.score} />
                   </div>
                   <p className="mt-[10px] inline-block w-full text-sm text-gray-800">
                     {item.comment}
                   </p>
-                  <span className="mt-[10px] inline-block text-gray-800">
+                  <span className="mt-[10px] inline-block text-xs text-gray-800">
                     {item.gathering.location}
                   </span>
-                  <span className="mt-2 inline-block text-gray-disable">
-                    {item.gathering.dateTime as React.ReactNode}
+                  <span className="mt-2 inline-block text-xs text-gray-disable">
+                    {item.gathering.dateTime
+                      ? formatToKoreanTime(item.gathering.dateTime as string, "yyyy.MM.dd")
+                      : "날짜 정보 없음"}
                   </span>
                   <div className="mt-auto w-full border border-dashed border-b-gray-disable"></div>
                 </div>
