@@ -15,17 +15,7 @@ interface AllReviewCardProps {
 }
 
 export default function AllReviewCard({ review, reviewed }: AllReviewCardProps) {
-  // const { completedReviews, unCompletedReviews, loading, error } = useReviews();
-
-  // const [completedReviews, setCompletedReviews] = useState<ReviewsRes>([]);
-  // const [unCompletedReviews, setUnCompletedReviews] = useState<GetMyJoinedGatheringsRes[]>([]);
   const [activeTab, setActiveTab] = useState<"uncompleted" | "completed">("uncompleted");
-
-  //   const isDateTime = "";
-  //   const dateString = "MM월 dd일";
-  //   const timeString = "HH:mm";
-  //   const gatheringDate = formatToKoreanTime(isDateTime, dateString);
-  //   const gatheringTime = formatToKoreanTime(isDateTime, timeString);
 
   return (
     <>
@@ -145,25 +135,3 @@ export default function AllReviewCard({ review, reviewed }: AllReviewCardProps) 
     </>
   );
 }
-// return (
-//   <>
-//     <div className="flex h-[355px] w-full flex-col gap-6 tablet:h-[153px] tablet:flex-row">
-//       <div className="relative flex h-[153px] w-[272px] items-center justify-center overflow-hidden rounded-3xl">
-//         <Image src={review.image} fill alt="음식 이미지" />
-//       </div>
-//       <div className="flex flex-col">
-//         <div>
-//           <Rating score={review.score} />
-//         </div>
-//         <p className="mt-[10px] inline-block text-xl text-gray-800">{review.comment}</p>
-//         <span className="mt-[10px] inline-block text-gray-800">{review.location}</span>
-//         <span className="mt-2 inline-block text-gray-disable">{review.date}</span>
-//         <div className="mt-auto border border-dashed border-b-gray-disable"></div>
-//       </div>
-//     </div>
-//   </>
-// );
-
-/* api/my/reviews 날려도 될까요 ?? 
-작성된 리뷰 -> 리뷰 목록에서 유저 아이디로 검색
-작정가능한 리뷰 -> 로그인된 사용자가 참석한 모임조회 에서 completed=true , reviewed=false 주면 될거같아요 */

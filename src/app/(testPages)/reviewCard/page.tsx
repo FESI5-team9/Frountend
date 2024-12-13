@@ -1,4 +1,4 @@
-import AllReviewCard from "@/components/Card/AllReviewCard";
+import AllReviewCard from "@/components/AllReviewCard";
 
 export default function reviewCard() {
   return <AllReviewCard />;

@@ -1,4 +1,4 @@
-import MypageCard from "@/components/Card/MypageCard";
+import MypageCard from "@/components/MypageCard/MypageCard";
 import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
 
 interface RenderContentProps {

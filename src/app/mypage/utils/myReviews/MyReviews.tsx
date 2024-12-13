@@ -1,4 +1,4 @@
-import AllReviewCard from "@/components/Card/AllReviewCard";
+import AllReviewCard from "@/components/MypageCard/ReviewCard";
 import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
 import { ReviewRes } from "@/types/api/reviews";
 
