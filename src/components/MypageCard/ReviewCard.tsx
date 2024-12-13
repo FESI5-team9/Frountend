@@ -5,14 +5,8 @@ import Image from "next/image";
 import Button from "@/components/Button/Button";
 import Chip from "@/components/Chips";
 import Rating from "@/app/mypage/components/mypage/Rating";
-import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
-import { ReviewRes } from "@/types/api/reviews";
+import { AllReviewCardProps } from "@/types/components/card";
 import { formatToKoreanTime } from "@/utils/date";
-
-interface AllReviewCardProps {
-  review: GetMyJoinedGathering[];
-  reviewed: ReviewRes[];
-}
 
 export default function AllReviewCard({ review, reviewed }: AllReviewCardProps) {
   const [activeTab, setActiveTab] = useState<"uncompleted" | "completed">("uncompleted");

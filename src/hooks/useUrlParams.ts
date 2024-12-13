@@ -19,7 +19,10 @@ const useQueryBuilder = () => {
     const currentParams = new URLSearchParams(window.location.search); // 현재 쿼리 파라미터 가져오기
     const updatedParams = buildQueryParams(currentParams, newParams); // 병합된 쿼리 생성
 
-    router.push(`/search?${updatedParams}`); // 새로운 URL로 이동
+    // 현재 경로를 명시적으로 설정하여 `/`가 붙지 않도록 처리
+    const basePath = window.location.pathname !== "/" ? window.location.pathname : "";
+
+    router.push(`${basePath}?${updatedParams}`); // 새로운 URL로 이동
   };
 
   return updateQueryParams;

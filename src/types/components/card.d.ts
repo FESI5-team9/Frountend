@@ -34,7 +34,7 @@ export interface GetGathering {
   capacity: number;
   image: string;
   createdAt: string;
-  canceledAt: string;
+  // createdBy: string;
 }
 
 export interface MypageCardProps {
@@ -49,10 +49,7 @@ export interface MypageCardProps {
   keywords?: string[];
 }
 
-export interface AllReviewCardProps {
-  image: string;
-  score: number;
-  comment: string;
-  location: string;
-  date: string;
+interface AllReviewCardProps {
+  review: GetMyJoinedGathering[];
+  reviewed: ReviewRes[];
 }

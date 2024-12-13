@@ -1,9 +1,6 @@
 import React from "react";
-import Heart from "./Heart";
-
-interface RatingProps {
-  score: number; // API로부터 받은 평점 (1~5 사이)
-}
+import Heart from "@/app/mypage/components/mypage/Heart";
+import { RatingProps } from "@/types/components/heart";
 
 const Rating = ({ score }: RatingProps) => {
   // 1부터 5까지의 하트를 만들기 위한 배열
