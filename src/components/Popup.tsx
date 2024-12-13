@@ -39,10 +39,17 @@ export default function Popup({ id, isOpen, onClose, children, className }: Popu
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${
+        isOpen ? "visible opacity-100" : "invisible opacity-0"
+      }`}
       onClick={handleClickOutside}
     >
-      <div className={`relative rounded-lg bg-white p-6 shadow-lg ${className} `} ref={modalRef}>
+      <div
+        className={`relative transform rounded-lg bg-white p-6 shadow-lg transition-transform duration-300 ${
+          isOpen ? "scale-100" : "scale-95"
+        } ${className}`}
+        ref={modalRef}
+      >
         {children}
       </div>
     </div>

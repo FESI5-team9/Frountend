@@ -9,7 +9,14 @@ type FixedBottomBarProps = {
 
 export default function FixedBottomBar({ status, onJoin, onLeave, onCancel }: FixedBottomBarProps) {
   const handleShare = async () => {
-    // 모임 공유하기
+    try {
+      const currentUrl = window.location.href;
+      await navigator.clipboard.writeText(currentUrl);
+      alert("URL이 클립보드에 복사되었습니다!");
+    } catch (error) {
+      console.error("URL 복사 실패", error);
+      alert("URL 복사 실패");
+    }
   };
 
   return (
@@ -29,7 +36,6 @@ export default function FixedBottomBar({ status, onJoin, onLeave, onCancel }: Fi
           )}
         </div>
 
-        {/* 상태에 따라 버튼 표시 */}
         {status === "join" && (
           <Button
             className="h-11 w-[115px] bg-yellow-primary text-[#262626] tablet:grow-0"

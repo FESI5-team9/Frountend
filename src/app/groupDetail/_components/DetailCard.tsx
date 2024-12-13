@@ -64,7 +64,7 @@ export default function DetailCard({ gathering }: GatheringProp) {
                   index < 4 && (
                     <div
                       key={index}
-                      className="-ml-3 h-[29px] w-[29px] rounded-full bg-gray-400 bg-cover bg-center"
+                      className="-ml-3 h-[29px] w-[29px] rounded-full bg-gray-200 bg-cover bg-center"
                       style={{
                         backgroundImage: `url(${person.image})`,
                       }}

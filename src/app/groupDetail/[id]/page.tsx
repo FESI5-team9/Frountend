@@ -5,6 +5,7 @@ import Image from "next/image";
 import { CancelGathering, LeaveGathering, joinGathering } from "@/apis/assignGatheringApi";
 import { getReviews } from "@/apis/reviewsApi";
 import { getGatheringDetail } from "@/apis/searchGatheringApi";
+import LoginAlertPopup from "@/app/groupDetail/_components/LoginAlertPopup";
 import useUserStore from "@/store/userStore";
 import { GatheringDetailRes, Participant } from "@/types/api/gatheringApi";
 import { ReviewsRes } from "@/types/api/reviews";
@@ -18,6 +19,9 @@ function GroupDetailPage({ params }: { params: { id: string } }) {
   const [detail, setDetail] = useState<GatheringDetailRes>();
   const [reviews, setReviews] = useState<ReviewsRes>([]);
   const [status, setStatus] = useState<"join" | "cancelJoin" | "closed" | "host">("join");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoginAlertOpen, setIsLoginAlertOpen] = useState<boolean>(false);
+
   const userInfo = useUserStore();
 
   const checkParticipationStatus = useCallback(
@@ -37,64 +41,68 @@ function GroupDetailPage({ params }: { params: { id: string } }) {
   );
 
   const fetchDetailData = useCallback(async () => {
-    if (!params.id) return;
     try {
+      setIsLoading(true);
       const data = await getGatheringDetail(Number(params.id));
       setDetail(data);
       determineStatus(data);
     } catch (error) {
       console.error("Failed to fetch gathering details:", error);
+    } finally {
+      setIsLoading(false);
     }
   }, [params.id, determineStatus]);
 
   const fetchReviewData = useCallback(async () => {
-    if (!params.id) return;
     try {
+      setIsLoading(true);
       const data = await getReviews({ gatheringId: Number(params.id) });
       setReviews(data);
     } catch (error) {
       console.error("Failed to fetch reviews:", error);
+    } finally {
+      setIsLoading(false);
     }
   }, [params.id]);
 
-  const handleJoin = useCallback(async () => {
-    if (!params.id) return;
+  const handleJoin = async () => {
+    if (!userInfo.id) return setIsLoginAlertOpen(true);
+
     try {
       await joinGathering(params.id);
       setStatus("cancelJoin");
     } catch (error) {
       console.error("Failed to join gathering:", error);
     }
-  }, [params.id]);
+  };
 
-  const handleLeave = useCallback(async () => {
-    if (!params.id) return;
+  const handleLeave = async () => {
     try {
       await LeaveGathering(params.id);
       setStatus("join");
     } catch (error) {
       console.error("Failed to leave gathering:", error);
     }
-  }, [params.id]);
+  };
 
-  const handleCancel = useCallback(async () => {
-    if (!params.id) return;
+  const handleCancel = async () => {
     try {
       await CancelGathering(params.id);
     } catch (error) {
       console.error("Failed to cancel gathering:", error);
     }
-  }, [params.id]);
+  };
 
   useEffect(() => {
     fetchDetailData();
     fetchReviewData();
   }, [fetchDetailData, fetchReviewData]);
 
-  if (!detail)
+  // 추후 변경 예정
+  if (isLoading || !detail)
     return (
       <div className="flex h-screen w-full items-center justify-center">
-        <p>모임을 찾을 수 없습니다.</p>
+        <p>Loading...</p>
       </div>
     );
 
@@ -105,7 +113,7 @@ function GroupDetailPage({ params }: { params: { id: string } }) {
       >
         <div
           style={{ backgroundImage: `url(${detail.image})` }}
-          className="desktop:grid-area-topLeft relative min-h-[180px] rounded-3xl bg-slate-400 bg-cover bg-center bg-no-repeat tablet:min-h-[270px] desktop:mb-20"
+          className="desktop:grid-area-topLeft relative min-h-[180px] rounded-3xl bg-gray-200 bg-cover bg-center bg-no-repeat tablet:min-h-[270px] desktop:mb-20"
         >
           {detail.registrationEnd && (
             <div className="absolute right-0 top-0 z-50 flex h-[32px] w-[123px] items-center justify-center gap-[8px] rounded-bl-3xl rounded-tr-3xl bg-yellow-primary">
@@ -147,6 +155,11 @@ function GroupDetailPage({ params }: { params: { id: string } }) {
         onJoin={handleJoin}
         onLeave={handleLeave}
         onCancel={handleCancel}
+      />
+      <LoginAlertPopup
+        text="참여하기는 로그인이 필요합니다."
+        isOpen={isLoginAlertOpen}
+        onClose={() => setIsLoginAlertOpen(false)}
       />
     </div>
   );
