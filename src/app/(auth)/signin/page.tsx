@@ -11,12 +11,13 @@ import { signin } from "@/apis/authApi";
 import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
 import Popup from "@/components/Popup";
+import { Login } from "@/types/api/authApi";
 import baseSchema from "@/utils/schema";
 
 type LoginFormData = z.infer<typeof baseSchema>;
 const loginSchema = baseSchema.pick({ email: true, password: true });
 
-function Login() {
+function LoginPage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const {
     register,
@@ -28,14 +29,15 @@ function Login() {
   });
   const router = useRouter();
 
-  const onSubmit = async (data: LoginFormData) => {
-    try {
-      await signin(data);
+  const onSubmit = async (data: Login) => {
+    const response = await signin(data);
+    if (response.ok) {
       router.push("/");
-    } catch (error) {
+    } else {
       setIsPopupOpen(true);
     }
   };
+
   return (
     <div className="flex h-[540px] w-full flex-col items-center justify-center gap-8 rounded-3xl bg-white px-4 tablet:h-[556px] tablet:px-[54px] desktop:h-[612px] desktop:w-[510px] desktop:px-[54px]">
       <h1 className="text-xl">로그인 </h1>
@@ -118,4 +120,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;
