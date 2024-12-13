@@ -7,16 +7,16 @@ import Rating from "@/app/mypage/components/mypage/Rating";
 import { formatToKoreanTime } from "@/utils/date";
 
 export default function AllReviewCard() {
-  const { completedReviews } = useReviews();
+  const { completedReviews } = useReviews(); // hook에서 가져온 값을
   const [reviews, setReviews] = useState(completedReviews);
 
   useEffect(() => {
-    setReviews(completedReviews || []);
+    setReviews(completedReviews || []); // reviews로 설정
   }, [completedReviews]);
 
   return (
     <div>
-      {reviews &&
+      {reviews && // map에서 사용
         reviews?.map(item => (
           <div
             key={item.id}
