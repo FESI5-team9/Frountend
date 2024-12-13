@@ -1,32 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { motion } from "framer-motion";
 import { deleteFavoriteGathering, getFavoriteGathering } from "@/apis/favoriteGatheringApi";
-
-// import useUserStore from "@/store/userStore";
+import useUserStore from "@/store/userStore";
 
 export default function FavoriteButton({ gatheringId, initialFavorite }: FavoriteButtonProps) {
   const [isFavorite, setIsFavorite] = useState<boolean>(initialFavorite);
-  // const userInfo = useUserStore();
+  const userInfo = useUserStore();
 
-  const submitFavorite = async () => {
-    // if (!userInfo.id) return alert("로그인하세요");
-    // console.log(userInfo);
-    if (isFavorite) {
-      // api 찜하기 취소 요청
-      await deleteFavoriteGathering(gatheringId);
-      // const result = await deleteFavoriteGathering(gatheringId);
-      setIsFavorite(false);
-      // console.log(result);
-    } else {
-      // api 찜하기 요청
-      await getFavoriteGathering(gatheringId);
-      // const result = await getFavoriteGathering(gatheringId);
-      setIsFavorite(true);
-      // console.log(result);
+  const submitFavorite = useCallback(async () => {
+    if (!userInfo.id) {
+      alert("로그인하세요");
+      return;
     }
-  };
+
+    try {
+      if (isFavorite) {
+        await deleteFavoriteGathering(gatheringId);
+      } else {
+        await getFavoriteGathering(gatheringId);
+      }
+      setIsFavorite(prev => !prev);
+    } catch (error) {
+      console.error("Error updating favorite status", error);
+    }
+  }, [isFavorite, gatheringId, userInfo.id]);
 
   return (
     <motion.button
