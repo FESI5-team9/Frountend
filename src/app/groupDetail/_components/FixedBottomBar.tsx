@@ -1,31 +1,13 @@
-import { CancelGathering, LeaveGathering, joinGathering } from "@/apis/assignGatheringApi";
 import Button from "@/components/Button/Button";
 
 type FixedBottomBarProps = {
-  gatheringId: number;
   status: "join" | "cancelJoin" | "closed" | "host";
-  setStatus: React.Dispatch<React.SetStateAction<"join" | "cancelJoin" | "closed" | "host">>;
+  onJoin: () => Promise<void>;
+  onLeave: () => Promise<void>;
+  onCancel: () => Promise<void>;
 };
 
-export default function FixedBottomBar({ gatheringId, status, setStatus }: FixedBottomBarProps) {
-  const handleJoin = async () => {
-    // 참여하기 api 요청
-
-    await joinGathering(String(gatheringId));
-
-    setStatus("cancelJoin");
-  };
-  const handleLeaveGathering = async () => {
-    // 참여 취소하기 api 요청
-
-    await LeaveGathering(String(gatheringId));
-
-    setStatus("join");
-  };
-  const handleCancelGathering = async () => {
-    // 모임 삭제하기 api 요청
-    await CancelGathering(String(gatheringId));
-  };
+export default function FixedBottomBar({ status, onJoin, onLeave, onCancel }: FixedBottomBarProps) {
   const handleShare = async () => {
     // 모임 공유하기
   };
@@ -51,7 +33,7 @@ export default function FixedBottomBar({ gatheringId, status, setStatus }: Fixed
         {status === "join" && (
           <Button
             className="h-11 w-[115px] bg-yellow-primary text-[#262626] tablet:grow-0"
-            onClick={handleJoin}
+            onClick={onJoin}
           >
             참여하기
           </Button>
@@ -60,7 +42,7 @@ export default function FixedBottomBar({ gatheringId, status, setStatus }: Fixed
         {status === "cancelJoin" && (
           <Button
             className="h-11 w-[115px] bg-[#ff9e48] !p-[10px] text-white tablet:grow-0"
-            onClick={handleLeaveGathering}
+            onClick={onLeave}
           >
             참여 취소하기
           </Button>
@@ -76,7 +58,7 @@ export default function FixedBottomBar({ gatheringId, status, setStatus }: Fixed
           <div className="flex w-full gap-2 tablet:w-[238px]">
             <Button
               className="h-11 w-[115px] grow bg-[#E5E7EB] text-[#262626] tablet:w-[115px] tablet:grow-0"
-              onClick={handleCancelGathering}
+              onClick={onCancel}
             >
               취소하기
             </Button>
