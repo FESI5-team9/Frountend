@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 export const DIRECTION = {
   ASC: "ASC",
   DESC: "DESC",
@@ -20,13 +18,13 @@ export type GatheringBase = {
   dateTime: string;
   registrationEnd: string;
   location?:
-    | "SEOUL"
-    | "GYEONGGI_DO"
-    | "GANGWON_DO"
-    | "CHUNGCHEONG_DO"
-    | "GYEONGSANG_DO"
-    | "JEOLLA_DO"
-    | "JEJU_ISLAND";
+  | "SEOUL"
+  | "GYEONGGI_DO"
+  | "GANGWON_DO"
+  | "CHUNGCHEONG_DO"
+  | "GYEONGSANG_DO"
+  | "JEOLLA_DO"
+  | "JEJU_ISLAND";
   address1: string;
   address2: string;
   participantCount: number;
@@ -52,7 +50,7 @@ export type GatheringDetailRes = GatheringRes & {
 
 export type User = {
   id: number;
-  nickname?: string;
+  nickname: string;
   image?: string;
 };
 
@@ -83,9 +81,10 @@ export type GetMyJoinedGathering = GatheringBase & {
 };
 
 export type CreateGathering = Omit<
-  GatheringBase,
-  "id" | "participantCount" | "createdBy" | "canceledAt" | "image" | "location"
+GatheringBase,
+"id" | "participantCount" | "createdAt" | "canceledAt" | "image" | "location" | "registrationEnd"
 > & {
+  openParticipantCount?: string;
   location: string;
   description: string;
   keyword: string[];
@@ -98,13 +97,13 @@ export type Gatherings = PaginationParams & {
   startDate?: string;
   endDate?: string;
   location?:
-    | "SEOUL"
-    | "GYEONGGI_DO"
-    | "GANGWON_DO"
-    | "CHUNGCHEONG_DO"
-    | "GYEONGSANG_DO"
-    | "JEOLLA_DO"
-    | "JEJU_ISLAND";
+  | "SEOUL"
+  | "GYEONGGI_DO"
+  | "GANGWON_DO"
+  | "CHUNGCHEONG_DO"
+  | "GYEONGSANG_DO"
+  | "JEOLLA_DO"
+  | "JEJU_ISLAND";
   createdBy?: string;
 };
 
@@ -112,14 +111,16 @@ export type GetSearchGatherings = PaginationParams & {
   search: string;
   type?: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
   location?:
-    | "SEOUL"
-    | "GYEONGGI_DO"
-    | "GANGWON_DO"
-    | "CHUNGCHEONG_DO"
-    | "GYEONGSANG_DO"
-    | "JEOLLA_DO"
-    | "JEJU_ISLAND";
+  | "SEOUL"
+  | "GYEONGGI_DO"
+  | "GANGWON_DO"
+  | "CHUNGCHEONG_DO"
+  | "GYEONGSANG_DO"
+  | "JEOLLA_DO"
+  | "JEJU_ISLAND";
 };
+
+export type GetSearchGatheringRes = GatheringBase[];
 
 export type GetMyJoinedGatherings = PaginationParams & {
   completed?: boolean;

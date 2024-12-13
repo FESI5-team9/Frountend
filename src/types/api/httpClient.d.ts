@@ -42,7 +42,6 @@ export type Config<T = RequestData> = {
   credentials?: RequestCredentials;
   next?: NextFetchConfig;
   cache?: RequestCache | boolean;
-  data?: RequestData;
   retry?: boolean;
 } & BaseConfig;
 

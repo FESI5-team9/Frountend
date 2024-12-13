@@ -8,13 +8,15 @@ export const useImageUpload = (userProfile: User | null) => {
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file && userProfile) {
+    if (!userProfile) {
       try {
         const updatedUser = await updateUserProfile({ image: file });
         return updatedUser;
       } catch (err) {
         setError("프로필 이미지 업로드에 실패했습니다.");
       }
+    } else {
+      setError("업로드할 파일이 없습니다.");
     }
   };
 

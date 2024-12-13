@@ -5,7 +5,6 @@ import {
   GatheringsRes,
   GetGatheringParticipants,
   GetGatheringParticipantsRes,
-  GetMyJoinedGathering,
   GetMyJoinedGatherings,
   GetMyJoinedGatheringsRes,
   GetSearchGatheringRes,
@@ -71,7 +70,7 @@ export async function getMyJoinedGatherings(
   const searchParams = new URLSearchParams();
   const queryString = buildQueryParams(searchParams, params);
 
-  const data = await fetchInstance.get<GetMyJoinedGathering[]>(
+  const data = await fetchInstance.get<GetMyJoinedGatheringsRes>(
     `/gatherings/joined${queryString ? `?${queryString}` : ""}`,
   );
   return data;
