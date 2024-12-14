@@ -17,6 +17,9 @@ import baseSchema from "@/utils/schema";
 type LoginFormData = z.infer<typeof baseSchema>;
 const loginSchema = baseSchema.pick({ email: true, password: true });
 
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_REDRICT_URL}&response_type=code`;
+const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDRICT_URL}&response_type=code`;
+
 function LoginPage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const {
@@ -76,7 +79,7 @@ function LoginPage() {
       </div>
       <div className="flex justify-center gap-4">
         <Link
-          href=""
+          href={GOOGLE_AUTH_URL}
           className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-300"
         >
           <Image
@@ -88,7 +91,10 @@ function LoginPage() {
           />
         </Link>
 
-        <Link href="" className="flex h-12 w-12 items-center justify-center rounded-full">
+        <Link
+          href={KAKAO_AUTH_URL}
+          className="flex h-12 w-12 items-center justify-center rounded-full"
+        >
           <Image
             src="/icons/Ic-Kakao.svg"
             width={48}
