@@ -6,6 +6,7 @@ type FilterDropdownProps = {
   filterType: FilterType;
   options: OptionType[];
   onSelectFilterOption: (currentOption: string) => void;
+  initialSelected?: string;
 };
 
 type FilterButtonProps = {
