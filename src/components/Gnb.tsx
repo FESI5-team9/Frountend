@@ -32,21 +32,26 @@ export default function Gnb() {
             </div>
           </div>
 
-          {id ? (
-            // 로그인 상태면 유저 프로필
-            <button className="" aria-label="유저 프로필">
-              <Image src={image || "/images/profile.svg"} width={40} height={40} alt="프로필" />
-            </button>
-          ) : (
-            // 비로그인 상태면 로그인 링크
-            <Link
-              href={"/signin"}
-              className="text-sm font-semibold hover:text-white tablet:text-base"
-              aria-label="로그인"
-            >
-              로그인
+          <div className="flex items-center gap-5 tablet:gap-6">
+            <Link href={`/search/${id}`}>
+              <Image src="/icons/magnifier.svg" width={24} height={24} alt="검색" />
             </Link>
-          )}
+            {id ? (
+              // 로그인 상태면 유저 프로필
+              <button className="" aria-label="유저 프로필">
+                <Image src={image || "/images/profile.svg"} width={40} height={40} alt="프로필" />
+              </button>
+            ) : (
+              // 비로그인 상태면 로그인 링크
+              <Link
+                href={"/signin"}
+                className="text-sm font-semibold hover:text-white tablet:text-base"
+                aria-label="로그인"
+              >
+                로그인
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </header>
