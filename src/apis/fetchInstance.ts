@@ -5,7 +5,7 @@ import { createClient } from "./HttpClient/HttpClient";
 import { APIError } from "./HttpClient/error";
 
 const fetchInstance = createClient({
-  baseURL: "/api",
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Headers": "Authorization, Content-Type",
