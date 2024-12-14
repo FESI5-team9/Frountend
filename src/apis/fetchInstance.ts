@@ -28,11 +28,20 @@ fetchInstance.interceptors.response.push({
       prevConfig.retry = true;
 
       try {
+        const refreshToken = document.cookie
+          .split("; ")
+          .find(row => row.startsWith("refreshToken="))
+          ?.split("=")[1];
+
         const refreshClient = createClient({
           baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${refreshToken}`,
+          },
         });
 
-        const data = await refreshClient.post<LoginRes>("/auth/refresh-token");
+        const data = await refreshClient.post<LoginRes>("/auth/managed-access-token");
         await setAccessCookies(data.accessToken);
 
         const { method, url, body, ...restConfig } = prevConfig;
