@@ -30,7 +30,6 @@ export async function signin(body: Login) {
     nickname,
     image,
   });
-
   return data;
 }
 
