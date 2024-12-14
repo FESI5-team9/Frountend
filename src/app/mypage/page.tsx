@@ -3,10 +3,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useGatherings } from "@/hooks/useGatherings";
-import { useImageUpload } from "@/hooks/useImageUpload";
 import { useReviews } from "@/hooks/useReviews";
 import { useUserProfile } from "@/hooks/useUserProfile";
-// import { CreateGathering } from "@/app/mypage/utils/CreateGathering";
+import { useImageUpload } from "@/app/mypage/components/useImageUpload";
 import { MyGathering } from "@/app/mypage/utils/MyGathering/MyGathering";
 import MyReviews from "@/app/mypage/utils/MyReviews/MyReviews";
 
@@ -71,9 +70,6 @@ export default function Mypage() {
                 className="hidden"
                 onChange={handleImageUploadAndUpdate}
               />
-              {/* <button className="absolute bottom-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white">
-                <Image src="/images/modify.svg" width={18} height={18} alt="프로필 이미지 수정" />
-              </button> */}
             </span>
           </div>
           <div className="flex h-[65px] justify-between rounded-t-3xl border-b-[2px] border-b-gray-300 px-[25px] py-4 text-base text-gray-900">
