@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { FilterDropDown } from "@/components/Filter/FilterDropDown";
 import { LOCATION_OPTIONS, SORT_OPTIONS } from "@/constants/filter";
 import { GetReviews, ReviewsRes } from "@/types/api/reviews";
+import AllReviewCard from "./ReviewCard";
 
 interface Filters {
   type: GetReviews["type"];
@@ -81,7 +82,6 @@ function ReviewListComponent({
             filterType="selectionFilter"
             options={LOCATION_OPTIONS}
             onSelectFilterOption={handleLocationFilter}
-            initialSelected={filters.location}
           />
         </div>
         <FilterDropDown
@@ -89,7 +89,6 @@ function ReviewListComponent({
           filterType="sortFilter"
           options={SORT_OPTIONS}
           onSelectFilterOption={handleSortFilter}
-          initialSelected={filters.sort}
         />
       </div>
 
@@ -98,9 +97,7 @@ function ReviewListComponent({
           <div className="flex h-40 items-center justify-center">데이터를 불러오는 중...</div>
         ) : Array.isArray(reviews) && reviews.length > 1 ? (
           <>
-            {reviews.map(review => (
-              <div key={review.id} className="h-20 w-full rounded-lg border p-4" />
-            ))}
+            <AllReviewCard reviews={reviews} />
 
             {isFetchingNextPage && (
               <div className="py-4 text-center text-gray-500">추가 데이터를 불러오는 중...</div>
