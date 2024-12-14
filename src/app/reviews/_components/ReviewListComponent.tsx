@@ -30,6 +30,7 @@ function ReviewListComponent({
   hasNextPage,
   isFetchingNextPage,
   setFilters,
+  filters,
 }: ReviewListComponentProps) {
   const observerRef = useRef<IntersectionObserver>();
   const loadMoreRef = useRef<HTMLDivElement>(null);
@@ -76,22 +77,26 @@ function ReviewListComponent({
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
           <FilterDropDown
+            key={`location-${filters.type}`}
             filterType="selectionFilter"
             options={LOCATION_OPTIONS}
             onSelectFilterOption={handleLocationFilter}
+            initialSelected={filters.location}
           />
         </div>
         <FilterDropDown
+          key={`location-${filters.type}`}
           filterType="sortFilter"
           options={SORT_OPTIONS}
           onSelectFilterOption={handleSortFilter}
+          initialSelected={filters.sort}
         />
       </div>
 
       <div className="flex flex-col gap-6">
         {isLoading ? (
           <div className="flex h-40 items-center justify-center">데이터를 불러오는 중...</div>
-        ) : Array.isArray(reviews) && reviews.length > 0 ? (
+        ) : Array.isArray(reviews) && reviews.length > 1 ? (
           <>
             {reviews.map(review => (
               <div key={review.id} className="h-20 w-full rounded-lg border p-4" />
