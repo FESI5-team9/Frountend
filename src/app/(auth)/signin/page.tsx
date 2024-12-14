@@ -7,10 +7,11 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { signin } from "@/apis/authApi";
+import { getUserProfile, signin } from "@/apis/authApi";
 import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
 import Popup from "@/components/Popup";
+import useUserStore from "@/store/userStore";
 import { Login } from "@/types/api/authApi";
 import baseSchema from "@/utils/schema";
 
@@ -34,6 +35,15 @@ function LoginPage() {
 
   const onSubmit = async (data: Login) => {
     const response = await signin(data);
+    const { id, email, nickname, image } = await getUserProfile();
+
+    const userStore = useUserStore.getState();
+    userStore.setUser({
+      id,
+      email,
+      nickname,
+      image,
+    });
     if (response.ok) {
       router.push("/");
     } else {
