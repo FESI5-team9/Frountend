@@ -1,6 +1,5 @@
-import { setAuthCookies } from "@/app/actions/auth";
 import useUserStore from "@/store/userStore";
-import { Login, LoginRes, PostUsers, PutUsers, User } from "@/types/api/authApi";
+import { Login, PostUsers, PutUsers, User } from "@/types/api/authApi";
 import fetchInstance from "./fetchInstance";
 
 // 회원가입
@@ -17,20 +16,15 @@ export async function getUserProfile() {
 
 // 로그인
 export async function signin(body: Login) {
-  const data = await fetchInstance.post<LoginRes>("/auth/signin", body);
-
-  await setAuthCookies(data.accessToken);
-
-  const { id, email, nickname, image } = await getUserProfile();
-
-  const userStore = useUserStore.getState();
-  userStore.setUser({
-    id,
-    email,
-    nickname,
-    image,
+  const response = await fetch("/api/auth/signin", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
   });
-  return data;
+
+  return response;
 }
 
 // 유저 정보 수정
