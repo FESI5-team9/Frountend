@@ -2,7 +2,7 @@ import Image from "next/image";
 import Progressbar from "@/components/Progressbar";
 import { GetReviewStatsRes } from "@/types/api/reviews";
 
-function RatingComponent({ stats }: { stats: GetReviewStatsRes }) {
+function RatingComponent({ stats }: { stats?: GetReviewStatsRes }) {
   if (!stats) return null;
 
   const totalRatings = Object.values(stats)
