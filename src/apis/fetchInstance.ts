@@ -1,5 +1,5 @@
 // src/lib/client.ts
-import { setAuthCookies } from "@/app/actions/auth";
+import { setAccessCookies } from "@/app/actions/auth";
 import { LoginRes } from "@/types/api/authApi";
 import { createClient } from "./HttpClient/HttpClient";
 import { APIError } from "./HttpClient/error";
@@ -8,7 +8,6 @@ const fetchInstance = createClient({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   headers: {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Headers": "Authorization, Content-Type",
   },
   credentials: "include",
 });
@@ -34,7 +33,7 @@ fetchInstance.interceptors.response.push({
         });
 
         const data = await refreshClient.post<LoginRes>("/auth/refresh-token");
-        await setAuthCookies(data.accessToken);
+        await setAccessCookies(data.accessToken);
 
         const { method, url, body, ...restConfig } = prevConfig;
         prevConfig.headers = {
