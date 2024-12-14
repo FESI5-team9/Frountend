@@ -9,7 +9,7 @@ import useDateStore from "@/store/dateStore";
 
 export default function DropdownCalendar() {
   const { setFirstDate, setSecondDate, firstDate } = useDateStore();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 

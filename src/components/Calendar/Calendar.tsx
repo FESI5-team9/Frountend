@@ -48,7 +48,7 @@ function DateCell({
 
 export default function Calendar({ selectMode, multipleDates }: CalendarProps) {
   const { firstDate, secondDate, setFirstDate, setSecondDate } = useDateStore();
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();

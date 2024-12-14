@@ -6,8 +6,8 @@ import Dropdown from "@/components/Filter/Dropdown";
 import FilterButton from "@/components/Filter/FilterButton";
 
 export function FilterDropDown({ filterType, options, onSelectFilterOption }: FilterDropdownProps) {
-  const [selectedOption, setSelectedOption] = useState(options[0]);
-  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<OptionType>(options[0]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
