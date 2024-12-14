@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import Popup from "@/components/Popup";

@@ -1,13 +1,68 @@
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+import { CancelGathering, LeaveGathering, joinGathering } from "@/apis/assignGatheringApi";
 import Button from "@/components/Button/Button";
+import useUserStore from "@/store/userStore";
+import { GatheringDetailRes, Participant } from "@/types/api/gatheringApi";
+import LoginAlertPopup from "./LoginAlertPopup";
 
 type FixedBottomBarProps = {
-  status: "join" | "cancelJoin" | "closed" | "host";
-  onJoin: () => Promise<void>;
-  onLeave: () => Promise<void>;
-  onCancel: () => Promise<void>;
+  data: GatheringDetailRes;
+  id: string;
 };
 
-export default function FixedBottomBar({ status, onJoin, onLeave, onCancel }: FixedBottomBarProps) {
+export default function FixedBottomBar({ data, id }: FixedBottomBarProps) {
+  const [status, setStatus] = useState<"join" | "cancelJoin" | "closed" | "host">("join");
+  const [isLoginAlertOpen, setIsLoginAlertOpen] = useState<boolean>(false);
+
+  const userInfo = useUserStore();
+
+  const checkParticipationStatus = useCallback(
+    (participants: Participant[]) =>
+      participants.some(participant => participant.userId === userInfo.id),
+    [userInfo.id],
+  );
+
+  const determineStatus = useCallback(() => {
+    if (data.host) setStatus("host");
+    else if (data.status === "RECRUITING") {
+      setStatus(checkParticipationStatus(data.participants) ? "cancelJoin" : "join");
+    } else setStatus("closed");
+  }, [checkParticipationStatus, data]);
+
+  useEffect(() => {
+    determineStatus();
+  }, [data, determineStatus]);
+
+  const handleJoin = async () => {
+    if (!userInfo.id) return setIsLoginAlertOpen(true);
+
+    try {
+      await joinGathering(id);
+      setStatus("cancelJoin");
+    } catch (err) {
+      console.error("Failed to join gathering:", err);
+    }
+  };
+
+  const handleLeave = async () => {
+    try {
+      await LeaveGathering(id);
+      setStatus("join");
+    } catch (err) {
+      console.error("Failed to leave gathering:", err);
+    }
+  };
+
+  const handleCancel = async () => {
+    try {
+      await CancelGathering(id);
+    } catch (err) {
+      console.error("Failed to cancel gathering:", err);
+    }
+  };
+
   const handleShare = async () => {
     try {
       const currentUrl = window.location.href;
@@ -39,7 +94,7 @@ export default function FixedBottomBar({ status, onJoin, onLeave, onCancel }: Fi
         {status === "join" && (
           <Button
             className="h-11 w-[115px] bg-yellow-primary text-[#262626] tablet:grow-0"
-            onClick={onJoin}
+            onClick={handleJoin}
           >
             참여하기
           </Button>
@@ -48,7 +103,7 @@ export default function FixedBottomBar({ status, onJoin, onLeave, onCancel }: Fi
         {status === "cancelJoin" && (
           <Button
             className="h-11 w-[115px] bg-[#ff9e48] !p-[10px] text-white tablet:grow-0"
-            onClick={onLeave}
+            onClick={handleLeave}
           >
             참여 취소하기
           </Button>
@@ -64,7 +119,7 @@ export default function FixedBottomBar({ status, onJoin, onLeave, onCancel }: Fi
           <div className="flex w-full gap-2 tablet:w-[238px]">
             <Button
               className="h-11 w-[115px] grow bg-[#E5E7EB] text-[#262626] tablet:w-[115px] tablet:grow-0"
-              onClick={onCancel}
+              onClick={handleCancel}
             >
               취소하기
             </Button>
@@ -77,6 +132,11 @@ export default function FixedBottomBar({ status, onJoin, onLeave, onCancel }: Fi
           </div>
         )}
       </div>
+      <LoginAlertPopup
+        text="참여하기는 로그인이 필요합니다."
+        isOpen={isLoginAlertOpen}
+        onClose={() => setIsLoginAlertOpen(false)}
+      />
     </div>
   );
 }

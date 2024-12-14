@@ -1,19 +1,36 @@
+"use client";
+
+// import { useState } from "react";
 import Image from "next/image";
+import { UseQueryResult, useQuery } from "@tanstack/react-query";
+import { getReviews } from "@/apis/reviewsApi";
 import { ReviewsRes } from "@/types/api/reviews";
 import { formatToKoreanTime } from "@/utils/date";
 
-type ReviewProp = {
-  reviews: ReviewsRes;
-};
+export default function Reviews({ gatheringId }: { gatheringId: string }) {
+  // const [page, setPage] = useState(1);
+  // const size = 4;
 
-export default function Reviews({ reviews }: ReviewProp) {
+  const {
+    data: reviews,
+    isLoading: isReviewsLoading,
+    error: reviewsError,
+  }: UseQueryResult<ReviewsRes, Error> = useQuery({
+    queryKey: ["gatheringReviews", gatheringId],
+    queryFn: () => getReviews({ gatheringId: Number(gatheringId) }),
+    staleTime: 1000 * 60 * 5,
+  });
+
+  if (isReviewsLoading) return <p>Loading...</p>;
+  if (reviewsError) return <p>Error fetching reviews.</p>;
+
   return (
     <div className="border-t border-[#e5e7eb] bg-white p-6 tablet:col-span-2 tablet:pb-[87px]">
       <div className="h-[500px]">
         <h3 className="mb-5 text-lg font-semibold">
-          리뷰 <span>({reviews.length})</span>
+          리뷰 <span>({reviews?.length})</span>
         </h3>
-        {reviews.length > 0 ? (
+        {reviews && reviews.length > 0 ? (
           <div>
             <div className="flex flex-col gap-[10px]">
               {reviews.map(review => (
