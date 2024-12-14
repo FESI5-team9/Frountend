@@ -24,13 +24,8 @@ export default function MypageCard({
   const handleLeaveGathering = async () => {
     if (id) {
       try {
-        const response = await LeaveGathering(id.toString()); // id 전달
-        alert(response);
-        alert("모임이 성공적으로 취소되었습니다.");
-      } catch (error) {
-        console.error("모임 취소 실패:", error);
-        alert("모임 취소에 실패했습니다.");
-      }
+        await LeaveGathering(id.toString());
+      } catch (error) {}
     }
   };
 
