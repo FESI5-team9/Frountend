@@ -2,20 +2,10 @@ import Image from "next/image";
 import Progressbar from "@/components/Progressbar";
 import { GetReviewStatsRes } from "@/types/api/reviews";
 
-const mockData: GetReviewStatsRes = {
-  averageScore: 4.0,
-  oneStar: 0,
-  twoStars: 0,
-  threeStars: 2,
-  fourStars: 19,
-  fiveStars: 27,
-};
-
 function RatingComponent({ stats }: { stats?: GetReviewStatsRes }) {
-  // eslint-disable-next-line no-console
-  console.log(stats);
+  if (!stats) return null;
 
-  const totalRatings = Object.values(mockData)
+  const totalRatings = Object.values(stats)
     .slice(1)
     .reduce((a, b) => a + b, 0);
   const starLabels = ["5점", "4점", "3점", "2점", "1점"];
@@ -32,7 +22,7 @@ function RatingComponent({ stats }: { stats?: GetReviewStatsRes }) {
       <div className="mx-auto flex w-full max-w-[610px] items-center justify-between px-6 py-8">
         <div className="flex h-[60px] w-[148px] flex-col items-center justify-center gap-2 py-7 pr-5">
           <div className="text-xl font-bold">
-            <span>{mockData.averageScore.toFixed(1)} </span>
+            <span>{stats.averageScore.toFixed(1)} </span>
             <span className="text-gray-400">/5</span>
           </div>
           <div className="flex w-[120px]">
@@ -40,11 +30,9 @@ function RatingComponent({ stats }: { stats?: GetReviewStatsRes }) {
               <Image
                 key={i}
                 src={
-                  i < Math.floor(mockData.averageScore)
-                    ? "/icons/heart.svg"
-                    : "/icons/empty_heart.svg"
+                  i < Math.floor(stats.averageScore) ? "/icons/heart.svg" : "/icons/empty_heart.svg"
                 }
-                alt={i < Math.floor(mockData.averageScore) ? "가득찬 하트" : "빈하트"}
+                alt={i < Math.floor(stats.averageScore) ? "가득찬 하트" : "빈하트"}
                 width={24}
                 height={24}
               />
@@ -57,9 +45,9 @@ function RatingComponent({ stats }: { stats?: GetReviewStatsRes }) {
             <div key={label} className="flex items-center gap-3 text-sm">
               <span>{label}</span>
               <div className="flex-1">
-                <Progressbar now={mockData[starKeys[index]]} max={totalRatings} />
+                <Progressbar now={stats[starKeys[index]]} max={totalRatings} />
               </div>
-              <span className="text-gray-400">{mockData[starKeys[index]]}</span>
+              <span className="text-gray-400">{stats[starKeys[index]]}</span>
             </div>
           ))}
         </div>
