@@ -62,14 +62,14 @@ export default function AllReviewCard({ review, reviewed }: AllReviewCardProps) 
                 : "bg-gray-300 text-gray-700"
             }
             onClick={() => setActiveTab("uncompleted")}
+            size="small"
           >
             작성 가능한 리뷰
           </Button>
           <Button
-            className={
-              activeTab === "completed" ? "bg-gray-700 text-gray-300" : "bg-gray-300 text-gray-700"
-            }
+            className={`h-10 w-[96px] ${activeTab === "completed" ? "bg-gray-700 text-gray-300" : "bg-gray-300 text-gray-700"}`}
             onClick={() => setActiveTab("completed")}
+            size="small"
           >
             작성한 리뷰
           </Button>
