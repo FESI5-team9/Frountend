@@ -11,7 +11,7 @@ import { AllReviewCardProps, GetMyJoinedGatheringWithReview } from "@/types/comp
 import { formatToKoreanTime } from "@/utils/date";
 
 export default function AllReviewCard({ review, reviewed }: AllReviewCardProps) {
-  const [activeTab, setActiveTab] = useState<"uncompleted" | "completed">("uncompleted");
+  const [activeTab, setActiveTab] = useState<"uncompleted" | "completed" | "">("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reviewText, setReviewText] = useState("");
   const [selectedReview, setSelectedReview] = useState<GetMyJoinedGatheringWithReview | null>(null);
@@ -55,10 +55,22 @@ export default function AllReviewCard({ review, reviewed }: AllReviewCardProps) 
     <>
       <div className="flex flex-col gap-6">
         <div className="flex gap-2">
-          <Button className="bg-gray-700 text-white" onClick={() => setActiveTab("uncompleted")}>
+          <Button
+            className={
+              activeTab === "uncompleted"
+                ? "bg-gray-700 text-gray-300"
+                : "bg-gray-300 text-gray-700"
+            }
+            onClick={() => setActiveTab("uncompleted")}
+          >
             작성 가능한 리뷰
           </Button>
-          <Button className="bg-gray-300 text-gray-700" onClick={() => setActiveTab("completed")}>
+          <Button
+            className={
+              activeTab === "completed" ? "bg-gray-700 text-gray-300" : "bg-gray-300 text-gray-700"
+            }
+            onClick={() => setActiveTab("completed")}
+          >
             작성한 리뷰
           </Button>
         </div>
