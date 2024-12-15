@@ -28,8 +28,8 @@ export async function signin(body: Login) {
   if (response.ok) {
     const result = await response.json();
     await setAuthCookies({
-      accessToken: result.data.accessToken,
-      refreshToken: result.data.refreshToken,
+      "access-token": result.data["access-token"],
+      "refresh-token": result.data["refresh-token"],
     });
   }
 

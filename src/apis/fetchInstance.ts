@@ -30,7 +30,7 @@ fetchInstance.interceptors.response.push({
       try {
         const refreshToken = document.cookie
           .split("; ")
-          .find(row => row.startsWith("refreshToken="))
+          .find(row => row.startsWith("refresh-token="))
           ?.split("=")[1];
 
         const refreshClient = createClient({
@@ -43,7 +43,6 @@ fetchInstance.interceptors.response.push({
 
         const data = await refreshClient.post<LoginRes>("/auth/managed-access-token");
         await setAccessCookies(data.accessToken);
-
         const { method, url, body, ...restConfig } = prevConfig;
         prevConfig.headers = {
           ...prevConfig.headers,

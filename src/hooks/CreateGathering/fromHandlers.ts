@@ -125,7 +125,7 @@ export const handleSubmit = async (
     const cookies = document.cookie;
     const token = cookies
       .split("; ")
-      .find(row => row.startsWith("accessToken=")) // `token` 쿠키를 가져옴
+      .find(row => row.startsWith("access-token=")) // `token` 쿠키를 가져옴
       ?.split("=")[1];
     if (!baseUrl) {
       throw new Error("NEXT_PUBLIC_BASE_URL 환경 변수를 설정하세요!");
