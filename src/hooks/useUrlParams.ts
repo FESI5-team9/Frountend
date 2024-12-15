@@ -1,12 +1,15 @@
 import { useRouter } from "next/navigation";
 import buildQueryParams from "./queryParams";
 
-interface QueryParams {
+// useQueryBuilder.ts
+type QueryParamValue = string | number | boolean | (string | number)[] | null | undefined;
+
+interface QueryParams extends Record<string, QueryParamValue> {
   search?: string;
   type?: string;
-  limit?: number;
-  offset?: number;
-  sortBy?: string;
+  page?: number;
+  size?: number;
+  sort?: string;
   dateTime?: string;
   location?: string;
   direction?: string;

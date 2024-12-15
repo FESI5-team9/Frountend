@@ -20,7 +20,7 @@ export default function FilterSection() {
   const handleSortFilter = (selectedOption: string) => {
     const englishValue = getEnglishValue(SORT_OPTIONS, selectedOption);
     setSortOption(englishValue);
-    updateQueryParams({ sortBy: englishValue }); // URL에 영문 값 반영
+    updateQueryParams({ sort: englishValue }); // URL에 영문 값 반영
   };
 
   // 지역 변경 핸들러
