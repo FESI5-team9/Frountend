@@ -1,5 +1,6 @@
 import buildQueryParams from "@/hooks/queryParams";
 import {
+  Gathering,
   GatheringDetailRes,
   Gatherings,
   GatheringsRes,
@@ -81,7 +82,7 @@ export async function getMyGathering(params: GetGatheringParticipants) {
   const searchParams = new URLSearchParams();
   const queryString = buildQueryParams(searchParams, params);
 
-  const data = await fetchInstance.get<GetGatheringParticipantsRes>(
+  const data = await fetchInstance.get<Gathering>(
     `/my/gathering${queryString ? `?${queryString}` : ""}`,
   );
   return data;

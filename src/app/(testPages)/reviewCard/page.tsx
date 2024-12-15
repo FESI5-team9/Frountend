@@ -1,5 +1,5 @@
-import AllReviewCard from "@/components/AllReviewCard";
+import MyCreatedGathering from "@/app/mypage/utils/MyCreatedGathering/MyCreatedGathering";
 
 export default function reviewCard() {
-  return <AllReviewCard />;
+  return <MyCreatedGathering />;
 }

@@ -8,6 +8,7 @@ import { useUserProfile } from "@/hooks/useUserProfile";
 import { useImageUpload } from "@/app/mypage/components/useImageUpload";
 import { MyGathering } from "@/app/mypage/utils/MyGathering/MyGathering";
 import MyReviews from "@/app/mypage/utils/MyReviews/MyReviews";
+import MyCreatedGathering from "./utils/MyCreatedGathering/MyCreatedGathering";
 
 export default function Mypage() {
   const [activeTab, setActiveTab] = useState("reviews");
@@ -30,7 +31,7 @@ export default function Mypage() {
   };
 
   useEffect(() => {
-    if (activeTab === "gathering" || activeTab === "createdGathering") {
+    if (activeTab === "gathering") {
       // Fetch gatherings logic
     } else if (activeTab === "reviews") {
       // Fetch reviews logic
@@ -117,13 +118,14 @@ export default function Mypage() {
             </button>
           </div>
           <div className="px-6 py-6">
-            {/* activeTab 값에 따라 각 컴포넌트 렌더링 */}
+            {/* 리뷰 탭 */}
             {activeTab === "reviews" && (
               <MyReviews
                 completedReviews={completedReviews}
                 unCompletedReview={unCompletedReviews || []}
               />
             )}
+            {/* 나의 모임 탭탭 */}
             {activeTab === "gathering" && (
               <MyGathering
                 activeTab={activeTab}
@@ -132,7 +134,8 @@ export default function Mypage() {
                 error={error}
               />
             )}
-            {/* {activeTab === "createdGathering" && <CreateGathering />} */}
+            {/* 내가 만든 모임 탭 */}
+            {activeTab === "createdGathering" && <MyCreatedGathering />}
           </div>
         </div>
       </div>

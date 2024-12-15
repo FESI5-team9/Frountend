@@ -2,42 +2,11 @@ import Image from "next/image";
 import FavoriteButton from "@/components/Button/FavoriteButton";
 import Chip from "@/components/Chips";
 import Progressbar from "@/components/Progressbar";
+import { GatheringDetailRes } from "@/types/api/gatheringApi";
 import { formatToKoreanTime } from "@/utils/date";
 
-type Participant = {
-  userId: number;
-  nickname: string;
-  image: string;
-};
-
-type User = {
-  id: number;
-  nickname: string;
-  image: string;
-};
-
-type Gathering = {
-  id: number;
-  type: string;
-  name: string;
-  dateTime: string;
-  registrationEnd: string;
-  location: string;
-  address1: string;
-  address2: string;
-  description: string;
-  participantCount: number;
-  capacity: number;
-  image: string;
-  createdBy: string;
-  canceledAt: string;
-  keyword: string[];
-  participants: Participant[];
-  user: User;
-};
-
 type GatheringProp = {
-  gathering: Gathering;
+  gathering: GatheringDetailRes;
 };
 
 export default function DetailCard({ gathering }: GatheringProp) {
@@ -72,7 +41,7 @@ export default function DetailCard({ gathering }: GatheringProp) {
               </Chip>
             </div>
           </div>
-          <FavoriteButton gatheringId={gathering.id} />
+          <FavoriteButton gatheringId={String(gathering.id)} initialFavorite={gathering.favorite} />
         </div>
 
         <div className="my-[10px] flex flex-wrap items-center gap-1">
@@ -95,7 +64,7 @@ export default function DetailCard({ gathering }: GatheringProp) {
                   index < 4 && (
                     <div
                       key={index}
-                      className="-ml-3 h-[29px] w-[29px] rounded-full bg-cover bg-center"
+                      className="-ml-3 h-[29px] w-[29px] rounded-full bg-gray-200 bg-cover bg-center"
                       style={{
                         backgroundImage: `url(${person.image})`,
                       }}
@@ -109,12 +78,8 @@ export default function DetailCard({ gathering }: GatheringProp) {
               ) : null}
             </div>
           </div>
-          {gathering.participantCount >= 5 ? (
+          {gathering.participantCount >= gathering.openParticipantCount ? (
             <div className="flex gap-1">
-              {/* <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-black">
-                <Image src="/images/checked.svg" width={12} height={12} alt="개설 확정" />
-              </div> */}
-
               <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-black">
                 <Image
                   style={{
@@ -132,10 +97,10 @@ export default function DetailCard({ gathering }: GatheringProp) {
           ) : null}
         </div>
         <div>
-          <Progressbar now={16} max={20} />
+          <Progressbar now={gathering.participantCount} max={20} />
         </div>
         <div className="flex items-center justify-between text-xs text-[#3C3C3C]">
-          <p>최소인원 5명</p>
+          <p>최소인원 {gathering.openParticipantCount}명</p>
           <p>최대인원 {gathering.capacity}명</p>
         </div>
       </div>

@@ -1,38 +1,68 @@
-import { useEffect, useState } from "react";
-import Image from "next/image";
+"use client";
 
-export default function FavoriteButton({ gatheringId }: FavoriteButtonProps) {
-  const [favorites, setFavorites] = useState<number[]>([]);
-  const [isFavorite, setIsFavorite] = useState(false);
+import { useCallback, useState } from "react";
+import { motion } from "framer-motion";
+import { deleteFavoriteGathering, getFavoriteGathering } from "@/apis/favoriteGatheringApi";
+import LoginAlertPopup from "@/app/groupDetail/_components/LoginAlertPopup";
+import useUserStore from "@/store/userStore";
 
-  useEffect(() => {
-    const favoritesinLocalStorage = localStorage.getItem("favorites");
-    const parsedfavorites = favoritesinLocalStorage ? JSON.parse(favoritesinLocalStorage) : [];
-    setFavorites(parsedfavorites);
-    setIsFavorite(parsedfavorites.includes(gatheringId));
-  }, [gatheringId]);
+export default function FavoriteButton({ gatheringId, initialFavorite }: FavoriteButtonProps) {
+  const [isFavorite, setIsFavorite] = useState<boolean>(initialFavorite);
+  const [isLoginAlertOpen, setIsLoginAlertOpen] = useState<boolean>(false);
 
-  const setFavoriteButton = () => {
-    const updatedFavorites = isFavorite
-      ? favorites.filter(id => id !== gatheringId)
-      : [...favorites, gatheringId];
+  const userInfo = useUserStore();
 
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-    setFavorites(updatedFavorites);
-    setIsFavorite(prev => !prev);
-  };
+  const submitFavorite = useCallback(async () => {
+    if (!userInfo.id) {
+      if (!isLoginAlertOpen) setIsLoginAlertOpen(true);
+      return;
+    }
+
+    try {
+      if (isFavorite) {
+        await deleteFavoriteGathering(gatheringId);
+      } else {
+        await getFavoriteGathering(gatheringId);
+      }
+      setIsFavorite(prev => !prev);
+    } catch (error) {
+      console.error("Error updating favorite status", error);
+    }
+  }, [isFavorite, gatheringId, userInfo.id, isLoginAlertOpen]);
 
   return (
-    <button onClick={setFavoriteButton}>
-      {gatheringId && isFavorite ? (
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#FFFACD]">
-          <Image src="/images/heart/filled_heart.svg" width={24} height={24} alt="unlike" />
-        </div>
-      ) : (
-        <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#E5E7EB] bg-white hover:opacity-50">
-          <Image src="/images/heart/empty_heart.svg" width={24} height={24} alt="like" />
-        </div>
-      )}
-    </button>
+    <>
+      <motion.button
+        onClick={submitFavorite}
+        className={`relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full outline-none ${isFavorite || "border-2 border-[#E5E7EB] bg-white"}`}
+        initial={{ scale: 1 }}
+        whileTap={{ scale: 0.9 }} // 클릭 시 약간의 축소 효과
+      >
+        <motion.div
+          className="absolute inset-0 rounded-full"
+          initial={{ opacity: 0, backgroundColor: isFavorite ? "#FFFACD" : "#FFFFFF" }}
+          animate={{
+            opacity: isFavorite ? 0.3 : 0,
+            backgroundColor: isFavorite ? "#FFFACD" : "#FFFFFF",
+          }}
+          transition={{ duration: 0.3 }}
+        />
+        <motion.img
+          src={isFavorite ? "/images/heart/filled_heart.svg" : "/images/heart/empty_heart.svg"}
+          alt="like"
+          className="relative z-10 h-6 w-6"
+          key={isFavorite ? "filled-heart" : "empty-heart"}
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.3 }}
+        />
+      </motion.button>
+
+      <LoginAlertPopup
+        text="찜하기는 로그인이 필요합니다."
+        isOpen={isLoginAlertOpen}
+        onClose={() => setIsLoginAlertOpen(false)}
+      />
+    </>
   );
 }
