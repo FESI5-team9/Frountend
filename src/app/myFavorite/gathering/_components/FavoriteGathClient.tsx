@@ -40,36 +40,38 @@ export default function FavoriteGathClient() {
     return filters;
   };
 
-  const { isFetching, refetch } = useQuery({
+  const { data: queryData, isFetching } = useQuery({
     queryKey: ["gatherings/favorite", { ...getFilters(), page }],
     queryFn: async () => {
       const filters = getFilters();
-      const data = await getFavoriteGatherings(filters);
+      const result = await getFavoriteGatherings(filters);
 
-      if (data.length === 0 && page > 0) {
-        setIsEndReached(true);
+      if (result.length === 0 && page > 0) {
+        setIsEndReached(true); // 마지막 페이지 확인
       }
-
-      setAllData(prevData => (page === 0 ? data : [...prevData, ...data]));
-      return data;
+      return result;
     },
     enabled: !isEndReached,
-    keepPreviousData: true,
     staleTime: 300000,
     cacheTime: 600000,
     retry: 1,
-    onSuccess: () => {
-      if (page === 0) setAllData([]);
-    },
   });
 
+  // API 결과를 수동으로 누적 관리
+  useEffect(() => {
+    if (queryData && queryData.length > 0) {
+      setAllData(prevData => (page === 0 ? queryData : [...prevData, ...queryData]));
+    }
+  }, [queryData, page]);
+
+  // 검색 조건 변경 시 초기화
   useEffect(() => {
     setPage(0);
     setAllData([]);
     setIsEndReached(false);
-    refetch();
-  }, [searchParams, refetch]);
+  }, [searchParams]);
 
+  // IntersectionObserver로 무한 스크롤 구현
   useEffect(() => {
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
       if (entries[0].isIntersecting && !isFetching && !isEndReached) {
