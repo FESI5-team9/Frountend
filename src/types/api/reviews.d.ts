@@ -33,8 +33,8 @@ export type ReviewRes = ReviewResBase & {
 };
 
 export type Gathering = Partial<
-Pick<GetReviews, "id" | "type" | "name" | "dateTime" | "location">
-> & { image: string };
+Pick<GetReviews, "id" | "type" | "name" | "dateTime" | "location" | "image">
+>;
 
 type User = {
   id: number;
