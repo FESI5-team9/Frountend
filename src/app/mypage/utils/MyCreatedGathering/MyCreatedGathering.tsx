@@ -54,7 +54,7 @@ export default function MyCreatedGathering() {
                   fill
                   objectFit="cover"
                   alt="모임 이미지"
-                  className=""
+                  className="flex items-center justify-center"
                 />
               </div>
               <div className="flex w-full flex-col justify-between">

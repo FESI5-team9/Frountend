@@ -65,9 +65,7 @@ export async function getSearchGatherings(params: GetSearchGatherings) {
 }
 
 // 로그인된 사용자가 참석한 모임 목록 조회
-export async function getMyJoinedGatherings(
-  params: GetMyJoinedGatherings,
-): Promise<GetMyJoinedGatheringsRes> {
+export async function getMyJoinedGatherings(params: GetMyJoinedGatherings) {
   const searchParams = new URLSearchParams();
   const queryString = buildQueryParams(searchParams, params);
 

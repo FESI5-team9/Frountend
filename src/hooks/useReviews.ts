@@ -1,5 +1,6 @@
 // hooks/useReviews.ts
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { getReviews } from "@/apis/reviewsApi";
 import { getMyJoinedGatherings } from "@/apis/searchGatheringApi";
 import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
@@ -15,17 +16,17 @@ export const useReviews = () => {
   const [unCompletedReviews, setUnCompletedReviews] = useState<GetMyJoinedGathering[]>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const { id } = useParams();
 
   const fetchReviews = async () => {
     setLoading(true);
     setError(null);
     try {
+      const userId = id ? parseInt(id as string) : undefined;
+
       // 작성한 리뷰 가져오기
       const completedReviewsParams = {
-        size: 10,
-        page: 0,
-        sort: "createdAt",
-        direction: "DESC",
+        userId: userId,
       };
       const completedReviewsData = await getReviews(completedReviewsParams);
 
@@ -33,10 +34,6 @@ export const useReviews = () => {
       const myJoinedGatheringsParams = {
         completed: true,
         reviewed: false,
-        size: 10,
-        page: 0,
-        sort: "id.gathering.dateTime",
-        direction: DIRECTION.DESC,
       };
       const unCompletedReviewsData = await getMyJoinedGatherings(myJoinedGatheringsParams);
 
