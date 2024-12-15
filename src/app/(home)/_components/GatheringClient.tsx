@@ -45,11 +45,9 @@ export default function FavoriteGathClient() {
     queryFn: async () => {
       const filters = getFilters();
       const data = await getGatherings(filters);
-
       if (data.length === 0 && page > 0) {
         setIsEndReached(true); // 마지막 페이지 확인
       }
-
       setAllData(prevData => (page === 0 ? data : [...prevData, ...data]));
       return data;
     },
