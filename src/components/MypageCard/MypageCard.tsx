@@ -48,7 +48,7 @@ export default function MypageCard({
             type="state"
             textColor={participantCount >= 3 ? "text-orange-primary" : "text-gray-400"}
             bgColor={"bg-transparent"}
-            className={`flex items-center justify-center outline ${participantCount >= 3 ? "outline-orange-100" : "outline-gray-200"}`}
+            className={`flex items-center justify-center outline outline-[1px] ${participantCount >= 3 ? "outline-orange-100" : "outline-gray-200"}`}
           >
             {participantCount >= 3 ? "개설확정" : "개설대기"}
           </Chip>

@@ -26,6 +26,10 @@ export default function AllReviewCard({ review, reviewed }: AllReviewCardProps) 
         <div className="flex h-[153px] w-full flex-col gap-6">
           {activeTab === "uncompleted" &&
             review?.map(item => {
+              const currentDate = new Date();
+              const itemDateTime = new Date(item.dateTime);
+              const isCompleted = itemDateTime < currentDate;
+
               const date = item.dateTime
                 ? formatToKoreanTime(item.dateTime, "M월 dd일")
                 : "날짜 없음";
@@ -42,19 +46,21 @@ export default function AllReviewCard({ review, reviewed }: AllReviewCardProps) 
                     <div className="mb-3 flex gap-2">
                       <Chip
                         type="state"
-                        bgColor="bg-orange-100"
-                        textColor="text-orange-primary"
+                        bgColor={isCompleted ? "bg-gray-200" : "bg-orange-100"}
+                        textColor={isCompleted ? "text-gray-500" : "text-orange-primary"}
                         className="flex items-center justify-center"
                       >
-                        이용 예정 {/*API 연동 필요*/}
+                        {isCompleted ? "이용 완료" : "이용 예정"}
                       </Chip>
                       <Chip
                         type="state"
-                        textColor="text-orange-primary"
-                        bgColor="bg-transparent"
-                        className="flex items-center justify-center outline outline-orange-100"
+                        textColor={
+                          item.participantCount >= 3 ? "text-orange-primary" : "text-gray-400"
+                        }
+                        bgColor={"bg-transparent"}
+                        className={`flex items-center justify-center outline outline-[1px] ${item.participantCount >= 3 ? "outline-orange-100" : "outline-gray-200"}`}
                       >
-                        개설 예정 {/*API 연동 필요*/}
+                        {item.participantCount >= 3 ? "개설확정" : "개설대기"}
                       </Chip>
                     </div>
                     <div className="flex gap-3">
@@ -85,7 +91,8 @@ export default function AllReviewCard({ review, reviewed }: AllReviewCardProps) 
                       <Button
                         size="small"
                         isFilled
-                        className="border border-orange-primary px-0 text-[14px] text-orange-primary"
+                        bgColor="yellow"
+                        className="px-0 text-[14px] text-gray-700"
                       >
                         리뷰 작성하기
                       </Button>
