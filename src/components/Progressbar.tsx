@@ -12,9 +12,6 @@ export default function Progressbar({ now, max }: { now: number; max: number }) 
         animate={{ width: `${percentage}%` }}
         transition={{ duration: 0.5, ease: "easeOut" }}
       />
-      <div className="absolute left-0 top-0 flex h-6 w-full items-center justify-center text-sm font-bold text-white">
-        {now}/{max}
-      </div>
     </div>
   );
 }

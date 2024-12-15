@@ -41,7 +41,7 @@ export default function DetailCard({ gathering }: GatheringProp) {
               </Chip>
             </div>
           </div>
-          <FavoriteButton gatheringId={String(gathering.id)} initialFavorite={gathering.favorite} />
+          <FavoriteButton gatheringId={gathering.id} initialFavorite={gathering.favorite} />
         </div>
 
         <div className="my-[10px] flex flex-wrap items-center gap-1">
