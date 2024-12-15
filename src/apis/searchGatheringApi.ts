@@ -82,7 +82,7 @@ export async function getMyGathering(params: GetGatheringParticipants) {
   const searchParams = new URLSearchParams();
   const queryString = buildQueryParams(searchParams, params);
 
-  const data = await fetchInstance.get<Gathering>(
+  const data = await fetchInstance.get<Gathering[]>(
     `/my/gathering${queryString ? `?${queryString}` : ""}`,
   );
   return data;
