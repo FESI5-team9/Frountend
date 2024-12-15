@@ -2,10 +2,12 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { updateUserProfile } from "@/apis/authApi";
 import { useGatherings } from "@/hooks/useGatherings";
 import { useReviews } from "@/hooks/useReviews";
 import { useUserProfile } from "@/hooks/useUserProfile";
-import { useImageUpload } from "@/app/mypage/components/useImageUpload";
+import Button from "@/components/Button/Button";
+import Modal from "@/components/Modal";
 import { MyGathering } from "@/app/mypage/utils/MyGathering/MyGathering";
 import MyReviews from "@/app/mypage/utils/MyReviews/MyReviews";
 import MyCreatedGathering from "./utils/MyCreatedGathering/MyCreatedGathering";
@@ -15,19 +17,45 @@ export default function Mypage() {
   const { userProfile, setUserProfile } = useUserProfile();
   const { gatherings, loading, error } = useGatherings();
   const { completedReviews, unCompletedReviews } = useReviews();
-  const { handleImageUpload } = useImageUpload(userProfile);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [nickname, setNickname] = useState(userProfile?.nickname || ""); // 닉네임 상태 관리
+  const [selectedFile, setSelectedFile] = useState<File | null>(null); // 선택된 파일 상태 관리
 
-  const handleImageUploadAndUpdate = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedUser = await handleImageUpload(e);
-    if (updatedUser) {
-      setUserProfile(updatedUser); // 상태를 업데이트
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+    // 서버에 업로드 및 프로필 사진 업데이트
+    try {
+      const updatedUser = await updateUserProfile({
+        nickname: userProfile?.nickname || "",
+        image: file,
+      });
+      setUserProfile(updatedUser);
+    } catch (err) {}
+  };
+
+  const handleUpdateProfile = async () => {
+    try {
+      const updatedUser = await updateUserProfile({
+        nickname: nickname || userProfile?.nickname || "",
+        image: selectedFile || undefined,
+      });
+      setUserProfile(updatedUser);
+      setIsModalOpen(false);
+    } catch (err) {
+      alert("프로필 업데이트 중 문제가 발생했습니다. 다시 시도해 주세요.");
     }
   };
 
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-
   const handleImageEditClick = () => {
     fileInputRef.current?.click();
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   useEffect(() => {
@@ -46,36 +74,19 @@ export default function Mypage() {
         </div>
         <div className="h-[178px] w-full rounded-3xl border-[2px] border-gray-300 bg-white tablet:h-[172px]">
           <div className="relative">
-            <span className="absolute left-[24px] top-[57px] flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white">
+            <span className="absolute left-[24px] top-[57px] flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-full bg-white">
               <Image
                 src={userProfile?.image || "/images/profile.svg"}
                 width={56}
                 height={56}
                 alt="프로필 이미지"
-                className="overflow-hidden rounded-full"
-              />
-              <button
-                className="absolute bottom-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white"
-                onClick={handleImageEditClick}
-              ></button>
-              <label
-                htmlFor="profileImage"
-                className="absolute bottom-1 right-1 flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-white"
-              >
-                <Image src="/images/modify.svg" width={18} height={18} alt="프로필 이미지 수정" />
-              </label>
-              <input
-                id="profileImage"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageUploadAndUpdate}
+                className=""
               />
             </span>
           </div>
           <div className="flex h-[65px] justify-between rounded-t-3xl border-b-[2px] border-b-gray-300 px-[25px] py-4 text-base text-gray-900">
             <span className="flex items-center text-lg font-semibold text-gray-900">내 프로필</span>
-            <button>
+            <button onClick={toggleModal}>
               <Image src="/images/modify.svg" width={32} height={32} alt="프로필 정보 수정하기" />
             </button>
           </div>
@@ -139,6 +150,62 @@ export default function Mypage() {
           </div>
         </div>
       </div>
+      {/* 모달 컴포넌트 */}
+      <Modal title="프로필 수정하기" isOpen={isModalOpen} onClose={toggleModal}>
+        <div className="flex flex-col gap-6">
+          <div className="relative">
+            <span className="flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-full">
+              <Image
+                src={
+                  selectedFile
+                    ? URL.createObjectURL(selectedFile)
+                    : userProfile?.image || "/images/profile.svg"
+                }
+                width={56}
+                height={56}
+                alt="프로필 이미지"
+                className=""
+              />
+            </span>
+            <button
+              className="absolute bottom-0.5 right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-white"
+              onClick={handleImageEditClick}
+            ></button>
+            <label
+              htmlFor="profileImage"
+              className="absolute left-9 top-9 flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-white"
+            >
+              <Image src="/images/modify.svg" width={18} height={18} alt="프로필 이미지 수정" />
+            </label>
+            <input
+              id="profileImage"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+          </div>
+          <span className="">닉네임</span>
+          <input
+            value={nickname}
+            onChange={e => setNickname(e.target.value)}
+            placeholder={userProfile?.nickname}
+            className="h-11 w-full bg-gray-50 py-[10px] pl-4 text-gray-900"
+          ></input>
+          <div className="flex gap-4">
+            <Button
+              onClick={toggleModal}
+              isFilled
+              className="h-11 w-[130px] border border-orange-primary text-orange-primary"
+            >
+              취소
+            </Button>
+            <Button onClick={handleUpdateProfile} className="h-11 w-[130px] bg-gray-400 text-white">
+              수정하기
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
