@@ -10,7 +10,6 @@ export type GetReviews = {
   | "GYEONGSANG_DO"
   | "JEOLLA_DO"
   | "JEJU_ISLAND";
-  date?: string;
   registrationEnd?: string;
   size?: number;
   page?: number;
@@ -32,9 +31,10 @@ export type ReviewRes = ReviewResBase & {
   user: User;
 };
 
-export type Gathering = Partial<
-Pick<GetReviews, "id" | "type" | "name" | "dateTime" | "location">
-> & { image: string };
+export type Gathering = Partial<Pick<GetReviews, "id" | "type" | "name" | "location">> & {
+  image: string;
+  dateTime: string;
+};
 
 type User = {
   id: number;

@@ -63,3 +63,9 @@ export async function editGathering(id: string, body: CreateGathering) {
   const data = await fetchInstance.put<GatheringRes>(`/gatherings/${id}`, formData);
   return data;
 }
+
+// 모임 상태 변경
+export async function recruitGathering(id: string, status: "RECRUITING" | "RECRUITMENT_COMPLETED") {
+  const data = await fetchInstance.get(`/gatherings/${id}/recruit?status=${status}`);
+  return data;
+}

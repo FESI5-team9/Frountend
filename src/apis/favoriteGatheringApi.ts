@@ -2,13 +2,13 @@ import { GatheringsFavoriteRes } from "@/types/api/gatheringApi";
 import fetchInstance from "./fetchInstance";
 
 // 모임 찜하기
-export async function getFavoriteGathering(id: string) {
+export async function getFavoriteGathering(id: number) {
   const data = await fetchInstance.post(`/gatherings/${id}/favorite`);
   return data;
 }
 
 // 모임 찜하기 취소하기
-export async function deleteFavoriteGathering(id: string) {
+export async function deleteFavoriteGathering(id: number) {
   const data = await fetchInstance.delete(`/gatherings/${id}/favorite`);
   return data;
 }
