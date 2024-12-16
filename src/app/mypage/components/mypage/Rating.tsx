@@ -9,13 +9,13 @@ const Rating = ({ score }: RatingProps) => {
     hearts.push(
       <Heart
         key={i}
-        size={24}
+        size={20}
         filled={i <= score} // score보다 작거나 같으면 채워진 하트, 아니면 빈 하트
       />,
     );
   }
 
-  return <div>{hearts}</div>;
+  return <div className="flex h-6 w-full gap-0.5">{hearts}</div>;
 };
 
 export default Rating;

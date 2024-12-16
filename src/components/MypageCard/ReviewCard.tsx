@@ -10,7 +10,7 @@ import Rating from "@/app/mypage/components/mypage/Rating";
 import { AllReviewCardProps, GetMyJoinedGatheringWithReview } from "@/types/components/card";
 import { formatToKoreanTime } from "@/utils/date";
 
-export default function AllReviewCard({ review, reviewed }: AllReviewCardProps) {
+export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
   const [activeTab, setActiveTab] = useState<"uncompleted" | "completed" | "">("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reviewText, setReviewText] = useState("");
@@ -166,8 +166,8 @@ export default function AllReviewCard({ review, reviewed }: AllReviewCardProps) 
           {/* 작성한 리뷰 */}
           {activeTab === "completed" &&
             reviewed?.map(item => {
-              const date = item.dateTime
-                ? formatToKoreanTime(item.dateTime, "YYYY.MM.dd")
+              const date = item.gathering.dateTime
+                ? formatToKoreanTime(item.gathering.dateTime, "yyyy.MM.dd")
                 : "날짜 없음";
 
               return (
@@ -183,22 +183,23 @@ export default function AllReviewCard({ review, reviewed }: AllReviewCardProps) 
                           : "/images/image.png"
                       }
                       fill
+                      objectFit="cover"
                       alt="이미지"
-                      className="object-cover"
+                      className=""
                     />
                   </div>
                   <div className="flex flex-1 flex-col">
-                    <div>
+                    <div className="h-6 w-full">
                       <Rating score={item.score} />
                     </div>
                     <p className="mt-[10px] inline-block w-full text-sm text-gray-800">
                       {item.comment}
                     </p>
                     <span className="mt-[10px] inline-block text-xs text-gray-800">
-                      {item.gathering.location}
+                      {`${item.gathering.name} · ${item.gathering.location}`}
                     </span>
                     <span className="mt-2 inline-block text-xs text-gray-disable">{date}</span>
-                    <div className="mt-auto w-full border border-dashed border-b-gray-disable"></div>
+                    <div className="mt-5 w-full border border-dashed border-b-gray-disable tablet:mt-auto"></div>
                   </div>
                 </div>
               );

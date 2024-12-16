@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { getReviews } from "@/apis/reviewsApi";
 import { getMyJoinedGatherings } from "@/apis/searchGatheringApi";
 import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
-import { ReviewsRes } from "@/types/api/reviews";
+import { ReviewRes } from "@/types/api/reviews";
 
 export const DIRECTION = {
   ASC: "ASC",
@@ -12,7 +12,7 @@ export const DIRECTION = {
 } as const;
 
 export const useReviews = () => {
-  const [completedReviews, setCompletedReviews] = useState<ReviewsRes>([]);
+  const [completedReviews, setCompletedReviews] = useState<ReviewRes[]>();
   const [unCompletedReviews, setUnCompletedReviews] = useState<GetMyJoinedGathering[]>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);

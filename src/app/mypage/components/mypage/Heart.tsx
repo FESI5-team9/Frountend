@@ -6,8 +6,7 @@ const Heart = ({ filled, size = 20, color = "#FFD700", emptyColor = "#E0E0E0" }:
     <span
       style={{
         color: filled ? color : emptyColor,
-        fontSize: `${size}px`,
-        margin: "0 2px",
+        fontSize: `${size}px`, // 하트 크기 조절
       }}
     >
       ♥

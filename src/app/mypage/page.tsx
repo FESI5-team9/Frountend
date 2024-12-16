@@ -8,9 +8,9 @@ import { useReviews } from "@/hooks/useReviews";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import Button from "@/components/Button/Button";
 import Modal from "@/components/Modal";
-import { MyGathering } from "@/app/mypage/utils/MyGathering/MyGathering";
-import MyReviews from "@/app/mypage/utils/MyReviews/MyReviews";
-import MyCreatedGathering from "./utils/MyCreatedGathering/MyCreatedGathering";
+import { MyGathering } from "@/app/mypage/utils/MyGathering";
+import MyReviews from "@/app/mypage/utils/MyReviews";
+import MyCreatedGathering from "./utils/MyCreatedGathering";
 
 export default function Mypage() {
   const [activeTab, setActiveTab] = useState("reviews");
@@ -132,7 +132,7 @@ export default function Mypage() {
             {/* 리뷰 탭 */}
             {activeTab === "reviews" && (
               <MyReviews
-                completedReviews={completedReviews}
+                completedReviews={completedReviews || []}
                 unCompletedReview={unCompletedReviews || []}
               />
             )}

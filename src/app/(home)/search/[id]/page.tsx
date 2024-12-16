@@ -1,4 +1,5 @@
 import FilterSection from "../../_components/FilterSection";
+import GatheringClient from "../../_components/GatheringClient";
 import HeroSection from "../../_components/HeroSection";
 import SelectedType from "../../_components/SelectedType";
 
@@ -8,7 +9,7 @@ export default async function page() {
       <HeroSection />
       <SelectedType />
       <FilterSection />
-      {/* <GatheringServer /> */}
+      <GatheringClient />
     </main>
   );
 }

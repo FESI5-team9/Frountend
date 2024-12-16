@@ -25,7 +25,6 @@
   height: 4px;
 }
 
-
 @layer utilities {
   .grid-areas-custom {
     display: grid;
@@ -52,4 +51,9 @@
   .grid-area-bottom {
     grid-area: bottom;
   }
+}
+
+/* 이게 없으면 리로드 할 때 UI가 흔들립니다. */
+html {
+  overflow-y: scroll;
 }

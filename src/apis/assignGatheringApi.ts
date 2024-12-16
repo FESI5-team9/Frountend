@@ -39,7 +39,7 @@ export async function joinGathering(id: string) {
 }
 
 // 모임 참여 취소
-export async function LeaveGathering(id: string) {
+export async function LeaveGathering(id: number) {
   const data = await fetchInstance.delete(`/gatherings/${id}/leave`);
   return data;
 }

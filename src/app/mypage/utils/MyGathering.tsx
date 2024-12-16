@@ -20,7 +20,7 @@ export const MyGathering = ({ activeTab, loading, error, gatherings }: RenderCon
       return gatherings.map((gathering: GetMyJoinedGathering, index) => (
         <div key={gathering.id}>
           <MypageCard
-            key={gathering.id}
+            id={gathering.id}
             name={gathering.name}
             location={gathering.location}
             address1={gathering.address1}
