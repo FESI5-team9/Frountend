@@ -15,35 +15,33 @@ export default function SelectedType() {
   // URL에서 초기 필터 값 설정
   useEffect(() => {
     const params: Record<string, string | null> = {};
-    searchParams.forEach((value, key) => {
-      params[key] = value; // URL의 모든 쿼리 파라미터를 객체로 저장
+    searchParams.forEach((value, paramKey) => {
+      params[paramKey] = value; // 'key'를 'paramKey'로 변경
     });
     setSelectedFilters(params);
   }, [searchParams]);
 
   // 필터 변경 핸들러
-  const handleFilterChange = (key: string, value: string) => {
+  const handleFilterChange = (filterKey: string, value: string) => {
     const updatedFilters = { ...selectedFilters };
-
-    // 동일한 값 클릭 시 제거
-    if (updatedFilters[key] === value) {
-      updatedFilters[key] = null;
+    if (updatedFilters[filterKey] === value) {
+      updatedFilters[filterKey] = null;
     } else {
-      updatedFilters[key] = value;
+      updatedFilters[filterKey] = value;
     }
-
     setSelectedFilters(updatedFilters);
 
     // URL 파라미터 업데이트
     const currentParams = new URLSearchParams(window.location.search);
-    if (updatedFilters[key] === null) {
-      currentParams.delete(key); // 해당 키 삭제
-    } else {
-      currentParams.set(key, updatedFilters[key]!); // 해당 키 업데이트
-    }
+    Object.entries(updatedFilters).forEach(([entryKey, val]) => {
+      if (val === null) {
+        currentParams.delete(entryKey); // 'key'를 'entryKey'로 변경
+      } else {
+        currentParams.set(entryKey, val);
+      }
+    });
 
-    const newUrl = `?${currentParams.toString()}`;
-    window.history.pushState({}, "", newUrl);
+    window.history.pushState({}, "", `?${currentParams.toString()}`);
   };
 
   return (
@@ -58,7 +56,7 @@ export default function SelectedType() {
                 ? `border-black text-black`
                 : "border-transparent text-gray-400"
             }`}
-            onClick={() => handleFilterChange("type", category.link)} // 여긴 그대로 두셔도 돼요!
+            onClick={() => handleFilterChange("type", category.link)}
           >
             <p>{category.name}</p>
             <Image
