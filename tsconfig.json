@@ -19,12 +19,12 @@
     ],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["kakao.maps.d.ts"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
-
 
 // {
 //   "compilerOptions": {
@@ -40,4 +40,6 @@
 //     "**/*.tsx",
 //     ".eslintrc.js"  // ESLint 설정 파일도 포함
 //   ]
+
+
 // }

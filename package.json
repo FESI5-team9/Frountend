@@ -10,9 +10,20 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.1",
+    "@netlify/plugin-nextjs": "^5.9.0",
+    "@tanstack/query-core": "^5.62.7",
+    "@tanstack/react-query": "^5.62.3",
+    "@tanstack/react-query-devtools": "^5.62.3",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^11.11.17",
     "next": "^14.2.18",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.53.2",
+    "react-kakao-maps-sdk": "^1.1.27",
+    "zod": "^3.23.8",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
@@ -33,6 +44,7 @@
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^4.6.2",
     "husky": "^9.1.7",
+    "kakao.maps.d.ts": "^0.1.40",
     "lint-staged": "^15.2.10",
     "postcss": "^8",
     "prettier": "^3.3.3",

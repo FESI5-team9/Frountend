@@ -2,32 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+::-webkit-scrollbar {
+  width: 4px;
+  height: 28px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background-color: #e5e7eb;
+}
+
+::-webkit-scrollbar-button {
+  height: 0;
+  width: 0;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 4px;
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .grid-areas-custom {
+    display: grid;
+    grid-template-areas:
+      "topLeft topRight"
+      "topLeft bottomRight"
+      "bottom bottom";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, auto);
   }
+
+  .grid-area-topLeft {
+    grid-area: topLeft;
+  }
+
+  .grid-area-topRight {
+    grid-area: topRight;
+  }
+
+  .grid-area-bottomRight {
+    grid-area: bottomRight;
+  }
+
+  .grid-area-bottom {
+    grid-area: bottom;
+  }
+}
+
+/* 이게 없으면 리로드 할 때 UI가 흔들립니다. */
+html {
+  overflow-y: scroll;
 }
