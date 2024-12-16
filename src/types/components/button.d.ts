@@ -10,5 +10,6 @@ interface ButtonProps {
 }
 
 type FavoriteButtonProps = {
-  gatheringId: number;
+  gatheringId: string;
+  initialFavorite: boolean;
 };

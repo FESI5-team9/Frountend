@@ -22,6 +22,7 @@ export interface KakaoAddress {
     zone_no: string;
   };
 }
+
 declare global {
   interface Window {
     daum: {

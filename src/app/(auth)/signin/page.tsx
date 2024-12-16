@@ -7,16 +7,20 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { signin } from "@/apis/authApi";
+import { getUserProfile, signin } from "@/apis/authApi";
 import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
 import Popup from "@/components/Popup";
+import useUserStore from "@/store/userStore";
+import { Login } from "@/types/api/authApi";
 import baseSchema from "@/utils/schema";
 
 type LoginFormData = z.infer<typeof baseSchema>;
 const loginSchema = baseSchema.pick({ email: true, password: true });
 
-function Login() {
+function LoginPage() {
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDRICT_URL}&response_type=code`;
+  const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDRICT_URL}&response_type=code`;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const {
     register,
@@ -28,14 +32,24 @@ function Login() {
   });
   const router = useRouter();
 
-  const onSubmit = async (data: LoginFormData) => {
-    try {
-      await signin(data);
+  const onSubmit = async (data: Login) => {
+    const response = await signin(data);
+    const { id, email, nickname, image } = await getUserProfile();
+
+    const userStore = useUserStore.getState();
+    userStore.setUser({
+      id,
+      email,
+      nickname,
+      image,
+    });
+    if (response.ok) {
       router.push("/");
-    } catch (error) {
+    } else {
       setIsPopupOpen(true);
     }
   };
+
   return (
     <div className="flex h-[540px] w-full flex-col items-center justify-center gap-8 rounded-3xl bg-white px-4 tablet:h-[556px] tablet:px-[54px] desktop:h-[612px] desktop:w-[510px] desktop:px-[54px]">
       <h1 className="text-xl">로그인 </h1>
@@ -74,7 +88,7 @@ function Login() {
       </div>
       <div className="flex justify-center gap-4">
         <Link
-          href=""
+          href={GOOGLE_AUTH_URL}
           className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-300"
         >
           <Image
@@ -86,7 +100,10 @@ function Login() {
           />
         </Link>
 
-        <Link href="" className="flex h-12 w-12 items-center justify-center rounded-full">
+        <Link
+          href={KAKAO_AUTH_URL}
+          className="flex h-12 w-12 items-center justify-center rounded-full"
+        >
           <Image
             src="/icons/Ic-Kakao.svg"
             width={48}
@@ -118,4 +135,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;

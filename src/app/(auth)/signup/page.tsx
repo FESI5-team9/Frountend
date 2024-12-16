@@ -14,6 +14,8 @@ import Popup from "@/components/Popup";
 import baseSchema from "@/utils/schema";
 
 function Signup() {
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDRICT_URL}&response_type=code`;
+  const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDRICT_URL}&response_type=code`;
   const [emailVerified, setEmailVerified] = useState<boolean | null>(null);
   const [nicknameVerified, setNicknameVerified] = useState<boolean | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState<string | null>(null);
@@ -223,7 +225,7 @@ function Signup() {
       </div>
       <div className="flex justify-center gap-4">
         <Link
-          href=""
+          href={GOOGLE_AUTH_URL}
           className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-300"
         >
           <Image
@@ -235,7 +237,10 @@ function Signup() {
           />
         </Link>
 
-        <Link href="" className="flex h-12 w-12 items-center justify-center rounded-full">
+        <Link
+          href={KAKAO_AUTH_URL}
+          className="flex h-12 w-12 items-center justify-center rounded-full"
+        >
           <Image
             src="/icons/Ic-Kakao.svg"
             width={48}

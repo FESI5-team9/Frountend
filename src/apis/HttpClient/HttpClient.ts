@@ -9,17 +9,17 @@ export const createClient = (baseConfig: Config = {}): Client => {
   const getAccessToken = async () => {
     if (typeof window === "undefined") {
       try {
-        // 동적 임포트
         const { cookies } = await import("next/headers");
         return cookies().get("accessToken")?.value;
       } catch {
         return undefined;
       }
     } else {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; accessToken=`);
-      if (parts.length === 2) return parts.pop()?.split(";").shift();
-      return undefined;
+      const cookies = document.cookie.split(";").map(cookie => cookie.trim());
+
+      const accessToken = cookies.find(cookie => cookie.startsWith("accessToken="))?.split("=")[1];
+
+      return accessToken;
     }
   };
 
@@ -60,7 +60,7 @@ export const createClient = (baseConfig: Config = {}): Client => {
     const init: RequestInit = {
       method: config.method,
       headers,
-      credentials: config.credentials,
+      credentials: config.credentials || "include",
       signal: config.signal,
       cache: config.cache as RequestCache,
       next: config.next,
