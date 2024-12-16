@@ -38,7 +38,7 @@ export default function DropdownCalendar() {
     if (firstDate) {
       const queryParams: { startDate: string; endDate: string } = {
         startDate: firstDate || "", // 값 없으면 빈 문자열
-        endDate: secondDate || "", // 값 없으면 빈 문자열
+        endDate: secondDate || firstDate || "", // 값 없으면 빈 문자열
       };
 
       // URL에 반영
