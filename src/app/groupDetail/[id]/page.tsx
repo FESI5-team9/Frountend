@@ -20,7 +20,7 @@ async function GroupDetailPage({ params }: { params: { id: string } }) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <GroupDetail params={params} />
+      <GroupDetail paramsId={params.id} />
     </HydrationBoundary>
   );
 }

@@ -62,7 +62,7 @@ export default function Map({ address }: MapProps) {
 
   return (
     <div className="h-full w-full">
-      <div className="h-[336px] w-full rounded-2xl bg-gray-500 tablet:h-[180px]">
+      <div className="h-[336px] w-full rounded-2xl bg-gray-100 tablet:h-[180px]">
         <div id="map" style={{ width: "100%", height: "100%", borderRadius: "16px" }} />
       </div>
       <div className="mt-2 flex items-center gap-1">

@@ -1,35 +1,75 @@
 "use client";
 
-// import { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
-import { getReviews } from "@/apis/reviewsApi";
-import { ReviewsRes } from "@/types/api/reviews";
+import { getReviews, getReviewsRating } from "@/apis/reviewsApi";
+import { GetReviewsRatingRes, ReviewsRes } from "@/types/api/reviews";
 import { formatToKoreanTime } from "@/utils/date";
 
 export default function Reviews({ gatheringId }: { gatheringId: string }) {
-  // const [page, setPage] = useState(1);
-  // const size = 4;
+  // page가 0부터 시작함
+  const [page, setPage] = useState(0);
+  const size = 4;
 
+  // 리뷰 목록 조회
   const {
     data: reviews,
     isLoading: isReviewsLoading,
     error: reviewsError,
+    refetch,
   }: UseQueryResult<ReviewsRes, Error> = useQuery({
-    queryKey: ["gatheringReviews", gatheringId],
-    queryFn: () => getReviews({ gatheringId: Number(gatheringId) }),
+    queryKey: ["gatheringReviews", gatheringId, page],
+    queryFn: () => getReviews({ gatheringId: Number(gatheringId), size, page }),
     staleTime: 1000 * 60 * 5,
   });
 
-  if (isReviewsLoading) return <p>Loading...</p>;
-  if (reviewsError) return <p>Error fetching reviews.</p>;
+  // 리뷰 평점 조회
+  const {
+    data: ratingData,
+    isLoading: isRatingLoading,
+    error: ratingError,
+  }: UseQueryResult<GetReviewsRatingRes, Error> = useQuery({
+    queryKey: ["gatheringReviewRating", gatheringId],
+    queryFn: () => getReviewsRating({ gatheringId: Number(gatheringId) }),
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const totalReviews =
+    ratingData && ratingData.length === 1
+      ? ratingData[0].oneStar +
+        ratingData[0].twoStars +
+        ratingData[0].threeStars +
+        ratingData[0].fourStars +
+        ratingData[0].fiveStars
+      : 0;
+
+  const totalPages = Math.ceil(totalReviews / size);
+
+  const handlePrevPage = () => {
+    if (page > 0) setPage(prevPage => prevPage - 1);
+    refetch();
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages - 1) setPage(prevPage => prevPage + 1);
+    refetch();
+  };
+
+  if (reviewsError || ratingError)
+    return (
+      <div className="flex w-full items-center justify-center">
+        <p>Error occurred while fetching data.</p>
+      </div>
+    );
 
   return (
     <div className="border-t border-[#e5e7eb] bg-white p-6 tablet:col-span-2 tablet:pb-[87px]">
       <div className="h-[500px]">
         <h3 className="mb-5 text-lg font-semibold">
-          리뷰 <span>({reviews?.length})</span>
+          리뷰 <span>({isReviewsLoading ? 0 : totalReviews})</span>
         </h3>
+
         {reviews && reviews.length > 0 ? (
           <div>
             <div className="flex flex-col gap-[10px]">
@@ -76,12 +116,33 @@ export default function Reviews({ gatheringId }: { gatheringId: string }) {
                 </div>
               ))}
             </div>
-            <div className="max-w-[476px]">1 2 3 4 5 ...</div>
+            <div className="mt-5 flex w-full items-center justify-center gap-2">
+              <button type="button" onClick={handlePrevPage}>
+                이전
+              </button>
+              <div className="flex gap-3">
+                {Array.from({ length: totalPages }).map((_, index) => (
+                  <button type="button" key={index}>
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
+
+              <button type="button" onClick={handleNextPage}>
+                다음
+              </button>
+            </div>
           </div>
-        ) : (
+        ) : reviews?.length === 0 ? (
           <div className="flex h-full w-full items-center justify-center">
             <p className="text-[#9CA3AF]">아직 리뷰가 없어요</p>
           </div>
+        ) : isRatingLoading ? (
+          <div className="flex h-full w-full items-center justify-center text-gray-200">
+            <p>Loading...</p>
+          </div>
+        ) : (
+          <></>
         )}
       </div>
     </div>

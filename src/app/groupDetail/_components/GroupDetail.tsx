@@ -10,21 +10,20 @@ import FixedBottomBar from "../_components/FixedBottomBar";
 import Map from "../_components/Map";
 import Reviews from "../_components/Reviews";
 
-function GroupDetail({ params }: { params: { id: string } }) {
+function GroupDetail({ paramsId }: { paramsId: string }) {
   const {
     data: detail,
     isLoading: isDetailLoading,
     error: detailError,
   }: UseQueryResult<GatheringDetailRes, Error> = useQuery({
-    queryKey: ["gatheringDetail", params?.id],
-    queryFn: () => getGatheringDetail(Number(params.id)),
+    queryKey: ["gatheringDetail", paramsId],
+    queryFn: () => getGatheringDetail(Number(paramsId)),
     staleTime: 1000 * 60 * 5,
   });
 
-  // Error Handling
   if (isDetailLoading)
     return (
-      <div className="flex h-screen w-full items-center justify-center">
+      <div className="flex h-screen w-full items-center justify-center text-gray-100">
         <p>Loading...</p>
       </div>
     );
@@ -86,10 +85,10 @@ function GroupDetail({ params }: { params: { id: string } }) {
       )}
 
       <div className="w-full pb-[134px] tablet:px-6 desktop:px-[62px]">
-        <Reviews gatheringId={params.id} />
+        <Reviews gatheringId={paramsId} />
       </div>
 
-      {detail && <FixedBottomBar data={detail} id={params.id} />}
+      {detail && <FixedBottomBar data={detail} gatheringId={paramsId} />}
     </div>
   );
 }
