@@ -25,12 +25,15 @@ export default function MypageCard({
     if (id) {
       try {
         await LeaveGathering(id);
-      } catch (error) {}
+        window.location.reload();
+      } catch (error) {
+        alert("모임 취소에 실패했습니다. 다시 시도해주세요.");
+      }
     }
   };
 
   return (
-    <div className="flex h-[352px] w-full flex-col gap-4 tablet:h-[153px] tablet:flex-row">
+    <div className="flex w-full flex-col gap-4 tablet:h-[153px] tablet:flex-row">
       <div className="relative flex h-[153px] w-[272px] items-center justify-center overflow-hidden rounded-3xl tablet:w-[280px]">
         <Image src={image} fill objectFit="cover" alt="모임 이미지" className="" />
       </div>

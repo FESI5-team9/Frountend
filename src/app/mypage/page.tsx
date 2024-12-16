@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { updateUserProfile } from "@/apis/authApi";
-import { useGatherings } from "@/hooks/useGatherings";
 import { useReviews } from "@/hooks/useReviews";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import Button from "@/components/Button/Button";
@@ -15,7 +14,6 @@ import MyCreatedGathering from "./utils/MyCreatedGathering";
 export default function Mypage() {
   const [activeTab, setActiveTab] = useState("reviews");
   const { userProfile, setUserProfile } = useUserProfile();
-  const { gatherings, loading, error } = useGatherings();
   const { completedReviews, unCompletedReviews } = useReviews();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -137,14 +135,7 @@ export default function Mypage() {
               />
             )}
             {/* 나의 모임 탭탭 */}
-            {activeTab === "gathering" && (
-              <MyGathering
-                activeTab={activeTab}
-                gatherings={gatherings || []}
-                loading={loading}
-                error={error}
-              />
-            )}
+            {activeTab === "gathering" && <MyGathering />}
             {/* 내가 만든 모임 탭 */}
             {activeTab === "createdGathering" && <MyCreatedGathering />}
           </div>
