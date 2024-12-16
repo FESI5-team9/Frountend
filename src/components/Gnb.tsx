@@ -17,8 +17,11 @@ export default function Gnb() {
       image: null,
     });
 
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("userData");
+
+    // 쿠키 삭제
+    document.cookie = "accessToken=; Max-Age=0; path=/;";
+    document.cookie = "refreshToken=; Max-Age=0; path=/;";
 
     window.location.href = "/";
   };
