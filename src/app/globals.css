@@ -25,7 +25,6 @@
   height: 4px;
 }
 
-
 @layer utilities {
   .grid-areas-custom {
     display: grid;
@@ -33,8 +32,6 @@
       "topLeft topRight"
       "topLeft bottomRight"
       "bottom bottom";
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(3, auto);
   }
 
   .grid-area-topLeft {

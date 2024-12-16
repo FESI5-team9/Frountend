@@ -39,25 +39,18 @@ function GroupDetail({ paramsId }: { paramsId: string }) {
     <div className="mx-auto max-w-[1200px] px-4 tablet:px-8 desktop:px-[62px]">
       {detail && (
         <div
-          className={`desktop:grid-areas-custom grid gap-6 py-4 tablet:gap-6 tablet:p-6 desktop:px-[62px]`}
+          className={`desktop:grid-areas-custom grid gap-6 py-4 tablet:grid-cols-2 tablet:gap-6 tablet:p-6 desktop:px-[62px]`}
         >
           <div
             style={{ backgroundImage: `url(${detail.image})` }}
             className="desktop:grid-area-topLeft relative min-h-[180px] rounded-3xl bg-gray-200 bg-cover bg-center bg-no-repeat tablet:min-h-[270px] desktop:mb-20"
           >
-            {detail.registrationEnd && (
-              <div className="absolute right-0 top-0 z-50 flex h-[32px] w-[123px] items-center justify-center gap-[8px] rounded-bl-3xl rounded-tr-3xl bg-yellow-primary">
-                <Image
-                  src="/images/mainPage/alarm.svg"
-                  width={15}
-                  height={13}
-                  alt="남은 마감시간"
-                />
-                <p className="text-xs">{getRemainingHours(detail.registrationEnd)}</p>
-              </div>
-            )}
+            <div className="absolute right-0 top-0 z-50 flex h-[32px] min-w-[123px] items-center justify-center gap-[8px] rounded-bl-3xl rounded-tr-3xl bg-yellow-primary">
+              <Image src="/images/mainPage/alarm.svg" width={15} height={13} alt="남은 마감시간" />
+              <p className="text-xs">{getRemainingHours(detail.registrationEnd)}</p>
+            </div>
           </div>
-          <div className="desktop:grid-area-topRight min-h-[240px] tablet:min-h-[270px]">
+          <div className="desktop:grid-area-topRight min-h-[240px] min-w-[123px] tablet:min-h-[270px]">
             <DetailCard gathering={detail} />
           </div>
           <div className="desktop:grid-area-bottom flex flex-col gap-4 px-1 tablet:col-span-2 tablet:px-6 desktop:-mt-6">
