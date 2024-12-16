@@ -15,6 +15,7 @@
 
 export interface GetGathering {
   id: number;
+  status: string;
   type: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
   name: string;
   dateTime: string;
@@ -29,9 +30,12 @@ export interface GetGathering {
   | "JEJU_ISLAND";
   address1: string;
   address2: string;
+  participation: boolean; //참여중인지 아닌지
   participantCount: number;
   capacity: number;
+  favorite: boolean;
+  open: boolean;
   image: string;
   createdAt: string;
-  // createdBy: string;
+  canceledAt?: string;
 }

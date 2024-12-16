@@ -16,7 +16,6 @@ import fetchInstance from "./fetchInstance";
 export async function getGatherings(params: Gatherings) {
   const searchParams = new URLSearchParams();
   const queryString = buildQueryParams(searchParams, params);
-
   const data = await fetchInstance.get<GatheringsRes>(
     `/gatherings${queryString ? `?${queryString}` : ""}`,
   );

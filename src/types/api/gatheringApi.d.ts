@@ -65,6 +65,7 @@ export type Gathering = GatheringBase & {
   status: "RECRUITING" | "RECRUITMENT_COMPLETED";
   open: boolean;
   participation: boolean;
+  favorite: boolean;
 };
 
 export type GatheringsRes = Gathering[];
@@ -105,6 +106,7 @@ export type Gatherings = PaginationParams & {
   | "JEOLLA_DO"
   | "JEJU_ISLAND";
   createdBy?: string;
+  favorite?: boolean;
 };
 
 export type GetSearchGatherings = PaginationParams & {
