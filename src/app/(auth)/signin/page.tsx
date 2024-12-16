@@ -7,18 +7,16 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { signin } from "@/apis/authApi";
+import { getUserProfile, signin } from "@/apis/authApi";
 import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
 import Popup from "@/components/Popup";
+import useUserStore from "@/store/userStore";
 import { Login } from "@/types/api/authApi";
 import baseSchema from "@/utils/schema";
 
 type LoginFormData = z.infer<typeof baseSchema>;
 const loginSchema = baseSchema.pick({ email: true, password: true });
-
-const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_REDRICT_URL}&response_type=code`;
-const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDRICT_URL}&response_type=code`;
 
 function LoginPage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -32,8 +30,27 @@ function LoginPage() {
   });
   const router = useRouter();
 
+  const handleKakaoLogin = () => {
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDRICT_URL}&response_type=code`;
+    window.location.href = KAKAO_AUTH_URL;
+  };
+
+  const handleGoogleLogin = () => {
+    const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDRICT_URL}&response_type=code`;
+    window.location.href = GOOGLE_AUTH_URL;
+  };
+
   const onSubmit = async (data: Login) => {
     const response = await signin(data);
+    const { id, email, nickname, image } = await getUserProfile();
+
+    const userStore = useUserStore.getState();
+    userStore.setUser({
+      id,
+      email,
+      nickname,
+      image,
+    });
     if (response.ok) {
       router.push("/");
     } else {
@@ -78,8 +95,8 @@ function LoginPage() {
         <hr className="w-[50px] border-gray-300 tablet:w-[180px] desktop:w-20" />
       </div>
       <div className="flex justify-center gap-4">
-        <Link
-          href={GOOGLE_AUTH_URL}
+        <button
+          onClick={handleGoogleLogin}
           className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-300"
         >
           <Image
@@ -89,10 +106,10 @@ function LoginPage() {
             alt="Google 아이콘"
             draggable={false}
           />
-        </Link>
+        </button>
 
-        <Link
-          href={KAKAO_AUTH_URL}
+        <button
+          onClick={handleKakaoLogin}
           className="flex h-12 w-12 items-center justify-center rounded-full"
         >
           <Image
@@ -102,7 +119,7 @@ function LoginPage() {
             alt="카카오톡 아이콘"
             draggable={false}
           />
-        </Link>
+        </button>
       </div>
       <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
         <div className="flex h-[156px] w-[252px] flex-col items-center justify-between tablet:h-[162px] tablet:w-[402px]">

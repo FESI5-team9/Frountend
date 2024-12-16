@@ -32,6 +32,7 @@
       "topLeft topRight"
       "topLeft bottomRight"
       "bottom bottom";
+    grid-template-rows: repeat(3, auto);
   }
 
   .grid-area-topLeft {
@@ -49,4 +50,9 @@
   .grid-area-bottom {
     grid-area: bottom;
   }
+}
+
+/* 이게 없으면 리로드 할 때 UI가 흔들립니다. */
+html {
+  overflow-y: scroll;
 }

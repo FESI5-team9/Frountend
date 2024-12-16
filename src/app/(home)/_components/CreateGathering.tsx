@@ -246,6 +246,14 @@ export default function CreateGathering({
         </div>
         <div>
           <p>키워드</p>
+          <div className="mb-1 flex h-[30px] w-full flex-row gap-1">
+            {Array.isArray(formData.keyword) &&
+              formData.keyword.map((word, index) => (
+                <div key={index} className="flex rounded-2xl border bg-yellow-200 px-2 py-1">
+                  {word}
+                </div>
+              ))}
+          </div>
           <Input
             name="keywords"
             placeholder="Enter keywords with #"

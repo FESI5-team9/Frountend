@@ -7,6 +7,8 @@ interface QueryParams {
   dateTime?: string;
   location?: string;
   direction?: string;
+  page?: number;
+  size?: number;
 }
 
 const buildQueryParams = (existingParams: URLSearchParams, newParams: QueryParams) => {
