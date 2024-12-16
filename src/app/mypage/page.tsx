@@ -126,7 +126,7 @@ export default function Mypage() {
               내가 만든 모임
             </button>
           </div>
-          <div className="px-6 py-6">
+          <div className="px-[26.5px] py-6">
             {/* 리뷰 탭 */}
             {activeTab === "reviews" && (
               <MyReviews

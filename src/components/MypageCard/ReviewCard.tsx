@@ -91,7 +91,7 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
 
               return (
                 <div key={reviewItem.id} className="flex w-full flex-col gap-4 tablet:flex-row">
-                  <div className="relative flex h-[153px] w-[272px] flex-shrink-0 items-center justify-center overflow-hidden rounded-3xl">
+                  <div className="relative flex h-[153px] w-full flex-shrink-0 items-center justify-center overflow-hidden rounded-3xl">
                     <Image
                       src={reviewItem.image}
                       fill
@@ -175,7 +175,7 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
                   key={item.id}
                   className="flex h-[355px] w-full flex-col gap-6 tablet:h-[153px] tablet:flex-row"
                 >
-                  <div className="relative flex h-[153px] w-[272px] max-w-[272px] items-center justify-center overflow-hidden rounded-3xl">
+                  <div className="relative flex h-[153px] w-full items-center justify-center overflow-hidden rounded-3xl">
                     <Image
                       src={
                         typeof item.gathering.image === "string"
