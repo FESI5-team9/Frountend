@@ -32,7 +32,6 @@
       "topLeft topRight"
       "topLeft bottomRight"
       "bottom bottom";
-    grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(3, auto);
   }
 
