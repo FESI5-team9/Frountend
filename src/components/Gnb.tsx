@@ -59,11 +59,11 @@ export default function Gnb() {
               {id ? (
                 // 로그인 상태면 유저 프로필
                 <button
-                  className=""
+                  className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full"
                   aria-label="유저 프로필"
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                 >
-                  <Image src={image || "/images/profile.svg"} width={40} height={40} alt="프로필" />
+                  <Image src={image || "/images/profile.svg"} fill objectFit="cover" alt="프로필" />
                 </button>
               ) : (
                 // 비로그인 상태면 로그인 링크
