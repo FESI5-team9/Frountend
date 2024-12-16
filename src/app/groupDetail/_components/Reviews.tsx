@@ -64,10 +64,10 @@ export default function Reviews({ gatheringId }: { gatheringId: string }) {
     );
 
   return (
-    <div className="border-t border-[#e5e7eb] bg-white p-6 tablet:col-span-2 tablet:pb-[87px]">
-      <div className="h-[500px]">
+    <div className="border-[#e5e7eb]bg-white border-t p-6 tablet:col-span-2 tablet:pb-[87px]">
+      <div className="min-h-[500px]">
         <h3 className="mb-5 text-lg font-semibold">
-          리뷰 <span>({isReviewsLoading ? 0 : totalReviews})</span>
+          리뷰 <span>({totalReviews})</span>
         </h3>
 
         {reviews && reviews.length > 0 ? (
@@ -117,27 +117,40 @@ export default function Reviews({ gatheringId }: { gatheringId: string }) {
               ))}
             </div>
             <div className="mt-5 flex w-full items-center justify-center gap-2">
-              <button type="button" onClick={handlePrevPage}>
-                이전
+              <button
+                className="flex h-6 w-6 items-center justify-center"
+                type="button"
+                onClick={handlePrevPage}
+              >
+                <Image src="/icons/chevron_left.svg" width={22} height={22} alt="이전" />
               </button>
-              <div className="flex gap-3">
+              <div className="flex items-center justify-between gap-3">
+                <p>{page + 1}</p>
+                <p className="text-[#9CA3AF]">/</p>
+                <p className="text-[#9CA3AF]">{totalPages}</p>
+              </div>
+              {/* <div className="flex gap-3">
                 {Array.from({ length: totalPages }).map((_, index) => (
                   <button type="button" key={index}>
                     {index + 1}
                   </button>
                 ))}
-              </div>
+              </div> */}
 
-              <button type="button" onClick={handleNextPage}>
-                다음
+              <button
+                className="flex h-6 w-6 items-center justify-center"
+                type="button"
+                onClick={handleNextPage}
+              >
+                <Image src="/icons/chevron_right.svg" width={22} height={22} alt="다음" />
               </button>
             </div>
           </div>
         ) : reviews?.length === 0 ? (
-          <div className="flex h-full w-full items-center justify-center">
+          <div className="flex h-[200px] w-full items-center justify-center">
             <p className="text-[#9CA3AF]">아직 리뷰가 없어요</p>
           </div>
-        ) : isRatingLoading ? (
+        ) : isRatingLoading || isReviewsLoading ? (
           <div className="flex h-full w-full items-center justify-center text-gray-200">
             <p>Loading...</p>
           </div>

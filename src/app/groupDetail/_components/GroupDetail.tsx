@@ -36,7 +36,7 @@ function GroupDetail({ paramsId }: { paramsId: string }) {
     );
 
   return (
-    <div className="mx-auto max-w-[1200px] px-4 tablet:px-8 desktop:px-[62px]">
+    <div className="mx-auto min-w-[320px] max-w-[1200px] px-4 tablet:px-8 desktop:px-[62px]">
       {detail && (
         <div
           className={`desktop:grid-areas-custom grid gap-6 py-4 tablet:grid-cols-2 tablet:gap-6 tablet:p-6 desktop:px-[62px]`}
@@ -50,7 +50,7 @@ function GroupDetail({ paramsId }: { paramsId: string }) {
               <p className="text-xs">{getRemainingHours(detail.registrationEnd)}</p>
             </div>
           </div>
-          <div className="desktop:grid-area-topRight min-h-[240px] min-w-[123px] tablet:min-h-[270px]">
+          <div className="desktop:grid-area-topRight min-h-[240px] tablet:min-h-[270px]">
             <DetailCard gathering={detail} />
           </div>
           <div className="desktop:grid-area-bottom flex flex-col gap-4 px-1 tablet:col-span-2 tablet:px-6 desktop:-mt-6">
