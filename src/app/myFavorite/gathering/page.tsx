@@ -1,3 +1,5 @@
+"use client";
+
 import { Suspense } from "react";
 import FilterSection from "@/app/(home)/_components/FilterSection";
 import HeroSection from "@/app/(home)/_components/HeroSection";

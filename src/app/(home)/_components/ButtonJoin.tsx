@@ -1,12 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import useUserStore from "@/store/userStore";
 
 export default function ButtonJoin({ id, participation }: { id: number; participation: boolean }) {
   const [isParticipation, setIsParticipation] = useState(participation);
+  const { id: userId } = useUserStore();
+  const router = useRouter();
 
   async function handleJoinGathering() {
     try {
+      if (!userId) {
+        router.push("/signin");
+        return;
+      }
+
       // 쿠키에서 accessToken 가져오기
       const cookies = document.cookie;
       const token = cookies
@@ -14,30 +23,23 @@ export default function ButtonJoin({ id, participation }: { id: number; particip
         .find(row => row.startsWith("accessToken="))
         ?.split("=")[1];
 
-      if (!token) {
-        throw new Error("로그인 토큰이 없습니다. 다시 로그인해주세요.");
-      }
-
       // API 요청
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings/${id}/join`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Authorization 헤더 추가
+          Authorization: `Bearer ${token}`,
         },
-        credentials: "include", // 쿠키 포함
+        credentials: "include",
       });
 
       if (!response.ok) {
-        // 실패 시 응답 메시지 확인
-        const errorData = await response.json();
-        throw new Error(errorData.message || "참여에 실패했습니다.");
+        router.push("/signin");
       }
 
       alert("모임을 참여했습니다! 🎉");
       setIsParticipation(true);
     } catch (error) {
-      // error를 안전하게 처리
       const errorMessage =
         error instanceof Error ? error.message : "알 수 없는 에러가 발생했습니다.";
 

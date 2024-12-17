@@ -22,6 +22,5 @@ export async function getFavoriteGatherings(params: Gatherings) {
   const data = await fetchInstance.get<GatheringsRes>(
     `/gatherings/favorite${queryString ? `?${queryString}` : ""}`,
   );
-
   return data;
 }

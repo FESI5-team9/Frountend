@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getFavoriteGatherings } from "@/apis/favoriteGatheringApi";
 import Card from "@/app/(home)/_components/Card";
 import CardSkeleton from "@/app/(home)/_components/Skeleton/SKCard";
@@ -12,6 +12,11 @@ type GatheringFilters = Record<string, string | number | null>;
 
 export default function FavoriteGathClient() {
   const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["favorite/gatherings"] }); // 타입 오류 해결
+  }, [queryClient]);
 
   // 필터 메모이제이션
   const filters = useMemo(() => {
