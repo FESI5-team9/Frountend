@@ -1,40 +1,37 @@
 "use client";
 
+// React Query
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import useQueryBuilder from "@/hooks/useUrlParams";
+import DropdownCalendar from "@/components/Calendar/DropdownCalendar";
 import { FilterDropDown } from "@/components/Filter/FilterDropDown";
-import { DIRECTION_OPTIONS, LOCATION_OPTIONS, SORT_OPTIONS } from "@/constants/filter";
+import { DIRECTION_OPTIONS, LOCATION_OPTIONS } from "@/constants/filter";
 
 export default function FilterSection() {
-  const [, setSortOption] = useState("");
   const [, setLocationOption] = useState("");
-  const updateQueryParams = useQueryBuilder();
+  const queryClient = useQueryClient(); // React Query의 QueryClient
+  const updateQueryParams = useQueryBuilder(); // URL 파라미터 관리 훅
 
   // 선택된 옵션의 영문 값을 반환하는 함수
-  const getEnglishValue = (options: { ko: string; eng: string }[], selectedOption: string) => {
-    const foundOption = options.find(option => option.ko === selectedOption); // 한글로 검색
-    return foundOption ? foundOption.eng : ""; // 영어 값 반환
-  };
 
-  // 정렬 기준 변경 핸들러
-  const handleSortFilter = (selectedOption: string) => {
-    const englishValue = getEnglishValue(SORT_OPTIONS, selectedOption);
-    setSortOption(englishValue);
-    updateQueryParams({ sort: englishValue }); // URL에 영문 값 반영
+  // 필터 변경 후 React Query 갱신
+  const refreshData = () => {
+    queryClient.invalidateQueries({ queryKey: ["gatherings"] }); // 캐싱된 데이터 무효화
   };
 
   // 지역 변경 핸들러
   const handleLocationFilter = (selectedOption: string) => {
-    const englishValue = getEnglishValue(LOCATION_OPTIONS, selectedOption);
-    setLocationOption(englishValue);
-    updateQueryParams({ location: englishValue }); // URL에 영문 값 반영
+    setLocationOption(selectedOption);
+    updateQueryParams({ location: selectedOption });
+    refreshData();
   };
 
   // 정렬 방향 변경 핸들러
   const handleDirectionFilter = (selectedOption: string) => {
-    const englishValue = getEnglishValue(DIRECTION_OPTIONS, selectedOption);
-    setLocationOption(englishValue);
-    updateQueryParams({ direction: englishValue }); // URL에 영문 값 반영
+    setLocationOption(selectedOption);
+    updateQueryParams({ direction: selectedOption });
+    refreshData();
   };
 
   return (
@@ -47,11 +44,7 @@ export default function FilterSection() {
           onSelectFilterOption={handleLocationFilter}
         />
         {/* 정렬 기준 필터 */}
-        <FilterDropDown
-          filterType="sortFilter"
-          options={SORT_OPTIONS}
-          onSelectFilterOption={handleSortFilter}
-        />
+        <DropdownCalendar />
       </div>
       {/* 정렬 방향 필터 */}
       <FilterDropDown

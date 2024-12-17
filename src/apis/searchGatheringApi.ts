@@ -1,5 +1,6 @@
 import buildQueryParams from "@/hooks/queryParams";
 import {
+  Gathering,
   GatheringDetailRes,
   Gatherings,
   GatheringsRes,
@@ -16,7 +17,6 @@ import fetchInstance from "./fetchInstance";
 export async function getGatherings(params: Gatherings) {
   const searchParams = new URLSearchParams();
   const queryString = buildQueryParams(searchParams, params);
-
   const data = await fetchInstance.get<GatheringsRes>(
     `/gatherings${queryString ? `?${queryString}` : ""}`,
   );
@@ -79,7 +79,7 @@ export async function getMyGathering(params: GetGatheringParticipants) {
   const searchParams = new URLSearchParams();
   const queryString = buildQueryParams(searchParams, params);
 
-  const data = await fetchInstance.get<GetGatheringParticipantsRes>(
+  const data = await fetchInstance.get<Gathering[]>(
     `/my/gathering${queryString ? `?${queryString}` : ""}`,
   );
   return data;

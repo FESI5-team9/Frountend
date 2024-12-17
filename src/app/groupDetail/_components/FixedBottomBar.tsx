@@ -9,10 +9,10 @@ import LoginAlertPopup from "./LoginAlertPopup";
 
 type FixedBottomBarProps = {
   data: GatheringDetailRes;
-  id: string;
+  gatheringId: number;
 };
 
-export default function FixedBottomBar({ data, id }: FixedBottomBarProps) {
+export default function FixedBottomBar({ data, gatheringId }: FixedBottomBarProps) {
   const [status, setStatus] = useState<"join" | "cancelJoin" | "closed" | "host">("join");
   const [isLoginAlertOpen, setIsLoginAlertOpen] = useState<boolean>(false);
 
@@ -39,7 +39,7 @@ export default function FixedBottomBar({ data, id }: FixedBottomBarProps) {
     if (!userInfo.id) return setIsLoginAlertOpen(true);
 
     try {
-      await joinGathering(id);
+      await joinGathering(gatheringId);
       setStatus("cancelJoin");
     } catch (err) {
       console.error("Failed to join gathering:", err);
@@ -48,7 +48,7 @@ export default function FixedBottomBar({ data, id }: FixedBottomBarProps) {
 
   const handleLeave = async () => {
     try {
-      await LeaveGathering(id);
+      await LeaveGathering(gatheringId);
       setStatus("join");
     } catch (err) {
       console.error("Failed to leave gathering:", err);
@@ -57,7 +57,7 @@ export default function FixedBottomBar({ data, id }: FixedBottomBarProps) {
 
   const handleCancel = async () => {
     try {
-      await CancelGathering(id);
+      await CancelGathering(gatheringId);
     } catch (err) {
       console.error("Failed to cancel gathering:", err);
     }

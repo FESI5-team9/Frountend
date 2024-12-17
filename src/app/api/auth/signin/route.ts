@@ -8,7 +8,6 @@ interface SignInRequestBody {
 interface SignInResponse {
   accessToken: string;
 }
-
 interface TokenResponse {
   "refresh-token": string;
   "access-token": string;

@@ -84,7 +84,7 @@ export default function GatheringTestPage() {
     setLoading(true);
     setError("");
     try {
-      const data = await joinGathering("1");
+      const data = await joinGathering(1);
       setResponse(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to join gathering");
@@ -98,7 +98,7 @@ export default function GatheringTestPage() {
     setLoading(true);
     setError("");
     try {
-      const data = await CancelGathering("5");
+      const data = await CancelGathering(5);
       setResponse(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to cancel gathering");
@@ -112,7 +112,7 @@ export default function GatheringTestPage() {
     setLoading(true);
     setError("");
     try {
-      const data = await LeaveGathering("5");
+      const data = await LeaveGathering(5);
       setResponse(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to leave gathering");

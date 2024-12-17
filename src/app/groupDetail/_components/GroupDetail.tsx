@@ -10,21 +10,20 @@ import FixedBottomBar from "../_components/FixedBottomBar";
 import Map from "../_components/Map";
 import Reviews from "../_components/Reviews";
 
-function GroupDetail({ params }: { params: { id: string } }) {
+function GroupDetail({ paramsId }: { paramsId: number }) {
   const {
     data: detail,
     isLoading: isDetailLoading,
     error: detailError,
   }: UseQueryResult<GatheringDetailRes, Error> = useQuery({
-    queryKey: ["gatheringDetail", params?.id],
-    queryFn: () => getGatheringDetail(Number(params.id)),
+    queryKey: ["gatheringDetail", paramsId],
+    queryFn: () => getGatheringDetail(Number(paramsId)),
     staleTime: 1000 * 60 * 5,
   });
 
-  // Error Handling
   if (isDetailLoading)
     return (
-      <div className="flex h-screen w-full items-center justify-center">
+      <div className="flex h-screen w-full items-center justify-center text-gray-100">
         <p>Loading...</p>
       </div>
     );
@@ -37,26 +36,19 @@ function GroupDetail({ params }: { params: { id: string } }) {
     );
 
   return (
-    <div className="mx-auto max-w-[1200px] px-4 tablet:px-8 desktop:px-[62px]">
+    <div className="mx-auto min-w-[320px] max-w-[1200px] px-4 tablet:px-8 desktop:px-[62px]">
       {detail && (
         <div
-          className={`desktop:grid-areas-custom grid gap-6 py-4 tablet:gap-6 tablet:p-6 desktop:px-[62px]`}
+          className={`desktop:grid-areas-custom grid gap-6 py-4 tablet:grid-cols-2 tablet:gap-6 tablet:p-6 desktop:px-[62px]`}
         >
           <div
             style={{ backgroundImage: `url(${detail.image})` }}
             className="desktop:grid-area-topLeft relative min-h-[180px] rounded-3xl bg-gray-200 bg-cover bg-center bg-no-repeat tablet:min-h-[270px] desktop:mb-20"
           >
-            {detail.registrationEnd && (
-              <div className="absolute right-0 top-0 z-50 flex h-[32px] w-[123px] items-center justify-center gap-[8px] rounded-bl-3xl rounded-tr-3xl bg-yellow-primary">
-                <Image
-                  src="/images/mainPage/alarm.svg"
-                  width={15}
-                  height={13}
-                  alt="남은 마감시간"
-                />
-                <p className="text-xs">{getRemainingHours(detail.registrationEnd)}</p>
-              </div>
-            )}
+            <div className="absolute right-0 top-0 z-50 flex h-[32px] min-w-[123px] items-center justify-center gap-[8px] rounded-bl-3xl rounded-tr-3xl bg-yellow-primary">
+              <Image src="/images/mainPage/alarm.svg" width={15} height={13} alt="남은 마감시간" />
+              <p className="text-xs">{getRemainingHours(detail.registrationEnd)}</p>
+            </div>
           </div>
           <div className="desktop:grid-area-topRight min-h-[240px] tablet:min-h-[270px]">
             <DetailCard gathering={detail} />
@@ -86,10 +78,10 @@ function GroupDetail({ params }: { params: { id: string } }) {
       )}
 
       <div className="w-full pb-[134px] tablet:px-6 desktop:px-[62px]">
-        <Reviews gatheringId={params.id} />
+        <Reviews gatheringId={paramsId} />
       </div>
 
-      {detail && <FixedBottomBar data={detail} id={params.id} />}
+      {detail && <FixedBottomBar data={detail} gatheringId={paramsId} />}
     </div>
   );
 }
