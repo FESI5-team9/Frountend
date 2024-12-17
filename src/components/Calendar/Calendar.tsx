@@ -16,11 +16,10 @@ function DateCell({
   onNavigateToPrevMonth,
   onNavigateToNextMonth,
 }: DateCellProps) {
-  const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), date)
-    .toISOString()
-    .slice(0, 10);
+  const selectedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}-${String(date).padStart(2, "0")}`;
 
-  const isToday = type === "current" && today.toISOString().slice(0, 10) === selectedDate;
+  const todayKST = new Date(today.getTime() + 9 * 60 * 60 * 1000); // KST 기준으로 보정
+  const isToday = type === "current" && todayKST.toISOString().slice(0, 10) === selectedDate;
 
   const isFirstDate = type === "current" && firstDate && firstDate.slice(0, 10) === selectedDate;
 
@@ -99,10 +98,13 @@ export default function Calendar({ selectMode, multipleDates }: CalendarProps) {
 
   const handleSelectedDate = (date: number) => {
     const newDate = new Date(currentDate);
+
     newDate.setDate(date);
     newDate.setHours(0, 0, 0, 0);
 
-    const formattedDate = newDate.toISOString();
+    // UTC 시간 기준에서 +9시간(KST)으로 변환
+    const kstDate = new Date(newDate.getTime() + 9 * 60 * 60 * 1000);
+    const formattedDate = kstDate.toISOString().slice(0, 10);
 
     if (firstDate && !secondDate && firstDate === formattedDate) {
       return setFirstDate(null);
