@@ -1,42 +1,63 @@
 import buildQueryParams from "@/hooks/queryParams";
 import {
-  Gathering,
   GatheringDetailRes,
   Gatherings,
   GatheringsRes,
   GetGatheringParticipants,
   GetGatheringParticipantsRes,
+  GetMyGatheringParticipantsRes,
   GetMyJoinedGatherings,
   GetMyJoinedGatheringsRes,
   GetSearchGatheringRes,
   GetSearchGatherings,
 } from "@/types/api/gatheringApi";
-import fetchInstance from "./fetchInstance";
+import fetchWithMiddleware from "./fetchWithMiddleware";
 
 // 모임 목록 조회
 export async function getGatherings(params: Gatherings) {
   const searchParams = new URLSearchParams();
-  const queryString = buildQueryParams(searchParams, params);
-  const data = await fetchInstance.get<GatheringsRes>(
-    `/gatherings${queryString ? `?${queryString}` : ""}`,
-  );
+  if (params) {
+    buildQueryParams(searchParams, params);
+  }
+  const response = await fetchWithMiddleware(`/api/gatherings?${searchParams.toString()}`, {
+    method: "GET", // GET 요청
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data: GatheringsRes = await response.json();
   return data;
 }
 
 // 모임 상세 조회
 export async function getGatheringDetail(id: number) {
-  const data = await fetchInstance.get<GatheringDetailRes>(`/gatherings/${id}`);
+  const response = await fetchWithMiddleware(`/api/gatherings/${id}`, {
+    method: "GET", // GET 요청
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data: GatheringDetailRes = await response.json();
   return data;
 }
 
 // 특정 모임의 참가자 목록 조회
+
 export async function getGatheringParticipants(id: number, params: GetGatheringParticipants) {
   const searchParams = new URLSearchParams();
-  const queryString = buildQueryParams(searchParams, params);
-
-  const data = await fetchInstance.get<GetGatheringParticipantsRes>(
-    `/gatherings/${id}/participants${queryString ? `?${queryString}` : ""}`,
+  if (params) {
+    buildQueryParams(searchParams, params);
+  }
+  const response = await fetchWithMiddleware(
+    `/api/gatherings/${id}/participants?${searchParams.toString()}`,
+    {
+      method: "GET", // GET 요청
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
   );
+  const data: GetGatheringParticipantsRes = await response.json();
   return data;
 }
 
@@ -52,35 +73,54 @@ export async function getSearchGatherings(params: GetSearchGatherings) {
   };
 
   const searchParams = new URLSearchParams();
+
   if (params.search) {
     searchParams.set("search", formatSearchKeywords(params.search));
   }
-  const queryString = buildQueryParams(searchParams, params);
 
-  const data = await fetchInstance.get<GetSearchGatheringRes>(
-    `/gatherings/search${queryString ? `?${queryString}` : ""}`,
+  Object.entries(params).forEach(([key, value]) => {
+    if (value && key !== "search") {
+      searchParams.set(key, value.toString());
+    }
+  });
+
+  const queryString = searchParams.toString();
+  const response = await fetchWithMiddleware(
+    `/api/gatherings/search${queryString ? `?${queryString}` : ""}`,
   );
+
+  const data: GetSearchGatheringRes = await response.json();
   return data;
 }
 
 // 로그인된 사용자가 참석한 모임 목록 조회
 export async function getMyJoinedGatherings(params: GetMyJoinedGatherings) {
   const searchParams = new URLSearchParams();
-  const queryString = buildQueryParams(searchParams, params);
-
-  const data = await fetchInstance.get<GetMyJoinedGatheringsRes>(
-    `/gatherings/joined${queryString ? `?${queryString}` : ""}`,
-  );
+  if (params) {
+    buildQueryParams(searchParams, params);
+  }
+  const response = await fetchWithMiddleware(`/api/gatherings/joined?${searchParams.toString()}`, {
+    method: "GET", // GET 요청
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data: GetMyJoinedGatheringsRes = await response.json();
   return data;
 }
 
 // 내 모임 조회
 export async function getMyGathering(params: GetGatheringParticipants) {
   const searchParams = new URLSearchParams();
-  const queryString = buildQueryParams(searchParams, params);
-
-  const data = await fetchInstance.get<Gathering[]>(
-    `/my/gathering${queryString ? `?${queryString}` : ""}`,
-  );
+  if (params) {
+    buildQueryParams(searchParams, params);
+  }
+  const response = await fetchWithMiddleware(`/api/my/gatherings/?${searchParams.toString()}`, {
+    method: "GET", // GET 요청
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data: GetMyGatheringParticipantsRes = await response.json();
   return data;
 }

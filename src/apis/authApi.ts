@@ -4,7 +4,7 @@ import fetchWithMiddleware from "./fetchWithMiddleware";
 
 // 회원가입
 export async function signup(body: PostUsers): Promise<User> {
-  const response = await fetchWithMiddleware("/auth/signup", {
+  const response = await fetchWithMiddleware("/api/auth/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export async function updateUserProfile(body: PutUsers): Promise<User> {
   if (body.nickname) formData.append("nickname", body.nickname);
   if (body.image) formData.append("image", body.image);
 
-  const response = await fetchWithMiddleware("/user", {
+  const response = await fetchWithMiddleware("/api/user", {
     method: "PUT",
     body: formData,
   });
@@ -65,12 +65,12 @@ export async function updateUserProfile(body: PutUsers): Promise<User> {
 
 // 이메일 검증
 export async function checkEmail(email: string) {
-  const response = await fetchWithMiddleware(`/auth/check-email?email=${email}`);
+  const response = await fetchWithMiddleware(`/api/auth/check-email?email=${email}`);
   return response.json() as Promise<{ message: string }>;
 }
 
 // 닉네임 검증
 export async function checkNickName(nickname: string) {
-  const response = await fetchWithMiddleware(`/auth/check-nickname?nickname=${nickname}`);
+  const response = await fetchWithMiddleware(`/api/auth/check-nickname?nickname=${nickname}`);
   return response.json() as Promise<{ message: string }>;
 }

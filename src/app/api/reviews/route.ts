@@ -26,13 +26,17 @@ export async function GET(request: NextRequest) {
   const params = url.searchParams;
 
   const queryString = new URLSearchParams(params).toString();
+  const queryPrefix = queryString ? "?" : "";
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews?${queryString}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/reviews${queryPrefix}${queryString}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     },
-  });
+  );
 
   if (response.ok) {
     const data = await response.json();
