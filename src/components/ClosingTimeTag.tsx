@@ -39,7 +39,7 @@ export default function ClosingTimeTag({
 
     let displayTime = "";
 
-    if (diffDays > 1 && diffDays <= 60) {
+    if (diffDays >= 1 && diffDays <= 60) {
       displayTime = `${diffDays}일 후 마감`;
     } else if (diffHours >= 1) {
       displayTime = `${diffHours}시간 후 마감`;
