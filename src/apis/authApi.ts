@@ -1,47 +1,56 @@
 import useUserStore from "@/store/userStore";
 import { Login, PostUsers, PutUsers, User } from "@/types/api/authApi";
-import fetchInstance from "./fetchInstance";
+import { fetchWithMiddleware } from "./fetchWithMiddleware";
 
 // 회원가입
-export async function signup(body: PostUsers) {
-  const data = await fetchInstance.post<User>("/auth/signup", body);
-  return data;
-}
-
-// 유저 정보 조회
-export async function getUserProfile() {
-  const response = await fetch("/api/user", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const data = await response.json();
-  return data;
-}
-
-// 로그인
-export async function signin(body: Login) {
-  const response = await fetch("/api/auth/signin", {
+export async function signup(body: PostUsers): Promise<User> {
+  const response = await fetchWithMiddleware("/auth/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
   });
+  const data: User = await response.json();
+  return data;
+}
 
+// 유저 정보 조회
+export async function getUserProfile() {
+  const response = await fetchWithMiddleware("/api/user", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data: User = await response.json();
+  return data;
+}
+
+// 로그인
+export async function signin(body: Login) {
+  const response = await fetchWithMiddleware("/api/auth/signin", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
   return response;
 }
+
 // 유저 정보 수정
-export async function updateUserProfile(body: PutUsers) {
+export async function updateUserProfile(body: PutUsers): Promise<User> {
   const formData = new FormData();
-  if (body.nickname) {
-    formData.append("nickname", body.nickname);
-  }
-  if (body.image) {
-    formData.append("image", body.image);
-  }
-  const data = await fetchInstance.put<User>("/user", formData);
+  if (body.nickname) formData.append("nickname", body.nickname);
+  if (body.image) formData.append("image", body.image);
+
+  const response = await fetchWithMiddleware("/user", {
+    method: "PUT",
+    body: formData,
+  });
+
+  const data: User = await response.json();
 
   const userStore = useUserStore.getState();
   userStore.setUser({
@@ -50,19 +59,18 @@ export async function updateUserProfile(body: PutUsers) {
     nickname: data.nickname,
     image: data.image,
   });
+
   return data;
 }
 
 // 이메일 검증
 export async function checkEmail(email: string) {
-  const data = await fetchInstance.get<{ message: string }>(`/auth/check-email?email=${email}`);
-  return data;
+  const response = await fetchWithMiddleware(`/auth/check-email?email=${email}`);
+  return response.json() as Promise<{ message: string }>;
 }
 
 // 닉네임 검증
 export async function checkNickName(nickname: string) {
-  const data = await fetchInstance.get<{ message: string }>(
-    `/auth/check-nickname?nickname=${nickname}`,
-  );
-  return data;
+  const response = await fetchWithMiddleware(`/auth/check-nickname?nickname=${nickname}`);
+  return response.json() as Promise<{ message: string }>;
 }
