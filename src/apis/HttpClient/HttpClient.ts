@@ -10,14 +10,14 @@ export const createClient = (baseConfig: Config = {}): Client => {
     if (typeof window === "undefined") {
       try {
         const { cookies } = await import("next/headers");
-        return cookies().get("accessToken")?.value;
+        return cookies().get("access-token")?.value;
       } catch {
         return undefined;
       }
     } else {
       const cookies = document.cookie.split(";").map(cookie => cookie.trim());
 
-      const accessToken = cookies.find(cookie => cookie.startsWith("accessToken="))?.split("=")[1];
+      const accessToken = cookies.find(cookie => cookie.startsWith("access-token="))?.split("=")[1];
 
       return accessToken;
     }
@@ -127,7 +127,7 @@ export const createClient = (baseConfig: Config = {}): Client => {
     }, Promise.resolve(config));
 
     // 토큰을 가져와서 헤더에 추가
-    if (!finalConfig.url?.includes("/auth/refresh-token")) {
+    if (!finalConfig.url?.includes("/auth/managed-access-token")) {
       const accessToken = await getAccessToken();
       finalConfig.headers = {
         ...finalConfig.headers,
