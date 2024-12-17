@@ -14,10 +14,6 @@ export default function FilterSection() {
   const updateQueryParams = useQueryBuilder(); // URL 파라미터 관리 훅
 
   // 선택된 옵션의 영문 값을 반환하는 함수
-  const getEnglishValue = (options: { ko: string; eng: string }[], selectedOption: string) => {
-    const foundOption = options.find(option => option.ko === selectedOption);
-    return foundOption ? foundOption.eng : "";
-  };
 
   // 필터 변경 후 React Query 갱신
   const refreshData = () => {
@@ -26,17 +22,15 @@ export default function FilterSection() {
 
   // 지역 변경 핸들러
   const handleLocationFilter = (selectedOption: string) => {
-    const englishValue = getEnglishValue(LOCATION_OPTIONS, selectedOption);
-    setLocationOption(englishValue);
-    updateQueryParams({ location: englishValue });
+    setLocationOption(selectedOption);
+    updateQueryParams({ location: selectedOption });
     refreshData();
   };
 
   // 정렬 방향 변경 핸들러
   const handleDirectionFilter = (selectedOption: string) => {
-    const englishValue = getEnglishValue(DIRECTION_OPTIONS, selectedOption);
-    setLocationOption(englishValue);
-    updateQueryParams({ direction: englishValue });
+    setLocationOption(selectedOption);
+    updateQueryParams({ direction: selectedOption });
     refreshData();
   };
 
