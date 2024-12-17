@@ -50,8 +50,8 @@ export type GatheringDetailRes = GatheringRes & {
 
 export type User = {
   id: number;
-  nickname: string;
-  image: string;
+  nickname?: string;
+  image?: string;
 };
 
 export type CancelGatheringRes = GatheringBase & {
@@ -72,7 +72,7 @@ export type GatheringsRes = Gathering[];
 
 export type GatheringsFavoriteRes = GatheringBase[];
 
-export type GetMyJoinedGatheringsRes = GetMyJoinedGatherings[];
+export type GetMyJoinedGatheringsRes = GetMyJoinedGathering[];
 
 export type GetMyJoinedGathering = GatheringBase & {
   keywords: string[];

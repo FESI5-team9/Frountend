@@ -133,7 +133,7 @@ export const handleSubmit = async (
 
     // 쿠키 가져오기
 
-    const response = await fetch(`${baseUrl}/gatherings`, {
+    const response = await fetch(`${baseUrl}gatherings`, {
       method: "POST",
       body: formDataToSend,
       headers: {
