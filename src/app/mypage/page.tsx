@@ -134,7 +134,7 @@ export default function Mypage() {
                 unCompletedReview={unCompletedReviews || []}
               />
             )}
-            {/* 나의 모임 탭탭 */}
+            {/* 나의 모임 탭 */}
             {activeTab === "gathering" && <MyGathering />}
             {/* 내가 만든 모임 탭 */}
             {activeTab === "createdGathering" && <MyCreatedGathering />}

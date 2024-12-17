@@ -34,7 +34,7 @@ export default function MyCreatedGathering() {
 
   return (
     <>
-      {gatheringData.map((gathering: Gathering) => {
+      {gatheringData.map((gathering: Gathering, index) => {
         const date = gathering.dateTime
           ? formatToKoreanTime(gathering.dateTime, "M월 dd일")
           : "날짜 없음";
@@ -95,7 +95,9 @@ export default function MyCreatedGathering() {
                 </div>
               </div>
             </div>
-            <div className="my-5 border border-dashed border-gray-400"></div>
+            {index !== gatheringData.length - 1 && (
+              <div className="my-5 border border-dashed border-gray-400"></div>
+            )}{" "}
           </>
         );
       })}

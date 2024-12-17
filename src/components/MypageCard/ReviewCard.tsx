@@ -74,10 +74,11 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
             작성한 리뷰
           </Button>
         </div>
+
         {/* 작성 가능한 리뷰 */}
         <div className="flex h-[153px] w-full flex-col gap-6">
           {activeTab === "uncompleted" &&
-            review?.map(reviewItem => {
+            review?.map((reviewItem, index) => {
               const currentDate = new Date();
               const itemDateTime = new Date(reviewItem.dateTime);
               const isCompleted = itemDateTime < currentDate;
@@ -91,7 +92,7 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
 
               return (
                 <div key={reviewItem.id} className="flex w-full flex-col gap-4 tablet:flex-row">
-                  <div className="relative flex h-[153px] w-full flex-shrink-0 items-center justify-center overflow-hidden rounded-3xl">
+                  <div className="relative h-[153px] w-[272px] flex-grow-0 items-center justify-center overflow-hidden rounded-3xl">
                     <Image
                       src={reviewItem.image}
                       fill
@@ -159,48 +160,52 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
                       </Button>
                     </div>
                   </div>
+                  {index !== review.length - 1 && (
+                    <div className="my-5 border border-dashed border-gray-400"></div>
+                  )}
                 </div>
               );
             })}
 
           {/* 작성한 리뷰 */}
           {activeTab === "completed" &&
-            reviewed?.map(item => {
+            reviewed?.map((item, index) => {
               const date = item.gathering.dateTime
                 ? formatToKoreanTime(item.gathering.dateTime, "yyyy.MM.dd")
                 : "날짜 없음";
 
               return (
-                <div
-                  key={item.id}
-                  className="flex h-[355px] w-full flex-col gap-6 tablet:h-[153px] tablet:flex-row"
-                >
-                  <div className="relative flex h-[153px] w-full items-center justify-center overflow-hidden rounded-3xl">
-                    <Image
-                      src={
-                        typeof item.gathering.image === "string"
-                          ? item.gathering.image
-                          : "/images/image.png"
-                      }
-                      fill
-                      objectFit="cover"
-                      alt="이미지"
-                      className=""
-                    />
-                  </div>
-                  <div className="flex flex-1 flex-col">
-                    <div className="h-6 w-full">
-                      <Rating score={item.score} />
+                <div key={item.id}>
+                  <div className="flex w-full flex-col gap-6 tablet:h-[153px] tablet:flex-row">
+                    <div className="relative flex h-[153px] w-full flex-shrink-0 items-center justify-center overflow-hidden rounded-3xl tablet:w-[272px]">
+                      <Image
+                        src={
+                          typeof item.gathering.image === "string"
+                            ? item.gathering.image
+                            : "/images/image.png"
+                        }
+                        fill
+                        objectFit="cover"
+                        alt="이미지"
+                        className=""
+                      />
                     </div>
-                    <p className="mt-[10px] inline-block w-full text-sm text-gray-800">
-                      {item.comment}
-                    </p>
-                    <span className="mt-[10px] inline-block text-xs text-gray-800">
-                      {`${item.gathering.name} · ${item.gathering.location}`}
-                    </span>
-                    <span className="mt-2 inline-block text-xs text-gray-disable">{date}</span>
-                    <div className="mt-5 w-full border border-dashed border-b-gray-disable tablet:mt-auto"></div>
+                    <div className="flex flex-col">
+                      <div className="h-6 w-full">
+                        <Rating score={item.score} />
+                      </div>
+                      <p className="mt-[10px] inline-block w-full text-sm text-gray-800">
+                        {item.comment}
+                      </p>
+                      <span className="mt-[10px] inline-block text-xs text-gray-800">
+                        {`${item.gathering.name} · ${item.gathering.location}`}
+                      </span>
+                      <span className="mt-2 inline-block text-xs text-gray-disable">{date}</span>
+                    </div>
                   </div>
+                  {index !== reviewed.length - 1 && (
+                    <div className="mt-5 border border-dashed border-gray-400"></div>
+                  )}
                 </div>
               );
             })}
