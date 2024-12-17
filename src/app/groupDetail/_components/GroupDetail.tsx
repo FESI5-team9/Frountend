@@ -10,7 +10,7 @@ import FixedBottomBar from "../_components/FixedBottomBar";
 import Map from "../_components/Map";
 import Reviews from "../_components/Reviews";
 
-function GroupDetail({ paramsId }: { paramsId: string }) {
+function GroupDetail({ paramsId }: { paramsId: number }) {
   const {
     data: detail,
     isLoading: isDetailLoading,

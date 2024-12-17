@@ -7,7 +7,7 @@ import { getReviews, getReviewsRating } from "@/apis/reviewsApi";
 import { GetReviewsRatingRes, ReviewsRes } from "@/types/api/reviews";
 import { formatToKoreanTime } from "@/utils/date";
 
-export default function Reviews({ gatheringId }: { gatheringId: string }) {
+export default function Reviews({ gatheringId }: { gatheringId: number }) {
   // page가 0부터 시작함
   const [page, setPage] = useState(0);
   const size = 4;

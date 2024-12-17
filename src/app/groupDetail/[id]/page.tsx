@@ -5,7 +5,9 @@ import GroupDetail from "../_components/GroupDetail";
 async function GroupDetailPage({ params }: { params: { id: string } }) {
   const queryClient = new QueryClient();
 
-  if (!params.id || isNaN(Number(params.id))) {
+  const id = Number(params.id);
+
+  if (!id || isNaN(id)) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
         <p>Invalid request. ID is required.</p>
@@ -14,13 +16,13 @@ async function GroupDetailPage({ params }: { params: { id: string } }) {
   }
 
   await queryClient.prefetchQuery({
-    queryKey: ["gatheringDetail", params.id],
-    queryFn: () => getGatheringDetail(Number(params.id)),
+    queryKey: ["gatheringDetail", id],
+    queryFn: () => getGatheringDetail(id),
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <GroupDetail paramsId={params.id} />
+      <GroupDetail paramsId={id} />
     </HydrationBoundary>
   );
 }

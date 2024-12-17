@@ -4,7 +4,7 @@ import { DistrictName } from "@/types/hooks/region";
 import fetchInstance from "./fetchInstance";
 
 // 모임 취소
-export async function CancelGathering(id: string) {
+export async function CancelGathering(id: number) {
   const data = await fetchInstance.put<CancelGatheringRes>(`/gatherings/${id}/cancel`);
   return data;
 }
@@ -33,19 +33,19 @@ export async function createGathering(body: CreateGathering, image?: File) {
 }
 
 // 모임 참여
-export async function joinGathering(id: string) {
+export async function joinGathering(id: number) {
   const data = await fetchInstance.post(`/gatherings/${id}/join`);
   return data;
 }
 
 // 모임 참여 취소
-export async function LeaveGathering(id: string) {
+export async function LeaveGathering(id: number) {
   const data = await fetchInstance.delete(`/gatherings/${id}/leave`);
   return data;
 }
 
 // 모임 수정
-export async function editGathering(id: string, body: CreateGathering) {
+export async function editGathering(id: number, body: CreateGathering) {
   const formData = new FormData();
 
   Object.entries(body).forEach(([key, value]) => {
@@ -65,7 +65,7 @@ export async function editGathering(id: string, body: CreateGathering) {
 }
 
 // 모임 상태 변경
-export async function recruitGathering(id: string, status: "RECRUITING" | "RECRUITMENT_COMPLETED") {
+export async function recruitGathering(id: number, status: "RECRUITING" | "RECRUITMENT_COMPLETED") {
   const data = await fetchInstance.get(`/gatherings/${id}/recruit?status=${status}`);
   return data;
 }
