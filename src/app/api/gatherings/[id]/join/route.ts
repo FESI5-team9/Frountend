@@ -1,25 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
-  try {
-    const newRequest = new Request(`${process.env.NEXT_PUBLIC_BASE_URL}/user`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${request.cookies.get("access-token")?.value}`,
-      },
-    });
+export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings/${params.id}/join`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${request.cookies.get("access-token")?.value}`,
+    },
+  });
 
-    const response = await fetch(newRequest);
-
-    if (!response.ok) {
-      throw new Error("사용자 정보 조회 실패");
-    }
-
+  if (response.ok) {
     const data = await response.json();
-    return NextResponse.json(data);
-  } catch (error) {
-    console.error("사용자 정보 조회 실패:", error);
-    return NextResponse.json({ message: "사용자 정보 조회에 실패했습니다." }, { status: 500 });
+    return NextResponse.json(data, { status: response.status });
+  } else {
+    const errorData = await response.json();
+    return NextResponse.json(errorData, { status: response.status });
   }
 }
