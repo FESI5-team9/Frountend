@@ -24,7 +24,7 @@ export default function MypageCard({
   const handleLeaveGathering = async () => {
     if (id) {
       try {
-        await LeaveGathering(id);
+        await LeaveGathering(String(id));
         window.location.reload();
       } catch (error) {
         alert("모임 취소에 실패했습니다. 다시 시도해주세요.");
