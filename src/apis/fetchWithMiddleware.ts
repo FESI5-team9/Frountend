@@ -1,4 +1,4 @@
-export async function fetchWithMiddleware(input: RequestInfo, init?: RequestInit) {
+export default async function fetchWithMiddleware(input: RequestInfo, init?: RequestInit) {
   const response = await fetch(input, init);
 
   if (!response.ok) {

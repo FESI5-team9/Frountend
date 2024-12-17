@@ -1,6 +1,6 @@
 import useUserStore from "@/store/userStore";
 import { Login, PostUsers, PutUsers, User } from "@/types/api/authApi";
-import { fetchWithMiddleware } from "./fetchWithMiddleware";
+import fetchWithMiddleware from "./fetchWithMiddleware";
 
 // 회원가입
 export async function signup(body: PostUsers): Promise<User> {

@@ -8,8 +8,7 @@ import {
   GetReviewsRatingRes,
   ReviewsRes,
 } from "@/types/api/reviews";
-import fetchInstance from "./fetchInstance";
-import { fetchWithMiddleware } from "./fetchWithMiddleware";
+import fetchWithMiddleware from "./fetchWithMiddleware";
 
 // 리뷰 목록 조회
 export async function getReviews(params?: GetReviews) {
@@ -41,20 +40,29 @@ export async function addReviews(body: AddReviews) {
 }
 
 // 리뷰 평점 목록 조회
-export async function getReviewsRating(params: GetReviewsRating) {
+export async function getReviewsRating(params?: GetReviewsRating) {
   const searchParams = new URLSearchParams();
-  const queryString = buildQueryParams(searchParams, params);
-
-  const data = await fetchInstance.get<GetReviewsRatingRes>(
-    `/reviews/score${queryString ? `?${queryString}` : ""}`,
-  );
+  if (params) {
+    buildQueryParams(searchParams, params);
+  }
+  const response = await fetchWithMiddleware(`/reviews/score?${searchParams.toString()}`, {
+    method: "GET", // GET 요청
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data: GetReviewsRatingRes = await response.json();
   return data;
 }
 
 // 타입 별 리뷰 평점 통계 조회
 export async function getReviewStats(type: string) {
-  const data = await fetchInstance.get<GetReviewStatsRes>(
-    `/reviews/statistics?${type ? `type=${type}` : ""}`,
-  );
+  const response = await fetchWithMiddleware(`/api/reviews?/statistics?type=${type}`, {
+    method: "GET", // GET 요청
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data: GetReviewStatsRes = await response.json();
   return data;
 }
