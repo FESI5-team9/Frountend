@@ -19,3 +19,8 @@ export const DIRECTION_OPTIONS = [
   { ko: "최신 순", eng: "desc" },
   { ko: "오래된 순", eng: "asc" },
 ];
+
+export const REVIEW_SORT_OPTIONS = [
+  { ko: "최신 순", eng: "createdAt" },
+  { ko: "별점 순", eng: "score" },
+];

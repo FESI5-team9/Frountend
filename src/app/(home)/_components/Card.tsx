@@ -4,7 +4,7 @@ import FavoriteButton from "@/components/Button/FavoriteButton";
 import Chip from "@/components/Chips";
 import Progressbar from "@/components/Progressbar";
 import { GetGathering } from "@/types/components/card";
-import { formatToKoreanTime, getRemainingHours } from "@/utils/date";
+import { formatToOriginTime, getRemainingOriginHours } from "@/utils/date";
 import ButtonJoin from "./ButtonJoin";
 
 export default function Card({ cardData }: { cardData: GetGathering }) {
@@ -15,7 +15,7 @@ export default function Card({ cardData }: { cardData: GetGathering }) {
           src={
             cardData.image && cardData.image.trim() !== ""
               ? cardData.image
-              : "/images/mainPage/ex-images/donw3.svg"
+              : "/images/mainPage/ex-images/muckit.svg"
           }
           alt="food"
           width={272}
@@ -24,7 +24,7 @@ export default function Card({ cardData }: { cardData: GetGathering }) {
         />
         <div className="absolute right-0 top-0 flex flex-row items-center gap-1 rounded-bl-xl border border-none bg-yellow-primary px-2 py-1">
           <Image src="/images/mainPage/alarm.svg" width={20} height={16} alt="alarm" />
-          <p>{getRemainingHours(cardData.registrationEnd) || "날짜 없음"}</p>
+          <p>{getRemainingOriginHours(cardData.registrationEnd) || "날짜 없음"}</p>
         </div>
       </Link>
       <div className="flex w-full flex-col justify-between p-4">
@@ -39,10 +39,10 @@ export default function Card({ cardData }: { cardData: GetGathering }) {
             </div>
             <div className="flex flex-row gap-2">
               <Chip type="default" bgColor="bg-black" textColor="text-white">
-                {formatToKoreanTime(cardData.dateTime, "MM월 dd일") || "날짜 없음"}
+                {formatToOriginTime(cardData.dateTime, "MM월 dd일") || "날짜 없음"}
               </Chip>
               <Chip type="default" bgColor="bg-black" textColor="text-yellow-primary">
-                {formatToKoreanTime(cardData.dateTime, "HH시 mm분") || "날짜 없음"}
+                {formatToOriginTime(cardData.dateTime, "HH시 mm분") || "날짜 없음"}
               </Chip>
             </div>
           </div>

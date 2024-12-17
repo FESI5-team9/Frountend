@@ -36,15 +36,9 @@ export default function DropdownCalendar() {
   // URL 파라미터 업데이트
   const submitDates = () => {
     if (firstDate) {
-      const formatDate = (date: string | null): string | undefined =>
-        date ? date.split("T")[0] : ""; // YYYY-MM-DD 포맷팅
-
-      const startDate = formatDate(firstDate);
-      const endDate = formatDate(secondDate) || startDate; // 종료 날짜 없으면 시작 날짜 사용
-
       const queryParams: { startDate: string; endDate: string } = {
-        startDate: startDate || "", // 값 없으면 빈 문자열
-        endDate: endDate || "", // 값 없으면 빈 문자열
+        startDate: firstDate || "", // 값 없으면 빈 문자열
+        endDate: secondDate || firstDate || "", // 값 없으면 빈 문자열
       };
 
       // URL에 반영

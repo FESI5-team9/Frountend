@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { FilterDropDown } from "@/components/Filter/FilterDropDown";
-import { LOCATION_OPTIONS, SORT_OPTIONS } from "@/constants/filter";
+import { LOCATION_OPTIONS, REVIEW_SORT_OPTIONS } from "@/constants/filter";
 import { GetReviews, ReviewsRes } from "@/types/api/reviews";
 import AllReviewCard from "./ReviewCard";
 
@@ -87,7 +87,7 @@ function ReviewListComponent({
         <FilterDropDown
           key={`location-${filters.type}`}
           filterType="sortFilter"
-          options={SORT_OPTIONS}
+          options={REVIEW_SORT_OPTIONS}
           onSelectFilterOption={handleSortFilter}
         />
       </div>
