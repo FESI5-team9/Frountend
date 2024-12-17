@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
 
     response.cookies.set("refresh-token", refreshToken, {
       secure: true,
-      httpOnly: false,
+      httpOnly: true,
       path: "/",
       sameSite: "strict",
       maxAge: 60 * 60 * 24 * 7, // 7일
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
 
     response.cookies.set("access-token", accessToken, {
       secure: true,
-      httpOnly: false,
+      httpOnly: true,
       path: "/",
       sameSite: "strict",
       maxAge: 60 * 30, // 30분
