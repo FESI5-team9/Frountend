@@ -9,6 +9,19 @@ interface SignInResponse {
   accessToken: string;
 }
 
+function parseRefreshToken(cookieString: string | null): string {
+  if (!cookieString) {
+    throw new Error("쿠키 문자열이 없습니다.");
+  }
+
+  const refreshTokenMatch = cookieString.match(/refresh-token=([^;]+)/);
+  if (!refreshTokenMatch) {
+    throw new Error("리프레시 토큰을 찾을 수 없습니다.");
+  }
+
+  return decodeURIComponent(refreshTokenMatch[1]);
+}
+
 async function getTokensFromSigninApi(signInData: SignInRequestBody): Promise<{
   refreshToken: string;
   accessToken: string;
@@ -26,9 +39,7 @@ async function getTokensFromSigninApi(signInData: SignInRequestBody): Promise<{
   }
 
   const cookieString = response.headers.get("Set-Cookie");
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const refreshToken = parseRefreshToken(cookieString);
-
   const accessTokenResponse: SignInResponse = await response.json();
 
   return {
@@ -37,30 +48,30 @@ async function getTokensFromSigninApi(signInData: SignInRequestBody): Promise<{
   };
 }
 
-function parseRefreshToken(cookieString: string | null): string {
-  if (!cookieString) {
-    throw new Error("쿠키 문자열이 없습니다.");
-  }
-
-  const refreshTokenMatch = cookieString.match(/refresh-token=([^;]+)/);
-  if (!refreshTokenMatch) {
-    throw new Error("리프레시 토큰을 찾을 수 없습니다.");
-  }
-
-  return decodeURIComponent(refreshTokenMatch[1]);
-}
-
 export async function POST(request: NextRequest) {
   try {
     const requestBody: SignInRequestBody = await request.json();
     const { refreshToken, accessToken } = await getTokensFromSigninApi(requestBody);
 
-    return NextResponse.json({
-      data: {
-        refreshToken,
-        accessToken,
-      },
+    const response = NextResponse.json({ success: true }, { status: 200 });
+
+    response.cookies.set("refresh-token", refreshToken, {
+      secure: true,
+      httpOnly: false,
+      path: "/",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24 * 7, // 7일
     });
+
+    response.cookies.set("access-token", accessToken, {
+      secure: true,
+      httpOnly: false,
+      path: "/",
+      sameSite: "strict",
+      maxAge: 60 * 30, // 30분
+    });
+
+    return response;
   } catch (error) {
     console.error("로그인 실패:", error);
     return NextResponse.json({ message: "로그인 실패" }, { status: 500 });
