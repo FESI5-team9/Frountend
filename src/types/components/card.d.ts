@@ -1,17 +1,4 @@
-// export interface CardType {
-//   address1: string;
-//   canceledAt: null;
-//   capacity: number;
-//   createdBy: string;
-//   dateTime: string;
-//   id: number;
-//   image?: string;
-//   location: string;
-//   name: string;
-//   participantCount: number;
-//   registrationEnd: string;
-//   type: string;
-// }
+import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
 
 export interface GetGathering {
   id: number;
@@ -39,3 +26,27 @@ export interface GetGathering {
   createdAt: string;
   canceledAt?: string;
 }
+
+export interface MypageCardProps {
+  id?: number;
+  name: string;
+  location?: string;
+  address1: string;
+  dateTime: string;
+  image: string;
+  participantCount: number;
+  capacity: number;
+  keywords?: string[];
+}
+
+export interface AllReviewCardProps {
+  review: GetMyJoinedGatheringWithReview[];
+  reviewed: ReviewRes[];
+}
+
+export interface ReviewSubmit {
+  score?: number;
+  content?: string;
+}
+
+export type GetMyJoinedGatheringWithReview = GetMyJoinedGathering & ReviewContent;
