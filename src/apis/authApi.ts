@@ -17,12 +17,7 @@ export async function signup(body: PostUsers): Promise<User> {
 
 // 유저 정보 조회
 export async function getUserProfile() {
-  const response = await fetchWithMiddleware("/api/user", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetchWithMiddleware("/api/user");
   const data: User = await response.json();
   return data;
 }

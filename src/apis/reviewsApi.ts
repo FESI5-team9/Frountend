@@ -16,12 +16,7 @@ export async function getReviews(params?: GetReviews) {
   if (params) {
     buildQueryParams(searchParams, params);
   }
-  const response = await fetchWithMiddleware(`/api/reviews?${searchParams.toString()}`, {
-    method: "GET", // GET 요청
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetchWithMiddleware(`/api/reviews?${searchParams.toString()}`);
   const data: ReviewsRes = await response.json();
   return data;
 }
@@ -45,24 +40,14 @@ export async function getReviewsRating(params?: GetReviewsRating) {
   if (params) {
     buildQueryParams(searchParams, params);
   }
-  const response = await fetchWithMiddleware(`/api/reviews/score?${searchParams.toString()}`, {
-    method: "GET", // GET 요청
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetchWithMiddleware(`/api/reviews/score?${searchParams.toString()}`);
   const data: GetReviewsRatingRes = await response.json();
   return data;
 }
 
 // 타입 별 리뷰 평점 통계 조회
 export async function getReviewStats(type: string) {
-  const response = await fetchWithMiddleware(`/api/reviews/statistics?type=${type}`, {
-    method: "GET", // GET 요청
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetchWithMiddleware(`/api/reviews/statistics?type=${type}`);
   const data: GetReviewStatsRes = await response.json();
   return data;
 }

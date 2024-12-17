@@ -19,30 +19,19 @@ export async function getGatherings(params: Gatherings) {
   if (params) {
     buildQueryParams(searchParams, params);
   }
-  const response = await fetchWithMiddleware(`/api/gatherings?${searchParams.toString()}`, {
-    method: "GET", // GET 요청
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetchWithMiddleware(`/api/gatherings?${searchParams.toString()}`);
   const data: GatheringsRes = await response.json();
   return data;
 }
 
 // 모임 상세 조회
 export async function getGatheringDetail(id: number) {
-  const response = await fetchWithMiddleware(`/api/gatherings/${id}`, {
-    method: "GET", // GET 요청
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetchWithMiddleware(`/api/gatherings/${id}`);
   const data: GatheringDetailRes = await response.json();
   return data;
 }
 
 // 특정 모임의 참가자 목록 조회
-
 export async function getGatheringParticipants(id: number, params: GetGatheringParticipants) {
   const searchParams = new URLSearchParams();
   if (params) {
@@ -50,12 +39,6 @@ export async function getGatheringParticipants(id: number, params: GetGatheringP
   }
   const response = await fetchWithMiddleware(
     `/api/gatherings/${id}/participants?${searchParams.toString()}`,
-    {
-      method: "GET", // GET 요청
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
   );
   const data: GetGatheringParticipantsRes = await response.json();
   return data;
@@ -99,12 +82,7 @@ export async function getMyJoinedGatherings(params: GetMyJoinedGatherings) {
   if (params) {
     buildQueryParams(searchParams, params);
   }
-  const response = await fetchWithMiddleware(`/api/gatherings/joined?${searchParams.toString()}`, {
-    method: "GET", // GET 요청
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetchWithMiddleware(`/api/gatherings/joined?${searchParams.toString()}`);
   const data: GetMyJoinedGatheringsRes = await response.json();
   return data;
 }
@@ -115,12 +93,7 @@ export async function getMyGathering(params: GetGatheringParticipants) {
   if (params) {
     buildQueryParams(searchParams, params);
   }
-  const response = await fetchWithMiddleware(`/api/my/gatherings/?${searchParams.toString()}`, {
-    method: "GET", // GET 요청
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetchWithMiddleware(`/api/my/gathering?${searchParams.toString()}`);
   const data: GetMyGatheringParticipantsRes = await response.json();
   return data;
 }

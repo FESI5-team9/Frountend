@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   const queryPrefix = queryString ? "?" : "";
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/gatherings/${queryPrefix}${queryString}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/gatherings${queryPrefix}${queryString}`,
     {
       method: "GET",
       headers: {
