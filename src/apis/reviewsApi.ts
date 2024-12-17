@@ -23,7 +23,7 @@ export async function getReviews(params?: GetReviews) {
 
 // 리뷰 추가
 export async function addReviews(body: AddReviews) {
-  const data = await fetchInstance.post<AddReviewsRes>("/review", body);
+  const data = await fetchInstance.post<AddReviewsRes>("/reviews", body);
   return data;
 }
 

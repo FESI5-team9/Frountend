@@ -1,20 +1,8 @@
-// export interface CardType {
-//   address1: string;
-//   canceledAt: null;
-//   capacity: number;
-//   createdBy: string;
-//   dateTime: string;
-//   id: number;
-//   image?: string;
-//   location: string;
-//   name: string;
-//   participantCount: number;
-//   registrationEnd: string;
-//   type: string;
-// }
+import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
 
 export interface GetGathering {
   id: number;
+  status: string;
   type: "CAFE" | "RESTAURANT" | "PUB" | "VEGAN";
   name: string;
   dateTime: string;
@@ -29,9 +17,36 @@ export interface GetGathering {
   | "JEJU_ISLAND";
   address1: string;
   address2: string;
+  participation: boolean; //참여중인지 아닌지
   participantCount: number;
   capacity: number;
+  favorite: boolean;
+  open: boolean;
   image: string;
   createdAt: string;
-  // createdBy: string;
+  canceledAt?: string;
 }
+
+export interface MypageCardProps {
+  id?: number;
+  name: string;
+  location?: string;
+  address1: string;
+  dateTime: string;
+  image: string;
+  participantCount: number;
+  capacity: number;
+  keywords?: string[];
+}
+
+export interface AllReviewCardProps {
+  review: GetMyJoinedGatheringWithReview[];
+  reviewed: ReviewRes[];
+}
+
+export interface ReviewSubmit {
+  score?: number;
+  content?: string;
+}
+
+export type GetMyJoinedGatheringWithReview = GetMyJoinedGathering & ReviewContent;

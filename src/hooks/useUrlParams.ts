@@ -1,31 +1,25 @@
 import { useRouter } from "next/navigation";
-import buildQueryParams from "./queryParams";
-
-// useQueryBuilder.ts
-type QueryParamValue = string | number | boolean | (string | number)[] | null | undefined;
-
-interface QueryParams extends Record<string, QueryParamValue> {
-  search?: string;
-  type?: string;
-  page?: number;
-  size?: number;
-  sort?: string;
-  dateTime?: string;
-  location?: string;
-  direction?: string;
-}
 
 const useQueryBuilder = () => {
   const router = useRouter();
 
-  const updateQueryParams = (newParams: QueryParams) => {
+  const updateQueryParams = (newParams: Record<string, string | undefined | null>) => {
     const currentParams = new URLSearchParams(window.location.search); // 현재 쿼리 파라미터 가져오기
-    const updatedParams = buildQueryParams(currentParams, newParams); // 병합된 쿼리 생성
+
+    // 새 파라미터를 현재 파라미터와 병합하면서 값이 없는 키는 제거
+    for (const key in newParams) {
+      const value = newParams[key];
+      if (value === undefined || value === null || value === "") {
+        currentParams.delete(key); // 값이 없으면 키 삭제
+      } else {
+        currentParams.set(key, value); // 값이 있으면 추가/업데이트
+      }
+    }
 
     // 현재 경로를 명시적으로 설정하여 `/`가 붙지 않도록 처리
     const basePath = window.location.pathname !== "/" ? window.location.pathname : "";
 
-    router.push(`${basePath}?${updatedParams}`); // 새로운 URL로 이동
+    router.push(`${basePath}?${currentParams.toString()}`); // 새로운 URL로 이동
   };
 
   return updateQueryParams;

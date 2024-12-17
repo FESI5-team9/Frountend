@@ -13,9 +13,6 @@ import Input from "@/components/Input/Input";
 import Popup from "@/components/Popup";
 import baseSchema from "@/utils/schema";
 
-const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_REDRICT_URL}&response_type=code`;
-const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDRICT_URL}&response_type=code`;
-
 function Signup() {
   const [emailVerified, setEmailVerified] = useState<boolean | null>(null);
   const [nicknameVerified, setNicknameVerified] = useState<boolean | null>(null);
@@ -74,6 +71,16 @@ function Signup() {
     mode: "all",
   });
   const router = useRouter();
+
+  const handleKakaoLogin = () => {
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDRICT_URL}&response_type=code`;
+    window.location.href = KAKAO_AUTH_URL;
+  };
+
+  const handleGoogleLogin = () => {
+    const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDRICT_URL}&response_type=code`;
+    window.location.href = GOOGLE_AUTH_URL;
+  };
 
   const PopupContent = ({ message }: { message: string }) => (
     <div className="flex h-[156px] w-[252px] flex-col items-center justify-between tablet:h-[162px] tablet:w-[402px]">
@@ -225,8 +232,8 @@ function Signup() {
         <hr className="w-[50px] border-gray-300 tablet:w-[180px] desktop:w-20" />
       </div>
       <div className="flex justify-center gap-4">
-        <Link
-          href={GOOGLE_AUTH_URL}
+        <button
+          onClick={handleGoogleLogin}
           className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-300"
         >
           <Image
@@ -236,10 +243,10 @@ function Signup() {
             alt="Google 아이콘"
             draggable={false}
           />
-        </Link>
+        </button>
 
-        <Link
-          href={KAKAO_AUTH_URL}
+        <button
+          onClick={handleKakaoLogin}
           className="flex h-12 w-12 items-center justify-center rounded-full"
         >
           <Image
@@ -249,7 +256,7 @@ function Signup() {
             alt="카카오톡 아이콘"
             draggable={false}
           />
-        </Link>
+        </button>
       </div>
       <Popup
         id="email-exists"
