@@ -1,18 +1,5 @@
 import { useRouter } from "next/navigation";
 
-// interface QueryParams {
-//   search?: string;
-//   type?: string;
-//   limit?: number;
-//   offset?: number;
-//   sortBy?: string;
-//   dateTime?: string;
-//   location?: string;
-//   direction?: string;
-//   startDate?: string;
-//   endDate?: string;
-// }
-
 const useQueryBuilder = () => {
   const router = useRouter();
 

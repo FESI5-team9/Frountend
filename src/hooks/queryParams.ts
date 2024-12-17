@@ -15,9 +15,15 @@ const buildQueryParams = (existingParams: URLSearchParams, newParams: QueryParam
   // 기존 파라미터에 새 파라미터 병합
   Object.entries(newParams).forEach(([key, value]) => {
     if (value !== undefined && value !== null) {
-      existingParams.set(key, String(value)); // 새로운 값 설정
+      if (Array.isArray(value)) {
+        value.forEach(item => {
+          existingParams.append(key, String(item));
+        });
+      } else {
+        existingParams.set(key, String(value));
+      }
     } else {
-      existingParams.delete(key); // 값이 없으면 삭제
+      existingParams.delete(key);
     }
   });
 

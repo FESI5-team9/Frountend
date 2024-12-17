@@ -9,7 +9,7 @@ import LoginAlertPopup from "./LoginAlertPopup";
 
 type FixedBottomBarProps = {
   data: GatheringDetailRes;
-  gatheringId: string;
+  gatheringId: number;
 };
 
 export default function FixedBottomBar({ data, gatheringId }: FixedBottomBarProps) {
