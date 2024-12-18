@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { getMyGathering } from "@/apis/searchGatheringApi";
 import Button from "@/components/Button/Button";
-import { Gathering } from "@/types/api/gatheringApi";
+import { GatheringsRes } from "@/types/api/gatheringApi";
 import { formatToKoreanTime } from "@/utils/date";
 
 export default function MyCreatedGathering() {
-  const [gatheringData, setGatheringData] = useState<Gathering[] | undefined>(undefined);
+  const [gatheringData, setGatheringData] = useState<GatheringsRes | undefined>(undefined);
 
   useEffect(() => {
     async function fetchGatheringData() {
@@ -16,7 +16,7 @@ export default function MyCreatedGathering() {
         size: 10,
         page: 0,
         sort: "dateTime",
-        direction: "DESC" as const,
+        direction: "desc" as const,
       };
 
       try {
@@ -34,7 +34,7 @@ export default function MyCreatedGathering() {
 
   return (
     <>
-      {gatheringData.map((gathering: Gathering, index) => {
+      {gatheringData.map((gathering, index) => {
         const date = gathering.dateTime
           ? formatToKoreanTime(gathering.dateTime, "M월 dd일")
           : "날짜 없음";

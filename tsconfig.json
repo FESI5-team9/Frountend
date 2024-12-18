@@ -25,21 +25,3 @@
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
-
-// {
-//   "compilerOptions": {
-//     // ... 기존 옵션들
-//     "baseUrl": ".",
-//     "paths": {
-//       "@/*": ["./src/*"]
-//     }
-//   },
-//   "include": [
-//     "next-env.d.ts",
-//     "**/*.ts",
-//     "**/*.tsx",
-//     ".eslintrc.js"  // ESLint 설정 파일도 포함
-//   ]
-
-
-// }
