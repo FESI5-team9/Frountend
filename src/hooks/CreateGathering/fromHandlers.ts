@@ -192,7 +192,6 @@ export const handleSubmitToServer = async (
       body: formDataToSend,
     });
 
-    if (!response.ok) throw new Error("서버 응답 오류!");
     alert("모임이 성공적으로 생성되었습니다!");
     setIsOpen(false);
   } catch (error) {
