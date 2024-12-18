@@ -106,7 +106,9 @@ export default function Reviews({ gatheringId }: { gatheringId: number }) {
                       <div className="flex items-center gap-1">
                         <div className="h-6 w-6 rounded-full bg-gray-400">
                           <Image
-                            src={review.user.image ? review.user.image : "/images/profile.svg"}
+                            src={
+                              review.user.image ? review.user.image : "/images/default-profile.svg"
+                            }
                             alt="작성자"
                             width={24}
                             height={24}

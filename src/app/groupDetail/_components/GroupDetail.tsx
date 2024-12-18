@@ -60,7 +60,7 @@ function GroupDetail({ paramsId }: { paramsId: number }) {
               <div className="flex items-center gap-1">
                 <div className="h-6 w-6 rounded-full">
                   <Image
-                    src={detail.user.image ? detail.user.image : "/images/profile.svg"}
+                    src={detail.user.image ? detail.user.image : "/images/default-profile.svg"}
                     alt="작성자"
                     width={24}
                     height={24}

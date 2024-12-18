@@ -67,7 +67,12 @@ export default function Gnb() {
                   aria-label="유저 프로필"
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                 >
-                  <Image src={image || "/images/profile.svg"} fill objectFit="cover" alt="프로필" />
+                  <Image
+                    src={image || "/images/default-profile.svg"}
+                    fill
+                    objectFit="cover"
+                    alt="프로필"
+                  />
                 </button>
               ) : (
                 // 비로그인 상태면 로그인 링크
