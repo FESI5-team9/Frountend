@@ -21,11 +21,14 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
   const body = await request.json();
+
+  const accessToken = request.cookies.get("access-token")?.value;
+
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings/${params.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${request.cookies.get("access-token")?.value}`,
+      ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
     },
     body: JSON.stringify(body),
   });

@@ -3,11 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
+  const accessToken = request.cookies.get("access-token")?.value;
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${request.cookies.get("access-token")?.value}`,
+      ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
     },
     body: JSON.stringify(body),
   });
