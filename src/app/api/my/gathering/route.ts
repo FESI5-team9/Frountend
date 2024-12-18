@@ -7,13 +7,15 @@ export async function GET(request: NextRequest) {
   const queryString = new URLSearchParams(params).toString();
   const queryPrefix = queryString ? "?" : "";
 
+  const accessToken = request.cookies.get("access-token")?.value;
+
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/my/gathering${queryPrefix}${queryString}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${request.cookies.get("access-token")?.value}`,
+        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
       },
     },
   );

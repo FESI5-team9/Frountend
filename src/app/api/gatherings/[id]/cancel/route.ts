@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+  const accessToken = request.cookies.get("access-token")?.value;
+
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/gatherings/${params.id}/cancel`,
     {
       method: "PUT",
       headers: {
-        Authorization: `Bearer ${request.cookies.get("access-token")?.value}`,
+        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
       },
     },
   );
