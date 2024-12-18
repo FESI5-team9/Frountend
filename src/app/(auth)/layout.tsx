@@ -10,7 +10,7 @@ function SignRootLayout({
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDRICT_URL}&response_type=code`;
   const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDRICT_URL}&response_type=code`;
   return (
-    <div className="w-ful relative min-h-screen bg-white">
+    <div className="relative min-h-screen w-full bg-white">
       <Gnb />
       <div className="mx-auto flex h-full min-h-screen w-full flex-col items-center justify-center gap-12 px-4 py-10 pt-[32px] tablet:px-[75px] desktop:flex-row desktop:px-4">
         <div className="text-medium flex flex-col gap-4 text-center">
