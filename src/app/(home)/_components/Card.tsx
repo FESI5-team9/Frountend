@@ -10,7 +10,7 @@ import ButtonJoin from "./ButtonJoin";
 export default function Card({ cardData }: { cardData: GetGathering }) {
   return (
     <div className="border-gray flex w-full transform flex-col rounded-2xl border-y-2 bg-gray-background transition-transform duration-200 hover:shadow-xl tablet:h-[156px] tablet:w-full tablet:flex-row">
-      <Link href={`groupDetail/${cardData.id}`} className="relative flex">
+      <Link prefetch={false} href={`groupDetail/${cardData.id}`} className="relative flex">
         <Image
           src={
             cardData.image && cardData.image.trim() !== ""
@@ -32,7 +32,11 @@ export default function Card({ cardData }: { cardData: GetGathering }) {
         <div className="flex justify-between">
           <div className="flex flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
-              <Link href={`groupDetail/${cardData.id}`} className="text-lg hover:underline">
+              <Link
+                prefetch={false}
+                href={`groupDetail/${cardData.id}`}
+                className="text-lg hover:underline"
+              >
                 {cardData.name}
               </Link>
               <p className="border-l-2 px-2 text-sm">{cardData.address1}</p>

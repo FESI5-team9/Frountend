@@ -1,4 +1,10 @@
-import { differenceInHours, format, parseISO } from "date-fns";
+import {
+  differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+  format,
+  parseISO,
+} from "date-fns";
 import { ko } from "date-fns/locale";
 
 export const formatToOriginTime = (isoDate: string, dateString: string) => {
@@ -19,14 +25,27 @@ export const formatToKoreanTime = (isoDate: string, dateString: string) => {
 
 export const getRemainingOriginHours = (isoDeadline: string): string => {
   try {
-    // 마감 시간을 ISO 형식으로 파싱
     const deadline = new Date(parseISO(isoDeadline));
-    // 현재 한국 시간
     const now = new Date();
-    // 두 날짜 사이의 시간 차이를 계산
-    const hoursLeft = differenceInHours(deadline, now);
-    // 결과 반환 (시간이 남았는지 여부)
-    return hoursLeft > 0 ? `${hoursLeft}시간 뒤 마감` : "마감이 지났습니다.";
+
+    if (deadline <= now) {
+      return "마감이 지났습니다.";
+    }
+
+    const daysLeft = differenceInDays(deadline, now);
+    const hoursLeft = differenceInHours(deadline, now) % 24; // 남은 시간만 계산
+    const minutesLeft = differenceInMinutes(deadline, now) % 60; // 남은 분만 계산
+
+    switch (true) {
+      case daysLeft >= 1:
+        return `${daysLeft}일 후 마감`;
+      case hoursLeft >= 1:
+        return `${hoursLeft}시간 후 마감`;
+      case minutesLeft >= 1:
+        return `${minutesLeft}분 후 마감`;
+      default:
+        return "곧 마감됩니다.";
+    }
   } catch (error) {
     return "유효하지 않은 날짜 형식입니다.";
   }
@@ -49,4 +68,24 @@ export const getRemainingHours = (isoDeadline: string): string => {
   } catch (error) {
     return "유효하지 않은 날짜 형식입니다.";
   }
+};
+
+export const getTimeDiff = (deadline: string) => {
+  const targetDate = new Date(deadline);
+  const now = new Date();
+
+  if (isNaN(targetDate.getTime())) {
+    console.error("Invalid date format:", deadline);
+    return null;
+  }
+
+  const diffMs = targetDate.getTime() - now.getTime();
+
+  if (diffMs <= 0) return; // 시간이 지난 경우
+
+  const diffMinutes = Math.floor((diffMs / (1000 * 60)) % 60);
+  const diffHours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  return { diffMinutes, diffHours, diffDays };
 };
