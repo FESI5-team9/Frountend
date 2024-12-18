@@ -2,17 +2,22 @@
 
 import { cookies } from "next/headers";
 
-export async function setAuthCookies(tokens: { accessToken: string; refreshToken: string }) {
+interface Tokens {
+  "access-token": string;
+  "refresh-token": string;
+}
+
+export async function setAuthCookies(tokens: Tokens) {
   const cookieStore = cookies();
 
-  cookieStore.set("accessToken", tokens.accessToken, {
+  cookieStore.set("access-token", tokens["access-token"], {
     secure: true,
     httpOnly: false,
     path: "/",
     sameSite: "strict",
   });
 
-  cookieStore.set("refreshToken", tokens.refreshToken, {
+  cookieStore.set("refresh-token", tokens["refresh-token"], {
     secure: true,
     httpOnly: false,
     path: "/",
@@ -23,7 +28,7 @@ export async function setAuthCookies(tokens: { accessToken: string; refreshToken
 export async function setAccessCookies(accessToken: string) {
   const cookieStore = cookies();
 
-  cookieStore.set("accessToken", accessToken, {
+  cookieStore.set("access-token", accessToken, {
     secure: true,
     httpOnly: false,
     path: "/",

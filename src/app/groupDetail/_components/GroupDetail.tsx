@@ -3,14 +3,15 @@
 import Image from "next/image";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { getGatheringDetail } from "@/apis/searchGatheringApi";
+import ClosingTimeTag from "@/components/ClosingTimeTag";
 import { GatheringDetailRes } from "@/types/api/gatheringApi";
-import { formatToKoreanTime, getRemainingHours } from "@/utils/date";
+import { formatToKoreanTime } from "@/utils/date";
 import DetailCard from "../_components/DetailCard";
 import FixedBottomBar from "../_components/FixedBottomBar";
 import Map from "../_components/Map";
 import Reviews from "../_components/Reviews";
 
-function GroupDetail({ paramsId }: { paramsId: string }) {
+function GroupDetail({ paramsId }: { paramsId: number }) {
   const {
     data: detail,
     isLoading: isDetailLoading,
@@ -43,16 +44,15 @@ function GroupDetail({ paramsId }: { paramsId: string }) {
         >
           <div
             style={{ backgroundImage: `url(${detail.image})` }}
-            className="desktop:grid-area-topLeft relative min-h-[180px] rounded-3xl bg-gray-200 bg-cover bg-center bg-no-repeat tablet:min-h-[270px] desktop:mb-20"
+            className="desktop:grid-area-topLeft relative min-h-[180px] overflow-hidden rounded-3xl border border-white bg-gray-200 bg-cover bg-center bg-no-repeat tablet:min-h-[270px] desktop:mb-20"
           >
-            <div className="absolute right-0 top-0 z-50 flex h-[32px] min-w-[123px] items-center justify-center gap-[8px] rounded-bl-3xl rounded-tr-3xl bg-yellow-primary">
-              <Image src="/images/mainPage/alarm.svg" width={15} height={13} alt="남은 마감시간" />
-              <p className="text-xs">{getRemainingHours(detail.registrationEnd)}</p>
-            </div>
+            <ClosingTimeTag deadline={detail.registrationEnd} />
           </div>
+
           <div className="desktop:grid-area-topRight min-h-[240px] tablet:min-h-[270px]">
             <DetailCard gathering={detail} />
           </div>
+
           <div className="desktop:grid-area-bottom flex flex-col gap-4 px-1 tablet:col-span-2 tablet:px-6 desktop:-mt-6">
             <h3 className="text-lg font-semibold">모임 설명</h3>
             <p className="text-sm font-medium">{detail.description}</p>
@@ -69,6 +69,7 @@ function GroupDetail({ paramsId }: { paramsId: string }) {
               </span>
             </div>
           </div>
+
           {detail.address2 && (
             <div className="desktop:grid-area-bottomRight tablet:col-span-2 tablet:h-[206px] tablet:px-6 desktop:px-0">
               <Map address={detail.address2} />

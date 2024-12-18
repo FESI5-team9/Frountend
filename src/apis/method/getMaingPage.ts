@@ -7,7 +7,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://api.example.com";
 export async function getMainPage(params: Gatherings): Promise<GetGathering[]> {
   try {
     // 쿼리 파라미터 생성
-    const queryParams = new URLSearchParams(params as Record<string, string>).toString();
+    const queryParams = new URLSearchParams(params as unknown as Record<string, string>).toString();
     const url = `${BASE_URL}/gatherings/${queryParams}`;
 
     // 데이터 요청

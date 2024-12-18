@@ -1,22 +1,22 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { CancelGathering, LeaveGathering, joinGathering } from "@/apis/assignGatheringApi";
 import Button from "@/components/Button/Button";
 import useUserStore from "@/store/userStore";
 import { GatheringDetailRes, Participant } from "@/types/api/gatheringApi";
-import LoginAlertPopup from "./LoginAlertPopup";
 
 type FixedBottomBarProps = {
   data: GatheringDetailRes;
-  gatheringId: string;
+  gatheringId: number;
 };
 
 export default function FixedBottomBar({ data, gatheringId }: FixedBottomBarProps) {
   const [status, setStatus] = useState<"join" | "cancelJoin" | "closed" | "host">("join");
-  const [isLoginAlertOpen, setIsLoginAlertOpen] = useState<boolean>(false);
 
   const userInfo = useUserStore();
+  const router = useRouter();
 
   const checkParticipationStatus = useCallback(
     (participants: Participant[]) =>
@@ -36,7 +36,7 @@ export default function FixedBottomBar({ data, gatheringId }: FixedBottomBarProp
   }, [data, determineStatus]);
 
   const handleJoin = async () => {
-    if (!userInfo.id) return setIsLoginAlertOpen(true);
+    if (!userInfo.id) return router.push("/signin");
 
     try {
       await joinGathering(gatheringId);
@@ -132,11 +132,6 @@ export default function FixedBottomBar({ data, gatheringId }: FixedBottomBarProp
           </div>
         )}
       </div>
-      <LoginAlertPopup
-        text="참여하기는 로그인이 필요합니다."
-        isOpen={isLoginAlertOpen}
-        onClose={() => setIsLoginAlertOpen(false)}
-      />
     </div>
   );
 }

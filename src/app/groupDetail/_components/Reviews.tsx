@@ -6,8 +6,9 @@ import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { getReviews, getReviewsRating } from "@/apis/reviewsApi";
 import { GetReviewsRatingRes, ReviewsRes } from "@/types/api/reviews";
 import { formatToKoreanTime } from "@/utils/date";
+import ReviewSkeleton from "./ReviewSkeleton";
 
-export default function Reviews({ gatheringId }: { gatheringId: string }) {
+export default function Reviews({ gatheringId }: { gatheringId: number }) {
   // page가 0부터 시작함
   const [page, setPage] = useState(0);
   const size = 4;
@@ -64,7 +65,7 @@ export default function Reviews({ gatheringId }: { gatheringId: string }) {
     );
 
   return (
-    <div className="border-[#e5e7eb]bg-white border-t p-6 tablet:col-span-2 tablet:pb-[87px]">
+    <div className="border-t border-[#e5e7eb] bg-white px-4 py-6 tablet:col-span-2 tablet:px-6 tablet:pb-[87px]">
       <div className="min-h-[500px]">
         <h3 className="mb-5 text-lg font-semibold">
           리뷰 <span>({totalReviews})</span>
@@ -151,8 +152,11 @@ export default function Reviews({ gatheringId }: { gatheringId: string }) {
             <p className="text-[#9CA3AF]">아직 리뷰가 없어요</p>
           </div>
         ) : isRatingLoading || isReviewsLoading ? (
-          <div className="flex h-full w-full items-center justify-center text-gray-200">
-            <p>Loading...</p>
+          <div className="h-full w-full">
+            <ReviewSkeleton />
+            <ReviewSkeleton />
+            <ReviewSkeleton />
+            <ReviewSkeleton />
           </div>
         ) : (
           <></>

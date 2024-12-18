@@ -9,8 +9,9 @@ import ButtonJoin from "./ButtonJoin";
 
 export default function Card({ cardData }: { cardData: GetGathering }) {
   return (
-    <div className="border-gray flex w-full transform flex-col rounded-2xl border-y-2 bg-gray-background transition-transform duration-200 hover:shadow-xl tablet:h-[156px] tablet:w-full tablet:flex-row">
-      <Link href={`groupDetail/${cardData.id}`} className="relative flex">
+    <div className="border-gray relative flex w-full transform flex-col rounded-2xl border-y-2 bg-gray-background transition-transform duration-200 hover:shadow-xl tablet:h-[156px] tablet:w-full tablet:flex-row">
+      {/* 카드 내용 */}
+      <Link prefetch={false} href={`groupDetail/${cardData.id}`} className="relative flex">
         <Image
           src={
             cardData.image && cardData.image.trim() !== ""
@@ -27,12 +28,23 @@ export default function Card({ cardData }: { cardData: GetGathering }) {
           <p>{getRemainingOriginHours(cardData.registrationEnd) || "날짜 없음"}</p>
         </div>
       </Link>
+      {/* 모임 종료된 경우 */}
+      {cardData.canceledAt && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center gap-2 rounded-2xl bg-black bg-opacity-70 text-lg font-semibold text-white">
+          <p>이미 종료된 모임이에요.</p>
+          <p>다음 기회에 만나요!</p>
+        </div>
+      )}
+
       <div className="flex w-full flex-col justify-between p-4">
-        {/* 컴포넌트 / 글자 같은거 넣는 곳이지 */}
         <div className="flex justify-between">
           <div className="flex flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
-              <Link href={`groupDetail/${cardData.id}`} className="text-lg hover:underline">
+              <Link
+                prefetch={false}
+                href={`groupDetail/${cardData.id}`}
+                className="text-lg hover:underline"
+              >
                 {cardData.name}
               </Link>
               <p className="border-l-2 px-2 text-sm">{cardData.address1}</p>
@@ -46,10 +58,8 @@ export default function Card({ cardData }: { cardData: GetGathering }) {
               </Chip>
             </div>
           </div>
-          {/* 찜하기 */}
           <FavoriteButton gatheringId={cardData.id} initialFavorite={cardData.favorite} />
         </div>
-        {/* 밑에 컴포넌트 */}
         <div className="flex items-end justify-between">
           <div className="mt-4 flex w-3/5 flex-col gap-2 tablet:w-3/5 desktop:w-3/5">
             <div className="flex flex-row gap-2 text-sm">
@@ -65,7 +75,7 @@ export default function Card({ cardData }: { cardData: GetGathering }) {
                     src="/images/mainPage/card/ic_check.svg"
                     width={16}
                     height={16}
-                    alt="people"
+                    alt="check"
                   />
                   <div>개설확정</div>
                 </div>

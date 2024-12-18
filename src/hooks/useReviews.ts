@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getReviews } from "@/apis/reviewsApi";
 import { getMyJoinedGatherings } from "@/apis/searchGatheringApi";
-import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
+import { GetMyJoinedGatheringsRes } from "@/types/api/gatheringApi";
 import { ReviewRes } from "@/types/api/reviews";
 
 export const DIRECTION = {
@@ -13,7 +13,7 @@ export const DIRECTION = {
 
 export const useReviews = () => {
   const [completedReviews, setCompletedReviews] = useState<ReviewRes[]>();
-  const [unCompletedReviews, setUnCompletedReviews] = useState<GetMyJoinedGathering[]>();
+  const [unCompletedReviews, setUnCompletedReviews] = useState<GetMyJoinedGatheringsRes>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const { id } = useParams();
