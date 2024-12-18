@@ -11,7 +11,7 @@ import {
   handleNumberChange,
   handleSubmitToServer,
   validateCapacityAndParticipant,
-} from "@/hooks/CreateGathering/fromHandlers";
+} from "@/hooks/CreateGathering/formHandler";
 import Button from "@/components/Button/Button";
 import Calendar from "@/components/Calendar/Calendar";
 import Kakao from "@/components/Kakaomap/Kakao";

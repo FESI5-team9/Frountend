@@ -31,6 +31,16 @@ export async function signin(body: Login) {
     },
     body: JSON.stringify(body),
   });
+
+  const { id, email, nickname, image } = await getUserProfile();
+
+  const userStore = useUserStore.getState();
+  userStore.setUser({
+    id,
+    email,
+    nickname,
+    image,
+  });
   return response;
 }
 
