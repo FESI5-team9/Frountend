@@ -1,6 +1,5 @@
 import { useGatherings } from "@/hooks/useGatherings";
 import MypageCard from "@/components/MypageCard/MypageCard";
-import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
 
 export const MyGathering = () => {
   const { gatherings, loading, error } = useGatherings();
@@ -8,7 +7,7 @@ export const MyGathering = () => {
   if (loading) return <p>로딩 중...</p>;
   if (error) return <p>{error}</p>;
 
-  return gatherings.map((gathering: GetMyJoinedGathering, index) => (
+  return gatherings.map((gathering, index) => (
     <div key={gathering.id}>
       <MypageCard
         id={gathering.id}

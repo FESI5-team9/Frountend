@@ -1,22 +1,19 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { deleteFavoriteGathering, getFavoriteGathering } from "@/apis/favoriteGatheringApi";
-import LoginAlertPopup from "@/app/groupDetail/_components/LoginAlertPopup";
 import useUserStore from "@/store/userStore";
 
 export default function FavoriteButton({ gatheringId, initialFavorite }: FavoriteButtonProps) {
   const [isFavorite, setIsFavorite] = useState<boolean>(initialFavorite);
-  const [isLoginAlertOpen, setIsLoginAlertOpen] = useState<boolean>(false);
 
+  const router = useRouter();
   const userInfo = useUserStore();
 
   const submitFavorite = useCallback(async () => {
-    if (!userInfo.id) {
-      if (!isLoginAlertOpen) setIsLoginAlertOpen(true);
-      return;
-    }
+    if (!userInfo.id) return router.push("/signin");
 
     try {
       if (isFavorite) {
@@ -28,7 +25,7 @@ export default function FavoriteButton({ gatheringId, initialFavorite }: Favorit
     } catch (error) {
       console.error("Error updating favorite status", error);
     }
-  }, [isFavorite, gatheringId, userInfo.id, isLoginAlertOpen]);
+  }, [isFavorite, gatheringId, userInfo.id, router]);
 
   return (
     <>
@@ -57,12 +54,6 @@ export default function FavoriteButton({ gatheringId, initialFavorite }: Favorit
           transition={{ duration: 0.3 }}
         />
       </motion.button>
-
-      <LoginAlertPopup
-        text="찜하기는 로그인이 필요합니다."
-        isOpen={isLoginAlertOpen}
-        onClose={() => setIsLoginAlertOpen(false)}
-      />
     </>
   );
 }
