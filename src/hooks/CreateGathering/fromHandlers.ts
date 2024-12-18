@@ -101,72 +101,6 @@ export const handleTimeSelect = (
   }
 };
 
-// // 제출 핸들러
-// export const handleSubmit = async (
-//   e: React.FormEvent,
-//   formData: CreateGatheringFormData & { image?: File | null },
-//   setIsOpen: Dispatch<SetStateAction<boolean>>,
-// ) => {
-//   e.preventDefault();
-//   const formDataToSend = new FormData();
-
-//   // FormData 생성
-//   Object.entries(formData).forEach(([key, value]) => {
-//     if (key === "image" && value instanceof File) {
-//       formDataToSend.append(key, value); // 파일 추가
-//     } else if (value !== null && value !== undefined) {
-//       const processedValue = Array.isArray(value) ? JSON.stringify(value) : String(value);
-//       formDataToSend.append(key, processedValue);
-//     }
-//   });
-
-//   try {
-//     // 환경 변수에서 API URL 가져오기
-//     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-//     const cookies = document.cookie;
-//     const token = cookies
-//       .split("; ")
-//       .find(row => row.startsWith("access-token=")) // `token` 쿠키를 가져옴
-//       ?.split("=")[1];
-//     if (!baseUrl) {
-//       throw new Error("NEXT_PUBLIC_BASE_URL 환경 변수를 설정하세요!");
-//     }
-
-//     // 쿠키 가져오기
-//     const response = await fetch(`${baseUrl}/gatherings`, {
-//       method: "POST",
-//       body: formDataToSend,
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-
-//     if (response.ok) {
-//       alert("모임이 성공적으로 생성되었습니다!");
-//       setIsOpen(false);
-//     } else {
-//       const errorData = await response.json();
-//       alert(`모임 생성 중 문제가 발생했습니다: ${errorData.message || "알 수 없는 오류"}`);
-//       // console.log("베이스 url", baseUrl);
-//       console.error("Error response:", errorData);
-//     }
-//   } catch (error) {
-//     console.error("Error submitting form:", error);
-//     alert("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
-//   }
-// };
-
-// // 키워드 삭제
-// export const handleKeywordDelete = (
-//   index: number,
-//   setFormData: React.Dispatch<React.SetStateAction<CreateGatheringFormData>>,
-// ) => {
-//   setFormData(prev => ({
-//     ...prev, // 기존 필드 보존
-//     keyword: prev.keyword.filter((_, i) => i !== index), // keyword만 수정
-//   }));
-// };
-
 export const handleNumberChange = (
   name: keyof CreateGatheringFormData,
   value: string,
@@ -256,10 +190,6 @@ export const handleSubmitToServer = async (
     const response = await fetchWithMiddleware(`/api/gatherings`, {
       method: "POST",
       body: formDataToSend,
-      // headers: {
-      //   "Content-Type": "multipart/form-data",
-      // },
-      // credentials: "include",
     });
 
     if (!response.ok) throw new Error("서버 응답 오류!");
