@@ -11,7 +11,7 @@ import {
   handleNumberChange,
   handleSubmitToServer,
   validateCapacityAndParticipant,
-} from "@/hooks/CreateGathering/formHandler";
+} from "@/hooks/CreateGathering/formHandler";
 import Button from "@/components/Button/Button";
 import Calendar from "@/components/Calendar/Calendar";
 import Kakao from "@/components/Kakaomap/Kakao";
@@ -72,7 +72,7 @@ export default function CreateGathering({
           <Input
             {...register("name", { required: "모임 이름은 필수 입력입니다." })}
             placeholder="모임 이름을 입력하세요"
-            className="rounded-lg p-2"
+            className={`rounded-lg p-2 ${errors.name ? "border-red-500" : "border-green-500"}`}
           />
           {errors.name && <p className="text-red-500">{errors.name.message}</p>}
         </div>
@@ -95,7 +95,9 @@ export default function CreateGathering({
                   e.stopPropagation();
                 },
               })}
-              className="flex-1 rounded-lg border bg-gray-100 px-2 py-2 hover:cursor-pointer"
+              className={`flex-1 rounded-lg border bg-gray-100 px-2 py-2 hover:cursor-pointer ${
+                errors.name ? "border-red-500" : "border-green-500"
+              }`}
             />
             <button className="absolute right-2" type="button">
               <Image src="/icons/magnifier.svg" alt="searchImage" width={20} height={20} />
@@ -170,7 +172,9 @@ export default function CreateGathering({
                   setSelectedTime(time);
                   setValue("dateTime", `${firstDate}T${time}:00`);
                 }}
-                className={`${selectedTime === time ? `bg-gray-700 text-white` : "bg-gray-100"} flex h-[30px] w-[57px] items-center justify-center rounded-lg border p-1 hover:cursor-pointer`}
+                className={`${selectedTime === time ? `bg-gray-700 text-white` : "bg-gray-100"} flex h-[30px] w-[57px] items-center justify-center rounded-lg border p-1 hover:cursor-pointer ${
+                  errors.name ? "border-red-500" : "border-green-500"
+                }`}
               >
                 {time}
               </div>
@@ -190,7 +194,9 @@ export default function CreateGathering({
               min: { value: 5, message: "최소 5명 이상이어야 해요." },
               max: { value: 1000, message: "최대 1000명까지 가능해요." },
             })}
-            className="rounded-lg border p-2"
+            className={`rounded-lg border p-2 ${
+              errors.name ? "border-red-500" : "border-green-500"
+            }`}
           />
           {errors.capacity && <p className="text-red-500">{errors.capacity.message}</p>}
         </div>
@@ -207,7 +213,9 @@ export default function CreateGathering({
               min: { value: 2, message: "최소 2명 이상이어야 해요." },
               validate: value => validateCapacityAndParticipant(watch("capacity"), Number(value)),
             })}
-            className="rounded-lg border p-2"
+            className={`rounded-lg border p-2 ${
+              errors.name ? "border-red-500" : "border-green-500"
+            }`}
           />
           {errors.openParticipantCount && (
             <p className="text-red-500">{errors.openParticipantCount.message}</p>
@@ -221,7 +229,7 @@ export default function CreateGathering({
             type="text-area"
             placeholder="모임 설명을 입력 해주세요"
             {...register("description", { required: "모임 설명을 입력 해주세요." })}
-            className="rounded-lg py-1"
+            className={`rounded-lg py-1 ${errors.name ? "border-red-500" : "border-green-500"}`}
           />
           {errors.description && <p className="text-red-500">{errors.description.message}</p>}
         </div>
