@@ -1,11 +1,10 @@
 // useGatherings.ts
 import { useEffect, useState } from "react";
 import { getMyJoinedGatherings } from "@/apis/searchGatheringApi";
-import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
-import { Direction } from "@/types/api/gatheringApi";
+import { GetMyJoinedGatheringsRes } from "@/types/api/gatheringApi";
 
 export const useGatherings = () => {
-  const [gatherings, setGatherings] = useState<GetMyJoinedGathering[]>([]);
+  const [gatherings, setGatherings] = useState<GetMyJoinedGatheringsRes>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,7 +18,7 @@ export const useGatherings = () => {
         size: 10,
         page: 0,
         sort: "id.gathering.dateTime",
-        direction: "desc" as Direction,
+        direction: "desc" as const,
       };
       const data = await getMyJoinedGatherings(params);
       setGatherings(data);

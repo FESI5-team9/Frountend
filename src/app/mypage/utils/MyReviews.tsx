@@ -1,10 +1,10 @@
 import ReviewCard from "@/components/MypageCard/ReviewCard";
-import { GetMyJoinedGathering } from "@/types/api/gatheringApi";
+import { GetMyJoinedGatheringsRes } from "@/types/api/gatheringApi";
 import { ReviewRes } from "@/types/api/reviews";
 
 interface RenderContentProps {
   completedReviews: ReviewRes[];
-  unCompletedReview: GetMyJoinedGathering[];
+  unCompletedReview: GetMyJoinedGatheringsRes;
 }
 
 export default function myReviews({ completedReviews, unCompletedReview }: RenderContentProps) {

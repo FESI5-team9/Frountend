@@ -87,7 +87,7 @@ export async function getMyJoinedGatherings(params: GetMyJoinedGatherings) {
   return data;
 }
 
-// 내 모임 조회
+// 내가 만든 모임 조회
 export async function getMyGathering(params: GetGatheringParticipants) {
   const searchParams = new URLSearchParams();
   if (params) {

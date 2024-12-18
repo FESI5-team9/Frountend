@@ -144,10 +144,10 @@ Pick<ResponseOption, "joinedAt" | "isCompleted" | "isReviewed">
 
 // 찜한 모임 목록 조회
 // response
-export type GatheringsFavoriteRes = Array<GatheringsRes>;
+export type GatheringsFavoriteRes = GatheringsRes;
 
 // 내가 만든 모임 목록 조회
 // requestBase
 export type GetMyGatheringParticipants = PaginationParams;
 // response
-export type GetMyGatheringParticipantsRes = Array<GatheringsRes>;
+export type GetMyGatheringParticipantsRes = GatheringsRes;
