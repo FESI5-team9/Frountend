@@ -104,7 +104,14 @@ export default function Reviews({ gatheringId }: { gatheringId: number }) {
                     <p className="text-sm font-medium">{review.comment}</p>
                     <div className="flex items-center gap-1 text-xs font-medium">
                       <div className="flex items-center gap-1">
-                        <div className="h-6 w-6 rounded-full bg-gray-400"></div>
+                        <div className="h-6 w-6 rounded-full bg-gray-400">
+                          <Image
+                            src={review.user.image ? review.user.image : "/images/profile.svg"}
+                            alt="작성자"
+                            width={24}
+                            height={24}
+                          />
+                        </div>
                         <span className="text-[#3d3d3d]">{review.user.nickname}</span>
                       </div>
                       <span className="text-[#3C3C3C]">|</span>
