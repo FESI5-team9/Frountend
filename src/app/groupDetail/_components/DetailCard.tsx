@@ -1,4 +1,8 @@
+"use client";
+
+import { useRef, useState } from "react";
 import Image from "next/image";
+import useClickOutside from "@/hooks/useClickOutside";
 import FavoriteButton from "@/components/Button/FavoriteButton";
 import Chip from "@/components/Chips";
 import Progressbar from "@/components/Progressbar";
@@ -10,8 +14,19 @@ type GatheringProp = {
 };
 
 export default function DetailCard({ gathering }: GatheringProp) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const popupRef = useRef<HTMLDivElement | null>(null);
+
   const date = formatToKoreanTime(gathering.dateTime, "MM월 d일");
   const time = formatToKoreanTime(gathering.dateTime, "HH:mm");
+
+  const closeParticipantsList = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (isOpen) setIsOpen(false);
+  };
+
+  useClickOutside(popupRef, () => setIsOpen(false));
 
   return (
     <div className="flex flex-col rounded-3xl border-2 border-[#e5e7eb] bg-white px-6 py-[14px] tablet:p-6">
@@ -58,13 +73,13 @@ export default function DetailCard({ gathering }: GatheringProp) {
           <div className="flex items-center">
             <p className="text-sm font-semibold">모집 정원 {gathering.participantCount}명</p>
 
-            <div className="ml-4 flex">
+            <div onClick={() => setIsOpen(true)} className="relative ml-4 flex">
               {gathering.participants.map(
                 (person, index) =>
                   index < 4 && (
                     <div
                       key={index}
-                      className="-ml-3 h-[29px] w-[29px] rounded-full bg-gray-200 bg-cover bg-center"
+                      className="-ml-3 h-[29px] w-[29px] cursor-pointer rounded-full bg-gray-200 bg-cover bg-center"
                       style={{
                         backgroundImage: `url(${person.image})`,
                       }}
@@ -72,10 +87,38 @@ export default function DetailCard({ gathering }: GatheringProp) {
                   ),
               )}
               {gathering.participantCount > 4 ? (
-                <div className="-ml-3 flex h-[29px] w-[29px] items-center justify-center rounded-full bg-[#f2f4f5] text-sm font-semibold text-[#262626]">
+                <div className="-ml-3 flex h-[29px] w-[29px] select-none items-center justify-center rounded-full bg-[#f2f4f5] text-sm font-semibold text-[#262626]">
                   +{gathering.participantCount - 4}
                 </div>
               ) : null}
+              {isOpen && (
+                <div
+                  ref={popupRef}
+                  className="absolute -left-3 top-9 flex min-w-[200px] flex-col items-center justify-between rounded-2xl border bg-white p-4"
+                >
+                  <h3 className="mb-3 border-b-2 border-gray-100 text-center font-semibold">
+                    참석자 목록
+                  </h3>
+                  {gathering.participants.map(person => (
+                    <div className="mt-2 flex w-full items-center gap-2" key={person.userId}>
+                      <div
+                        className="h-[24px] w-[24px] rounded-full bg-gray-200 bg-cover bg-center"
+                        style={{
+                          backgroundImage: `url(${person.image})`,
+                        }}
+                      ></div>
+                      <p className="text-sm font-semibold"> {person.nickname}</p>
+                    </div>
+                  ))}
+                  <button
+                    onClick={closeParticipantsList}
+                    className="mt-6 h-[32px] rounded-xl bg-[#dfe0e1] px-4 text-sm font-semibold"
+                    type="button"
+                  >
+                    닫기
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           {gathering.open ? (
