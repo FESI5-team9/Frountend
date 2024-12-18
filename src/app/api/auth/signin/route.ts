@@ -7,26 +7,11 @@ interface SignInRequestBody {
 
 interface SignInResponse {
   accessToken: string;
-}
-
-function parseRefreshToken(cookieString: string | null): string {
-  if (!cookieString) {
-    throw new Error("쿠키 문자열이 없습니다.");
-  }
-
-  const refreshTokenMatch = cookieString.match(/refresh-token=([^;]+)/);
-  if (!refreshTokenMatch) {
-    throw new Error("리프레시 토큰을 찾을 수 없습니다.");
-  }
-
-  return decodeURIComponent(refreshTokenMatch[1]);
-}
-
-async function getTokensFromSigninApi(signInData: SignInRequestBody): Promise<{
   refreshToken: string;
-  accessToken: string;
-}> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/signin`, {
+}
+
+async function getTokensFromSigninApi(signInData: SignInRequestBody) {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/v2/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -38,13 +23,11 @@ async function getTokensFromSigninApi(signInData: SignInRequestBody): Promise<{
     throw new Error("로그인 요청 실패");
   }
 
-  const cookieString = response.headers.get("Set-Cookie");
-  const refreshToken = parseRefreshToken(cookieString);
-  const accessTokenResponse: SignInResponse = await response.json();
+  const TokenResponse: SignInResponse = await response.json();
 
   return {
-    refreshToken,
-    accessToken: accessTokenResponse.accessToken,
+    refreshToken: TokenResponse.refreshToken,
+    accessToken: TokenResponse.accessToken,
   };
 }
 
