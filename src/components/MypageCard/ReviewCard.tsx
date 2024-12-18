@@ -204,7 +204,7 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
                     </div>
                   </div>
                   {index !== reviewed.length - 1 && (
-                    <div className="mt-5 border border-dashed border-gray-400"></div>
+                    <div className="mt-5 border border-dashed border-gray-200"></div>
                   )}
                 </div>
               );

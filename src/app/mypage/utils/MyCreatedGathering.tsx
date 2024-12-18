@@ -96,7 +96,7 @@ export default function MyCreatedGathering() {
               </div>
             </div>
             {index !== gatheringData.length - 1 && (
-              <div className="my-5 border border-dashed border-gray-400"></div>
+              <div className="my-5 border-[1px] border-dashed border-gray-200"></div>
             )}{" "}
           </>
         );
