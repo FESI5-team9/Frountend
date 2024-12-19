@@ -1,17 +1,18 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   value?: string | number | undefined;
   name: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; // 선택적으로 수정
   className?: string; // 사용자 정의 클래스
   readonly?: boolean; // 불리언 타입
 }
 
-export function Input(props: InputFieldProps) {
+export const Input = forwardRef<HTMLInputElement, InputFieldProps>((props, ref) => {
   const { value, name, onChange, className = "", readonly = false, ...rest } = props;
   return (
     <input
+      ref={ref} // ref 전달
       value={value}
       name={name}
       readOnly={readonly} // 동적으로 적용
@@ -20,4 +21,6 @@ export function Input(props: InputFieldProps) {
       {...rest} // 추가 속성 처리
     />
   );
-}
+});
+
+Input.displayName = "Input";

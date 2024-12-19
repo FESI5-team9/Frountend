@@ -179,8 +179,8 @@ export const handleSubmitToServer = async (
 
   // FormData 변환
   Object.entries(data).forEach(([key, value]) => {
-    if (key === "image" && value instanceof FileList && value.length > 0) {
-      formDataToSend.append(key, value[0]); // 첫 번째 파일만 추가
+    if (key === "image" && value instanceof File) {
+      formDataToSend.append(key, value); // File 객체 추가
     } else if (value !== null && value !== undefined) {
       formDataToSend.append(key, Array.isArray(value) ? JSON.stringify(value) : String(value));
     }
