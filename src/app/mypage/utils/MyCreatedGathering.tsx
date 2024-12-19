@@ -96,7 +96,7 @@ export default function MyCreatedGathering() {
               </div>
             </div>
             {index !== gatheringData.length - 1 && (
-              <div className="my-5 border-[1px] border-dashed border-gray-200"></div>
+              <div className="desktop:-[18px] mb-[19px] mt-4 border-[1.6px] border-dashed border-gray-200 tablet:mb-6 tablet:mt-5 desktop:mt-5"></div>
             )}{" "}
           </>
         );
