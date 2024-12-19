@@ -11,23 +11,19 @@ import FixedBottomBar from "../_components/FixedBottomBar";
 import Map from "../_components/Map";
 import Reviews from "../_components/Reviews";
 
-function GroupDetail({ paramsId }: { paramsId: number }) {
-  const {
-    data: detail,
-    isLoading: isDetailLoading,
-    error: detailError,
-  }: UseQueryResult<GatheringDetailRes, Error> = useQuery({
+function GroupDetail({
+  paramsId,
+  initialData,
+}: {
+  paramsId: number;
+  initialData: GatheringDetailRes;
+}) {
+  const { data: detail, error: detailError }: UseQueryResult<GatheringDetailRes, Error> = useQuery({
     queryKey: ["gatheringDetail", paramsId],
     queryFn: () => getGatheringDetail(Number(paramsId)),
     staleTime: 1000 * 60 * 5,
+    initialData,
   });
-
-  if (isDetailLoading)
-    return (
-      <div className="flex h-screen w-full items-center justify-center text-gray-100">
-        <p>Loading...</p>
-      </div>
-    );
 
   if (detailError)
     return (

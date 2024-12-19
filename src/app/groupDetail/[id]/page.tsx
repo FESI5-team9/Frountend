@@ -1,5 +1,4 @@
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
-import { getGatheringDetail } from "@/apis/searchGatheringApi";
 import GroupDetail from "../_components/GroupDetail";
 
 async function GroupDetailPage({ params }: { params: { id: string } }) {
@@ -15,14 +14,15 @@ async function GroupDetailPage({ params }: { params: { id: string } }) {
     );
   }
 
-  await queryClient.prefetchQuery({
-    queryKey: ["gatheringDetail", id],
-    queryFn: () => getGatheringDetail(id),
-  });
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings/${id}`);
+
+  const initialData = await response.json();
+
+  queryClient.setQueryData(["gatheringDetail", id], initialData);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <GroupDetail paramsId={id} />
+      <GroupDetail paramsId={id} initialData={initialData} />
     </HydrationBoundary>
   );
 }
