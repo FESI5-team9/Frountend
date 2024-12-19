@@ -31,7 +31,7 @@ export default function Reviews({ gatheringId }: { gatheringId: number }) {
     isLoading: isRatingLoading,
     error: ratingError,
   }: UseQueryResult<GetReviewsRatingRes, Error> = useQuery({
-    queryKey: ["gatheringReviewRating", gatheringId],
+    queryKey: ["gatheringReviewRating", gatheringId, reviews],
     queryFn: () => getReviewsRating({ gatheringId: Number(gatheringId) }),
     staleTime: 1000 * 60 * 5,
   });
@@ -57,10 +57,17 @@ export default function Reviews({ gatheringId }: { gatheringId: number }) {
     refetch();
   };
 
-  if (reviewsError || ratingError)
+  if (reviewsError)
     return (
       <div className="flex w-full items-center justify-center">
-        <p>Error occurred while fetching data.</p>
+        <p>Error occurred while fetching reviews data.</p>
+      </div>
+    );
+
+  if (ratingError)
+    return (
+      <div className="flex w-full items-center justify-center">
+        <p>Error occurred while fetching review rating data.</p>
       </div>
     );
 
@@ -68,7 +75,7 @@ export default function Reviews({ gatheringId }: { gatheringId: number }) {
     <div className="border-t border-[#e5e7eb] bg-white px-4 py-6 tablet:col-span-2 tablet:px-6 tablet:pb-[87px]">
       <div className="min-h-[500px]">
         <h3 className="mb-5 text-lg font-semibold">
-          리뷰 <span>({totalReviews})</span>
+          리뷰 <span>{isRatingLoading || `(${totalReviews})`}</span>
         </h3>
 
         {reviews && reviews.length > 0 ? (
@@ -137,15 +144,8 @@ export default function Reviews({ gatheringId }: { gatheringId: number }) {
               <div className="flex items-center justify-between gap-3">
                 <p>{page + 1}</p>
                 <p className="text-[#9CA3AF]">/</p>
-                <p className="text-[#9CA3AF]">{totalPages}</p>
+                <p className="text-[#9CA3AF]">{isRatingLoading || totalPages}</p>
               </div>
-              {/* <div className="flex gap-3">
-                {Array.from({ length: totalPages }).map((_, index) => (
-                  <button type="button" key={index}>
-                    {index + 1}
-                  </button>
-                ))}
-              </div> */}
 
               <button
                 className="flex h-6 w-6 items-center justify-center"
@@ -160,7 +160,7 @@ export default function Reviews({ gatheringId }: { gatheringId: number }) {
           <div className="flex h-[200px] w-full items-center justify-center">
             <p className="text-[#9CA3AF]">아직 리뷰가 없어요</p>
           </div>
-        ) : isRatingLoading || isReviewsLoading ? (
+        ) : isReviewsLoading ? (
           <div className="h-full w-full">
             <ReviewSkeleton />
             <ReviewSkeleton />
