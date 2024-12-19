@@ -76,7 +76,7 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
         </div>
 
         {/* 작성 가능한 리뷰 */}
-        <div className="flex w-full flex-col">
+        <div className="flex flex-col">
           {activeTab === "uncompleted" &&
             review?.map((reviewItem, index) => {
               const currentDate = new Date();
@@ -91,9 +91,9 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
                 : "시간 없음";
 
               return (
-                <div key={reviewItem.id}>
+                <div key={reviewItem.id} className="w-full">
                   <div className="flex w-full flex-col gap-4 tablet:flex-row">
-                    <div className="relative h-[153px] w-[272px] flex-grow-0 items-center justify-center overflow-hidden rounded-3xl">
+                    <div className="relative h-[153px] w-full flex-shrink-0 items-center justify-center overflow-hidden rounded-3xl tablet:w-[272px]">
                       <Image
                         src={reviewItem.image}
                         fill
@@ -102,7 +102,7 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
                         className=""
                       />
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex w-full flex-col">
                       <div className="mb-3 flex gap-2">
                         <Chip
                           type="state"
@@ -125,7 +125,7 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
                           {reviewItem.participantCount >= 3 ? "개설확정" : "개설대기"}
                         </Chip>
                       </div>
-                      <div className="flex gap-3">
+                      <div className="flex w-full gap-3">
                         <div className="mb-[18px] flex flex-col gap-1.5">
                           <span className="flex items-center gap-2 text-lg font-semibold">
                             <span className="inline-block max-w-[135px] truncate">
@@ -151,7 +151,7 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
                           </div>
                         </div>
                       </div>
-                      <div className="w-[120px]">
+                      <div className="ml-auto w-[108px]">
                         <Button
                           size="small"
                           isFilled
