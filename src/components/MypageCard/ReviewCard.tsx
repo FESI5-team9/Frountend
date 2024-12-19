@@ -205,7 +205,7 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
                         {`${item.gathering.name} · ${item.gathering.location}`}
                       </span>
                       <span className="mt-2 inline-block text-xs text-gray-disable">{date}</span>
-                      <div className="mt-auto border-[2px] border-dashed border-gray-200"></div>
+                      <div className="mt-auto hidden border-[2px] border-dashed border-gray-200 tablet:block"></div>
                     </div>
                   </div>
                   {index !== reviewed.length - 1 && (

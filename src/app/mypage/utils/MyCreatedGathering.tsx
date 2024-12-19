@@ -84,7 +84,7 @@ export default function MyCreatedGathering() {
                     </div>
                   </div>
                 </div>
-                <div className="flex tablet:justify-end tablet:pb-1">
+                <div className="ml-auto flex tablet:justify-end tablet:pb-1">
                   <Button
                     size="small"
                     bgColor="disabled"
