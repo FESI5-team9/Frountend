@@ -153,7 +153,7 @@ export default function Mypage() {
                 src={
                   selectedFile
                     ? URL.createObjectURL(selectedFile)
-                    : userProfile?.image || "/images/profile.svg"
+                    : userProfile?.image || "/images/lemonProfile.svg"
                 }
                 width={56}
                 height={56}

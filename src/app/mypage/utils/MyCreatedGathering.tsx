@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { recruitGathering } from "@/apis/assignGatheringApi";
 import { getMyGathering } from "@/apis/searchGatheringApi";
 import Button from "@/components/Button/Button";
 import { GatheringsRes } from "@/types/api/gatheringApi";
@@ -9,6 +10,22 @@ import { formatToKoreanTime } from "@/utils/date";
 
 export default function MyCreatedGathering() {
   const [gatheringData, setGatheringData] = useState<GatheringsRes | undefined>(undefined);
+
+  const handleGatheringStatus = async (id: number) => {
+    try {
+      const response = await recruitGathering(id, "RECRUITMENT_COMPLETED");
+      if (response) {
+        setGatheringData(prevData => {
+          if (!prevData) return prevData;
+          return prevData.map(gathering =>
+            gathering.id === id ? { ...gathering, status: "RECRUITMENT_COMPLETED" } : gathering,
+          );
+        });
+      } else {
+        alert("모임 상태 변경에 실패했습니다.");
+      }
+    } catch (err) {}
+  };
 
   useEffect(() => {
     async function fetchGatheringData() {
@@ -88,9 +105,10 @@ export default function MyCreatedGathering() {
                   <Button
                     size="small"
                     bgColor="disabled"
+                    onClick={() => handleGatheringStatus(gathering.id)}
                     className="w-[120px] px-0 text-sm text-white"
                   >
-                    조기 마감
+                    {gathering.status === "RECRUITMENT_COMPLETED" ? "마감 완료" : "조기 마감"}
                   </Button>
                 </div>
               </div>
