@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { getTimeDiff } from "@/utils/date";
 
@@ -11,25 +11,27 @@ export default function ClosingTimeTag({
 }) {
   const [closingTime, setClosingTime] = useState<string>("");
 
-  useEffect(() => {
+  const updateClosingTime = useCallback(() => {
     const timeDiff = getTimeDiff(deadline);
 
-    if (!timeDiff) return;
+    if (!timeDiff) return setClosingTime("");
 
     const { diffMinutes, diffHours, diffDays } = timeDiff;
 
-    let displayTime = "";
-
     if (diffDays >= 1 && diffDays <= 60) {
-      displayTime = `${diffDays}일 후 마감`;
+      setClosingTime(`${diffDays}일 후 마감`);
     } else if (diffHours >= 1) {
-      displayTime = `${diffHours}시간 후 마감`;
+      setClosingTime(`${diffHours}시간 후 마감`);
     } else if (diffMinutes >= 0) {
-      displayTime = `${diffMinutes}분 후 마감`;
+      setClosingTime(`${diffMinutes}분 후 마감`);
+    } else {
+      setClosingTime("");
     }
-
-    setClosingTime(displayTime);
   }, [deadline]);
+
+  useEffect(() => {
+    updateClosingTime();
+  }, [deadline, updateClosingTime]);
 
   if (!closingTime) return null;
 

@@ -13,7 +13,9 @@ type FixedBottomBarProps = {
 };
 
 export default function FixedBottomBar({ data, gatheringId }: FixedBottomBarProps) {
-  const [status, setStatus] = useState<"join" | "cancelJoin" | "closed" | "host">("join");
+  const [status, setStatus] = useState<"join" | "cancelJoin" | "closed" | "host" | "canceled">(
+    "join",
+  );
 
   const userInfo = useUserStore();
   const router = useRouter();
@@ -25,8 +27,11 @@ export default function FixedBottomBar({ data, gatheringId }: FixedBottomBarProp
   );
 
   const determineStatus = useCallback(() => {
-    if (data.host) setStatus("host");
-    else if (data.status === "RECRUITING") {
+    if (data.canceledAt) {
+      setStatus("canceled");
+    } else if (data.host) {
+      setStatus("host");
+    } else if (data.status === "RECRUITING") {
       setStatus(checkParticipationStatus(data.participants) ? "cancelJoin" : "join");
     } else setStatus("closed");
   }, [checkParticipationStatus, data]);
@@ -58,6 +63,7 @@ export default function FixedBottomBar({ data, gatheringId }: FixedBottomBarProp
   const handleCancel = async () => {
     try {
       await CancelGathering(gatheringId);
+      alert("모임 취소가 완료되었습니다.");
     } catch (err) {
       console.error("Failed to cancel gathering:", err);
     }
@@ -131,6 +137,9 @@ export default function FixedBottomBar({ data, gatheringId }: FixedBottomBarProp
             </Button>
           </div>
         )}
+
+        {/* 임시로 상태만 보여줌 */}
+        {status === "canceled" && <div>취소된 모임</div>}
       </div>
     </div>
   );

@@ -74,7 +74,7 @@ export default function Mypage() {
           <div className="relative">
             <span className="absolute left-[24px] top-[57px] flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-full bg-white">
               <Image
-                src={userProfile?.image || "/images/profile.svg"}
+                src={userProfile?.image || "/images/default-profile.svg"}
                 width={56}
                 height={56}
                 alt="프로필 이미지"
@@ -150,7 +150,7 @@ export default function Mypage() {
                 src={
                   selectedFile
                     ? URL.createObjectURL(selectedFile)
-                    : userProfile?.image || "/images/profile.svg"
+                    : userProfile?.image || "/images/default-profile.svg"
                 }
                 width={56}
                 height={56}
