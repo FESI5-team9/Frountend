@@ -77,7 +77,10 @@ export default function Mypage() {
                 <Image src={userProfile.image} fill alt="프로필 이미지" className="" />
               </span>
             ) : (
-              <span className="absolute left-[24px] top-[54px] flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-full">
+              <span
+                className="absolute left-[24px] top-[54px] flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-full"
+                style={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)" }}
+              >
                 <Image src="/images/lemonProfile.svg" fill alt="기본 프로필 이미지" className="" />
               </span>
             )}

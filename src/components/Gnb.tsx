@@ -26,6 +26,10 @@ export default function Gnb() {
     window.location.href = "/";
   };
 
+  const handleMenuClose = () => {
+    setIsMenuOpen(false); // 드롭다운 닫기
+  };
+
   return (
     <header>
       <div className="tablet:h-15 fixed top-0 z-30 flex h-[60px] w-full items-center justify-center bg-yellow-primary text-black">
@@ -81,6 +85,7 @@ export default function Gnb() {
                 <Link
                   href={"/mypage"}
                   className="inline-block h-10 py-[10px] pl-3 text-sm tablet:h-11 tablet:pl-4 tablet:text-base"
+                  onClick={handleMenuClose}
                 >
                   마이페이지
                 </Link>
