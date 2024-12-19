@@ -6,11 +6,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Button from "@/components/Button/Button";
 import useUserStore from "@/store/userStore";
 import { categories } from "../../../constants/categoryList";
+import CreateGathering from "./CreateGathering";
 
 export default function SelectedType() {
   const [selectedFilters, setSelectedFilters] = useState<Record<string, string | null>>({});
   const searchParams = useSearchParams();
-  const [, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = useUserStore();
   const router = useRouter();
 
@@ -55,6 +56,7 @@ export default function SelectedType() {
 
   return (
     <div className="mb-2 flex justify-between border-b-2 pb-2">
+      <CreateGathering isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
       <ul className="flex gap-3 p-2 text-lg tablet:justify-between tablet:gap-4">
         {categories.map(category => (
           <li
