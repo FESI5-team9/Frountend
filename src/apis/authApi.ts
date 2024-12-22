@@ -79,3 +79,18 @@ export async function checkNickName(nickname: string) {
   const response = await fetchWithMiddleware(`/api/auth/check-nickname?nickname=${nickname}`);
   return response.json() as Promise<{ message: string }>;
 }
+
+// 소셜 로그인
+export async function socialSignup(social: string, code: string) {
+  const response = await fetchWithMiddleware(`/api/auth/socialSignin`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      social: social,
+      code: code,
+    }),
+  });
+  return response;
+}
