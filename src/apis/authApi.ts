@@ -92,5 +92,15 @@ export async function socialSignup(social: string, code: string) {
       code: code,
     }),
   });
+
+  const { id, email, nickname, image } = await getUserProfile();
+
+  const userStore = useUserStore.getState();
+  userStore.setUser({
+    id,
+    email,
+    nickname,
+    image,
+  });
   return response;
 }
