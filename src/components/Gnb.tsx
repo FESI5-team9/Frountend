@@ -1,15 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getFavoriteGatherings } from "@/apis/favoriteGatheringApi";
 import useUserStore from "@/store/userStore";
 
 export default function Gnb() {
-  const { id, image, setUser } = useUserStore();
+  const { id, image, setUser, favoriteGatheringCount } = useUserStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [favoriteCount, setFavoriteCount] = useState(0);
 
   const handleLogout = () => {
     setUser({
@@ -32,20 +30,6 @@ export default function Gnb() {
     setIsMenuOpen(false);
   };
 
-  useEffect(() => {
-    async function fetchFavoriteCount() {
-      if (!id) return;
-
-      try {
-        const params = { size: 10, page: 0 };
-        const favoriteGatherings = await getFavoriteGatherings(params);
-        setFavoriteCount(favoriteGatherings.length);
-      } catch (err) {}
-    }
-
-    fetchFavoriteCount();
-  }, [id]);
-
   return (
     <header>
       <div className="tablet:h-15 fixed top-0 z-30 flex h-[60px] w-full items-center justify-center bg-yellow-primary text-black">
@@ -67,7 +51,7 @@ export default function Gnb() {
                   찜한 모임
                 </Link>
                 <span className="flex h-4 w-[27px] items-center justify-center rounded-3xl bg-[#595421] text-xs text-white">
-                  {favoriteCount}
+                  {favoriteGatheringCount}
                 </span>
               </span>
               <Link href={"/reviews"} className="hover:text-white" aria-label="모든 리뷰">
