@@ -50,9 +50,11 @@ export default function Gnb() {
                 >
                   찜한 모임
                 </Link>
-                <span className="flex h-4 w-[27px] items-center justify-center rounded-3xl bg-[#595421] text-xs text-white">
-                  {favoriteGatheringCount}
-                </span>
+                {favoriteGatheringCount > 0 && (
+                  <span className="flex h-4 w-[27px] items-center justify-center rounded-3xl bg-[#595421] text-xs text-white">
+                    {favoriteGatheringCount}
+                  </span>
+                )}
               </span>
               <Link href={"/reviews"} className="hover:text-white" aria-label="모든 리뷰">
                 모든 리뷰
