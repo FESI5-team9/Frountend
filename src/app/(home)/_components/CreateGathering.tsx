@@ -15,9 +15,9 @@ import Button from "@/components/Button/Button";
 import Calendar from "@/components/Calendar/Calendar";
 import Kakao from "@/components/Kakaomap/Kakao";
 import Modal from "@/components/Modal";
-import { CreateGatheringSchema } from "@/constants/createGathSchema";
 import useDateStore from "@/store/dateStore";
-import { categories, timeChips } from "../../../constants/categoryList";
+import { CreateGatheringSchema } from "@/utils/createGathSchema";
+import { categoryList, timeChips } from "../../../constants/categoryList";
 import { Input } from "./Input";
 
 export default function CreateGathering({
@@ -198,7 +198,7 @@ export default function CreateGathering({
         <div className="flex flex-col gap-1">
           <p>카테고리</p>
           <div className="flex flex-row gap-2">
-            {categories.map((category, index) => (
+            {categoryList.map((category, index) => (
               <button
                 key={index}
                 type="button"

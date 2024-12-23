@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import Button from "@/components/Button/Button";
 import useUserStore from "@/store/userStore";
-import { categories } from "../../../constants/categoryList";
+import { categoryList } from "../../../constants/categoryList";
 import CreateGathering from "./CreateGathering";
 
 export default function SelectedType() {
@@ -58,7 +58,7 @@ export default function SelectedType() {
     <div className="mb-2 flex justify-between border-b-2 pb-2">
       <CreateGathering isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
       <ul className="flex gap-3 p-2 text-lg tablet:justify-between tablet:gap-4">
-        {categories.map(category => (
+        {categoryList.map(category => (
           <li
             key={category.name}
             className={`flex list-none items-center gap-[3px] border-b-2 hover:cursor-pointer ${

@@ -1,4 +1,4 @@
-export const categories: Category[] = [
+export const categoryList: Category[] = [
   {
     name: "식당",
     icon: "/images/mainPage/category/restaurant-black.svg",
