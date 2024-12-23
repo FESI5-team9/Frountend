@@ -14,7 +14,9 @@ function GoogleRedirect() {
       const code = url.searchParams.get("code");
       if (code) {
         await socialSignup("google", code);
-        await router.push("/");
+        setTimeout(() => {
+          router.push("/");
+        }, 3000);
       }
     };
 
@@ -24,13 +26,12 @@ function GoogleRedirect() {
   return (
     <div className="flex h-[100vh] w-full flex-col items-center justify-center">
       <Image
-        src="/images/google.png"
+        src="/images/img_login.png"
         width={400}
         height={400}
         alt="구글 로고"
-        className="animate-[spin_2s_linear_infinite]"
+        className="animate-[bounce_0.7s_ease-in-out_infinite]"
       />
-      <p className="text-[40px]">구글 로그인 중...</p>
     </div>
   );
 }
