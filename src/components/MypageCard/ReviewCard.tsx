@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import Image from "next/image";
 import { addReviews } from "@/apis/reviewsApi";
 import Button from "@/components/Button/Button";
@@ -16,7 +16,8 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reviewText, setReviewText] = useState("");
   const [selectedReview, setSelectedReview] = useState<GetMyJoinedGatheringWithReview | null>(null);
-  const [reviewRating, setReviewRating] = useState<number | null>(null); // 선택된 별점
+  const [reviewRating, setReviewRating] = useState<number | null>(null);
+  const [, forceUpdate] = useReducer(x => x + 1, 0); // 리뷰 카드 refactor 시 사용 예정
 
   const handleOpenModal = (reviewId: GetMyJoinedGatheringWithReview) => {
     setSelectedReview(reviewId);
@@ -54,8 +55,8 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
       await addReviews(body);
       alert("리뷰가 성공적으로 등록되었습니다!");
       handleCloseModal();
+      forceUpdate(); // 리뷰 카드 refactor 시 사용
     } catch (error) {
-      console.error("리뷰 등록 실패:", error);
       alert("리뷰 등록 중 오류가 발생했습니다.");
     }
   };
@@ -227,7 +228,12 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
       </div>
 
       {/* 모달 컴포넌트 */}
-      <Modal title="리뷰 작성하기" isOpen={isModalOpen} onClose={handleCloseModal}>
+      <Modal
+        title="리뷰 작성하기"
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        className="w-[343px]"
+      >
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-3">
             <h3 className="text-gray-900">만족스러운 경험이었나요?</h3>
@@ -257,7 +263,7 @@ export default function MyReviewCard({ review, reviewed }: AllReviewCardProps) {
               size="large"
               isFilled
               bgColor="yellow"
-              className="w-[228px] bg-gray-disable text-[14px] text-white"
+              className="w-[228px] bg-gray-disable text-[14px] text-white active:bg-gray-disable"
               onClick={handleSubmit}
             >
               리뷰 등록
